@@ -4,7 +4,7 @@ import 'package:mopay_ewallet/data/data_history_transaksi.dart';
 import 'package:mopay_ewallet/data/data_metode_top_up.dart';
 import 'package:mopay_ewallet/data/data_transfer.dart';
 import 'package:mopay_ewallet/pages/home.dart';
-import 'package:mopay_ewallet/pages/top_up/halaman_top_up.dart';
+import 'package:mopay_ewallet/pages/top_up/top_up_page.dart';
 import 'package:mopay_ewallet/pages/top_up/layanan_top_up.dart';
 import 'package:provider/provider.dart';
 
