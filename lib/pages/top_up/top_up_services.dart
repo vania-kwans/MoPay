@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mopay_ewallet/pages/top_up/instruksi_top_up.dart';
+import 'package:mopay_ewallet/pages/top_up/top_up_instruction.dart';
 import 'package:provider/provider.dart';
 import 'package:mopay_ewallet/data/data_metode_top_up.dart';
 

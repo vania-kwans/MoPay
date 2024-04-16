@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/data/data_history_transaksi.dart';
 import 'package:mopay_ewallet/data/data_transfer.dart';
 import 'package:mopay_ewallet/format/datetime.dart';
-import 'package:mopay_ewallet/pages/top_up/halaman_top_up.dart';
+import 'package:mopay_ewallet/pages/top_up/top_up_page.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_success.dart';
 import 'package:provider/provider.dart';
 import 'package:mopay_ewallet/format/currency.dart';

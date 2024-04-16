@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/format/currency.dart';
 import 'package:mopay_ewallet/pages/history.dart';
-import 'package:mopay_ewallet/pages/top_up/halaman_metode.dart';
-import 'package:mopay_ewallet/pages/top_up/halaman_top_up.dart';
+import 'package:mopay_ewallet/pages/top_up/top_up_methods.dart';
+import 'package:mopay_ewallet/pages/top_up/top_up_page.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_page.dart';
 import 'package:provider/provider.dart';
 
