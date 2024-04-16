@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/format/currency.dart';
-import 'package:mopay_ewallet/pages/top_up.dart';
-import 'package:mopay_ewallet/pages/transfer.dart';
+import 'package:mopay_ewallet/pages/history.dart';
+import 'package:mopay_ewallet/pages/top_up/halaman_metode.dart';
+import 'package:mopay_ewallet/pages/top_up/halaman_top_up.dart';
+import 'package:mopay_ewallet/pages/transfer/transfer_page.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,11 +14,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int saldo = 100000;
-
   @override
   Widget build(BuildContext context) {
-    String formattedSaldo = CurrencyFormat().indonesianFormat(saldo);
+    int saldo = Provider.of<SaldoProvider>(context).saldo;
+    String formattedSaldo = formatToIndonesianCurrency(saldo);
 
     return Scaffold(
       body: Container(
@@ -29,11 +30,9 @@ class _HomePageState extends State<HomePage> {
             Text('Ini adalah home, saldo Anda sekarang $formattedSaldo'),
             ElevatedButton(
               onPressed: () {
-                Provider.of<SaldoProvider>(context, listen: false)
-                    .updateSaldo(saldo);
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const TopUpPage(),
+                    builder: (context) => const MetodeTopUpPage(),
                   ),
                 );
               },
@@ -41,8 +40,6 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               onPressed: () {
-                Provider.of<SaldoProvider>(context, listen: false)
-                    .updateSaldo(saldo);
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => const TransferPage(),
@@ -50,6 +47,16 @@ class _HomePageState extends State<HomePage> {
                 );
               },
               child: const Icon(Icons.arrow_circle_up),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const HistoryPage(),
+                  ),
+                );
+              },
+              child: const Icon(Icons.history),
             ),
           ],
         ),

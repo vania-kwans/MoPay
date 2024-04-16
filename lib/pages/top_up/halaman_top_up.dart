@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:mopay_ewallet/data/data_metode_top_up.dart';
 import 'package:mopay_ewallet/format/currency.dart';
-import 'package:mopay_ewallet/template/list_tile_top_up.dart';
+import 'package:mopay_ewallet/pages/top_up/layanan_top_up.dart';
 import 'package:provider/provider.dart';
 
 class SaldoProvider extends ChangeNotifier {
   int saldo;
 
-  SaldoProvider({this.saldo = 0});
+  SaldoProvider({this.saldo = 200000});
 
-  void updateSaldo(int amount) {
-    saldo = amount;
+  void addSaldo(int amount) {
+    saldo += amount;
     notifyListeners();
   }
 
-  // void topUp(int amount) {
-  //   saldo += amount;
-  //   notifyListeners();
-  // }
+  void subtractSaldo(int amount) {
+    saldo -= amount;
+    notifyListeners();
+  }
 }
 
 class TopUpPage extends StatefulWidget {
@@ -34,6 +35,8 @@ class _TopUpPageState extends State<TopUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<TopUpBank> topUpBank = Provider.of<TopUpBankProvider>(context).data;
+
     return Scaffold(
       appBar: AppBar(
         title:
@@ -55,9 +58,9 @@ class _TopUpPageState extends State<TopUpPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 20.0),
-                      child: const Text(
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20.0),
+                      child: Text(
                         'Pilih Metode',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
@@ -65,7 +68,31 @@ class _TopUpPageState extends State<TopUpPage> {
                     ),
                     Flexible(
                       fit: FlexFit.tight,
-                      child: listMetode(),
+                      child: ListView.builder(
+                        itemCount: topUpBank.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            contentPadding: const EdgeInsets.all(10),
+                            leading: CircleAvatar(
+                              radius: 20,
+                              backgroundColor: Colors.white,
+                              child: Image.network(
+                                topUpBank[index].linkGambar,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            title: Text(topUpBank[index].namaBank),
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      LayananTopUpBank(idxBank: index),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -79,17 +106,16 @@ class _TopUpPageState extends State<TopUpPage> {
 
   Container jumlahSaldo(BuildContext context) {
     int saldo = Provider.of<SaldoProvider>(context).saldo;
-    String formattedSaldo = CurrencyFormat().indonesianFormat(saldo);
+    String formattedSaldo = formatToIndonesianCurrency(saldo);
 
     return Container(
       width: double.infinity,
       height: MediaQuery.of(context).size.height / 8,
       padding: const EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Colors.white, Colors.blue.withOpacity(0.1)],
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/bg1.png'),
+          fit: BoxFit.cover,
         ),
       ),
       child: Center(
@@ -112,41 +138,4 @@ class _TopUpPageState extends State<TopUpPage> {
       ),
     );
   }
-}
-
-ListView listMetode() {
-  return ListView(
-    children: const [
-      ListTileLeadingPic(
-        leadingPic:
-            'https://1.bp.blogspot.com/-hg2Q7RJB540/X3L1-vg-yNI/AAAAAAAAAdI/Nsb-hcTRKcgECx4E4u4sLnvnJeDhuDQdgCLcBGAsYHQ/s2916/Logo%2BBank%2BBCA.png',
-        methodName: 'BCA OneKlik',
-      ),
-      ListTileLeadingPic(
-        leadingPic:
-            'https://tse3.mm.bing.net/th?id=OIP.3kVFM7G_yENAlnoHBmjh0wHaEl&pid=Api&P=0&h=180',
-        methodName: 'Indomaret',
-      ),
-      ListTileLeadingPic(
-        leadingPic:
-            'https://tse3.mm.bing.net/th?id=OIP.QcR1aLdIltkqiy7uj8_QEwHaCw&pid=Api&P=0&h=180',
-        methodName: 'Alfamart',
-      ),
-      ListTileLeadingPic(
-        leadingPic:
-            'https://1.bp.blogspot.com/-hg2Q7RJB540/X3L1-vg-yNI/AAAAAAAAAdI/Nsb-hcTRKcgECx4E4u4sLnvnJeDhuDQdgCLcBGAsYHQ/s2916/Logo%2BBank%2BBCA.png',
-        methodName: 'Debit Visa / Mastercard',
-      ),
-      ListTileLeadingPic(
-        leadingPic:
-            'https://1.bp.blogspot.com/-hg2Q7RJB540/X3L1-vg-yNI/AAAAAAAAAdI/Nsb-hcTRKcgECx4E4u4sLnvnJeDhuDQdgCLcBGAsYHQ/s2916/Logo%2BBank%2BBCA.png',
-        methodName: 'ATM',
-      ),
-      ListTileLeadingPic(
-        leadingPic:
-            'https://1.bp.blogspot.com/-hg2Q7RJB540/X3L1-vg-yNI/AAAAAAAAAdI/Nsb-hcTRKcgECx4E4u4sLnvnJeDhuDQdgCLcBGAsYHQ/s2916/Logo%2BBank%2BBCA.png',
-        methodName: 'Internet / Mobile Banking',
-      ),
-    ],
-  );
 }
