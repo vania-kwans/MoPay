@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mopay_ewallet/data/data_saldo.dart';
 import 'package:mopay_ewallet/format/currency.dart';
 import 'package:mopay_ewallet/pages/history.dart';
 import 'package:mopay_ewallet/pages/top_up/top_up_methods.dart';
-import 'package:mopay_ewallet/pages/top_up/top_up_page.dart';
+import 'package:mopay_ewallet/pages/top_up/top_up_each_method.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_page.dart';
 import 'package:provider/provider.dart';
 
@@ -32,7 +33,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const MetodeTopUpPage(),
+                    builder: (context) => const PilihanMetodeTopUpPage(),
                   ),
                 );
               },
