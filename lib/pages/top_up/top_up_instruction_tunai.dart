@@ -2,18 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/data/data_metode_top_up.dart';
 import 'package:provider/provider.dart';
 
-class InstruksiTopUpPage extends StatelessWidget {
-  final int idxBank;
-  final int idxTipe;
-  const InstruksiTopUpPage(
-      {super.key, required this.idxBank, required this.idxTipe});
+class InstruksiTopUpTunaiPage extends StatelessWidget {
+  final int idx;
+  const InstruksiTopUpTunaiPage({super.key, required this.idx});
 
   @override
   Widget build(BuildContext context) {
-    TopUpBank topUpBank = Provider.of<TopUpBankProvider>(context).data[idxBank];
-    TipeLayananBank tipeLayanan = Provider.of<TopUpBankProvider>(context)
-        .data[idxBank]
-        .tipeLayanan[idxTipe];
+    TopUpTunai topUpTunai = Provider.of<TopUpTunaiProvider>(context).data[idx];
 
     return Scaffold(
       appBar: PreferredSize(
@@ -28,10 +23,9 @@ class InstruksiTopUpPage extends StatelessWidget {
                 width: AppBar().preferredSize.height,
                 height: AppBar().preferredSize.height,
                 decoration: BoxDecoration(
-                  color: Colors.white,
                   border: Border.all(color: Colors.black12),
                   image: DecorationImage(
-                    image: NetworkImage(topUpBank.linkGambar),
+                    image: AssetImage(topUpTunai.linkGambar),
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -40,11 +34,11 @@ class InstruksiTopUpPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(topUpBank.namaBank,
+                  Text(topUpTunai.nama,
                       style: const TextStyle(
                           fontSize: 17, fontWeight: FontWeight.w500)),
                   Text(
-                    tipeLayanan.nama,
+                    topUpTunai.nama,
                     style: const TextStyle(fontSize: 16),
                   ),
                 ],
@@ -96,8 +90,7 @@ class InstruksiTopUpPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 color: Colors.white,
                 child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: tipeLayanan.instruksi.length,
+                  itemCount: topUpTunai.instruksi.length,
                   itemBuilder: (context, index) {
                     return ListTile(
                       leading: CircleAvatar(
@@ -110,7 +103,7 @@ class InstruksiTopUpPage extends StatelessWidget {
                       ),
                       title: Container(
                         padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Text(tipeLayanan.instruksi[index]),
+                        child: Text(topUpTunai.instruksi[index]),
                       ),
                     );
                   },

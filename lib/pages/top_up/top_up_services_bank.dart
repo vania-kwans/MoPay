@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mopay_ewallet/pages/top_up/top_up_instruction.dart';
+import 'package:mopay_ewallet/pages/top_up/top_up_instruction_bank.dart';
 import 'package:provider/provider.dart';
 import 'package:mopay_ewallet/data/data_metode_top_up.dart';
 
@@ -19,7 +19,8 @@ class _LayananTopUpBankState extends State<LayananTopUpBank> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size(double.infinity, AppBar().preferredSize.height + 5),
+        preferredSize:
+            Size(double.infinity, AppBar().preferredSize.height + 10),
         child: AppBar(
           title: Row(
             children: [
@@ -28,15 +29,14 @@ class _LayananTopUpBankState extends State<LayananTopUpBank> {
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.grey.shade100)),
                 child: CircleAvatar(
-                  radius: 200,
+                  radius: 23,
                   backgroundColor: Colors.white,
-                  child: Image.network(
+                  backgroundImage: AssetImage(
                     topUpBank.linkGambar,
-                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 15),
               const Text(
                 'Pilih Layanan',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
@@ -67,7 +67,7 @@ class _LayananTopUpBankState extends State<LayananTopUpBank> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (context) => InstruksiTopUpPage(
+                      builder: (context) => InstruksiTopUpBankPage(
                           idxBank: widget.idxBank, idxTipe: index)),
                 );
               },
