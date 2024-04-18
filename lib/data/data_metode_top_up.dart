@@ -30,6 +30,24 @@ class TipeLayananBank {
   });
 }
 
+class TopUpTunai {
+  String linkGambar;
+  String nama;
+  String biayaAdmin;
+  String minimumTopUp;
+  bool bisaPesan;
+  List<String> instruksi;
+
+  TopUpTunai({
+    required this.linkGambar,
+    required this.nama,
+    required this.biayaAdmin,
+    required this.minimumTopUp,
+    required this.bisaPesan,
+    required this.instruksi,
+  });
+}
+
 class TopUpBankProvider extends ChangeNotifier {
   List<TopUpBank> data = [
     TopUpBank(
@@ -391,6 +409,103 @@ class TopUpBankProvider extends ChangeNotifier {
             'Kamu akan menerima SMS konfirmasi.'
           ],
         ),
+      ],
+    ),
+  ];
+}
+
+class TopUpTunaiProvider extends ChangeNotifier {
+  List<TopUpTunai> data = [
+    TopUpTunai(
+      linkGambar: 'assets/images/logo-indomaret.jpg',
+      nama: 'Indomaret',
+      biayaAdmin: 'Rp1.500',
+      minimumTopUp: 'Rp10.000',
+      bisaPesan: true,
+      instruksi: [
+        'Buka aplikasi MoPay dan klik ikon + (Top up) di halaman utama.',
+        'Pilih metode top up pakai uang tunai.',
+        'Pilih Indomaret lalu isi nominal top up.',
+        'Klik Lanjut untuk mendapatkan barcode.',
+        'Sampaikan kepada kasir Indomaret untuk melakukan pembayaran ke MoPay.',
+        'Tunjukkan kode diatas ke kasir.',
+        'Bayar jumlah nominal top up plus biaya admin Rp1.500 dalam waktu 24 jam.',
+        'Saldo akan diterima dalam waktu kurang dari 24 jam.',
+        'Simpan struk sampai top up berhasil dan pakai buat bukti jika dibutuhkan.'
+      ],
+    ),
+    TopUpTunai(
+      linkGambar: 'assets/images/logo-alfamart.jpg',
+      nama: 'Alfamart',
+      biayaAdmin: 'Rp2.000',
+      minimumTopUp: 'Rp10.000',
+      bisaPesan: false,
+      instruksi: [
+        'Minta bantuan kasir untuk mengisi MoPay.',
+        'Beritahu nomor HP yang kamu pakai di aplikasi MoPay.',
+        'Beritahu nominal isi MoPay\n(pilih: Rp20.000, Rp50.000, Rp100.000, Rp200.000, Rp300.000, Rp400.000, Rp500.000).',
+        'Bayar nominal yang ingin kamu isi ke kasir (plus biaya admin Rp2.000).',
+        'Kasir akan mengisi saldo ke akun MoPay kamu.',
+        'Pastikan saldo MoPay kamu sudah bertambah. Caranya, klik icon Riwayat di halaman utama.',
+        'Simpan bukti pembayarannya.'
+      ],
+    ),
+    TopUpTunai(
+      linkGambar: 'assets/images/logo-lawson.jpg',
+      nama: 'Lawson',
+      biayaAdmin: 'Rp2.000',
+      minimumTopUp: 'Rp10.000',
+      bisaPesan: false,
+      instruksi: [
+        'Minta bantuan kasir untuk mengisi MoPay.',
+        'Beritahu nomor HP yang kamu pakai di aplikasi MoPay.',
+        'Beritahu nominal isi MoPay\n(pilih: Rp20.000, Rp50.000, Rp100.000, Rp200.000, Rp300.000, Rp400.000, Rp500.000).',
+        'Bayar nominal yang ingin kamu isi ke kasir (plus biaya admin Rp2.000).',
+        'Kasir akan mengisi saldo ke akun MoPay kamu.',
+        'Pastikan saldo MoPay kamu sudah bertambah. Caranya, klik icon Riwayat di halaman utama.',
+        'Simpan bukti pembayarannya.'
+      ],
+    ),
+    TopUpTunai(
+      linkGambar: 'assets/images/logo-atm-bersama.png',
+      nama: 'ATM Bersama',
+      biayaAdmin: 'Rp5.000 - Rp7.500',
+      minimumTopUp: 'Rp20.000',
+      bisaPesan: false,
+      instruksi: [
+        'Isi formulir setoran tunai.',
+        'Sebagai rekening tujuan, tulis kode perusahaan untuk MoPay: 898 kemudian diikuti nomor HP-mu yang terdaftar pada MoPay (Contoh: 898 0812XXXXXX).',
+        'Tulis nama penerima: Nama kamu yang terdaftar di aplikasi MoPay dan Bank Penerima.',
+        'Masukkan jumlah top up yang diinginkan.',
+        'Ikuti instruksi untuk menyelesaikan transaksi.'
+      ],
+    ),
+    TopUpTunai(
+      linkGambar: 'assets/images/logo-alfamidi.png',
+      nama: 'Alfamidi',
+      biayaAdmin: 'Rp2.000',
+      minimumTopUp: 'Rp10.000',
+      bisaPesan: false,
+      instruksi: [
+        'Minta bantuan kasir untuk mengisi MoPay.',
+        'Beritahu nomor HP yang kamu pakai di aplikasi MoPay.',
+        'Beritahu nominal isi MoPay\n(pilih: Rp20.000, Rp50.000, Rp100.000, Rp200.000, Rp300.000, Rp400.000, Rp500.000).',
+        'Bayar nominal yang ingin kamu isi ke kasir (plus biaya admin Rp2.000).',
+        'Kasir akan mengisi saldo ke akun MoPay kamu.',
+        'Pastikan saldo MoPay kamu sudah bertambah. Caranya, klik icon Riwayat di halaman utama.',
+        'Simpan bukti pembayarannya.'
+      ],
+    ),
+    TopUpTunai(
+      linkGambar: 'assets/images/logo-pos-indonesia.jpg',
+      nama: 'Pos Indonesia',
+      biayaAdmin: 'Rp2.000',
+      minimumTopUp: 'Rp10.000',
+      bisaPesan: false,
+      instruksi: [
+        'Minta bantuan petugas loket buat isi MoPay.',
+        'Kasih tau nomor HP-mu dan jumlah MoPay yang ingin diisi ke petugas loket.',
+        'Begitu petugasnya selesai, pastiin MoPay kamu udah bertambah. Caranya, klik icon Riwayat di halaman utama.'
       ],
     ),
   ];
