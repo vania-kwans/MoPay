@@ -39,6 +39,9 @@ dependencies:
   intl: ^0.19.0
   sliver_tools:
   dotted_line: ^3.2.2
+  carousel_slider:
+  smooth_page_indicator:
+  flutter_barcode_scanner:
 
 dev_dependencies:
   flutter_test:
@@ -64,7 +67,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/
+    - assets/images/logo/
+    - assets/images/slider/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
