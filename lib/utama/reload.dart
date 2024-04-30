@@ -6,14 +6,12 @@ class Reload extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child:Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Halaman belum bisa direload")
-        ],
-      ),
-      )
-    );
+        appBar: AppBar(),
+        body: const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Text("Halaman belum bisa direload")],
+          ),
+        ));
   }
 }

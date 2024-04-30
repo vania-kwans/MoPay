@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mopay_ewallet/utama/profile.dart';
 import 'package:mopay_ewallet/utama/reload.dart';
-import 'package:provider/provider.dart';
 
 class Utama2 extends StatefulWidget {
   const Utama2({super.key});
@@ -34,19 +30,19 @@ class _Utama2State extends State<Utama2> {
               title:
                   Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
                 CircleAvatar(
-                  backgroundColor: Color(0xff850000),
+                  backgroundColor: const Color(0xff850000),
                   child: IconButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.close,
                         color: Colors.white,
                       )),
                 ),
               ]),
               content: Container(
-                padding: EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 20),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -54,12 +50,12 @@ class _Utama2State extends State<Utama2> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Text("SMS",
+                      const Text("SMS",
                           style: TextStyle(
                               color: Color(0xff450000),
                               fontWeight: FontWeight.bold,
                               fontSize: 20)),
-                      Text("Sedia MoPay Sekarang",
+                      const Text("Sedia MoPay Sekarang",
                           style: TextStyle(
                               color: Color(0xff450000),
                               fontWeight: FontWeight.bold,
@@ -69,7 +65,7 @@ class _Utama2State extends State<Utama2> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Column(
+                              const Column(
                                 children: [
                                   Text('Cash',
                                       style: TextStyle(
@@ -81,25 +77,25 @@ class _Utama2State extends State<Utama2> {
                                           fontWeight: FontWeight.bold))
                                 ],
                               ),
-                              SizedBox(width: 5),
-                              Text("10",
+                              const SizedBox(width: 5),
+                              const Text("10",
                                   style: TextStyle(
                                       color: Color(0xff850000),
                                       fontSize: 80,
                                       fontWeight: FontWeight.bold)),
-                              SizedBox(width: 5),
+                              const SizedBox(width: 5),
                               CircleAvatar(
                                 backgroundColor: Colors.grey[300],
-                                child: Icon(
+                                child: const Icon(
                                   Icons.percent,
-                                  color: Color(0xff8500000),
+                                  color: Color(0xff850000),
                                 ),
                               )
                             ],
                           ),
                         ],
                       ),
-                      Column(
+                      const Column(
                         children: [
                           Text(
                             "Beli paket data",
@@ -128,10 +124,10 @@ class _Utama2State extends State<Utama2> {
                           )
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: Image(
+                          child: const Image(
                             image: NetworkImage(
                                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAoucDGF3UETzeXgL0Hp2UtyiN-GEcVn0iSQ&s"),
                           ))
@@ -150,16 +146,16 @@ class _Utama2State extends State<Utama2> {
 
         //APPBAR -----------------------------------------------------------------------------------------------
         appBar: AppBar(
-            title: Text("Welcome Back",
+            title: const Text("Welcome Back",
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
             actions: [
-              Text(
+              const Text(
                 "Hi Jennie",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Container(
-                  padding: EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
                   child: CircleAvatar(
                     backgroundColor: Colors.grey[350],
                     radius: 25,
@@ -170,19 +166,19 @@ class _Utama2State extends State<Utama2> {
                               Profile(sensitiveText: sensitiveText),
                         ));
                       },
-                      icon: Icon(Icons.person),
+                      icon: const Icon(Icons.person),
                     ),
                   ))
             ]),
         body: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.only(right: 20, left: 20),
+          padding: const EdgeInsets.only(right: 20, left: 20),
           child: Hero(
               tag: "mopay",
               child: SingleChildScrollView(
                 child: Column(children: [
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   //CARD ----------------------------------------------------------------------------------------------------------------------------
                   Column(children: [
@@ -191,11 +187,11 @@ class _Utama2State extends State<Utama2> {
                         Stack(
                           children: [
                             Container(
-                                margin: EdgeInsets.all(20),
+                                margin: const EdgeInsets.all(20),
                                 width: 350,
                                 height: 200,
                                 decoration: BoxDecoration(
-                                  gradient: LinearGradient(
+                                  gradient: const LinearGradient(
                                       colors: ([
                                         Color(0xff496989),
                                         Color(0xff00224D)
@@ -205,11 +201,11 @@ class _Utama2State extends State<Utama2> {
                                   borderRadius: BorderRadius.circular(20),
                                 )),
                             Container(
-                              padding: EdgeInsets.all(20),
+                              padding: const EdgeInsets.all(20),
                               width: 350,
                               height: 200,
                               decoration: BoxDecoration(
-                                  gradient: LinearGradient(
+                                  gradient: const LinearGradient(
                                       colors: ([
                                         Color(0xff0F0E0E),
                                         Color(0xff850000)
@@ -222,19 +218,19 @@ class _Utama2State extends State<Utama2> {
                                 children: [
                                   Row(
                                     children: [
-                                      Text(
+                                      const Text(
                                         "Mopay",
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 30),
                                       ),
-                                      SizedBox(width: 30),
+                                      const SizedBox(width: 30),
                                       Container(
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
                                                 BorderRadius.circular(40)),
-                                        padding: EdgeInsets.all(10),
-                                        child: Row(
+                                        padding: const EdgeInsets.all(10),
+                                        child: const Row(
                                           children: [
                                             CircleAvatar(
                                               backgroundColor:
@@ -253,8 +249,8 @@ class _Utama2State extends State<Utama2> {
                                       )
                                     ],
                                   ),
-                                  SizedBox(height: 30),
-                                  Text("Total Balance",
+                                  const SizedBox(height: 30),
+                                  const Text("Total Balance",
                                       style: TextStyle(
                                         color: Colors.white,
                                       )),
@@ -264,10 +260,10 @@ class _Utama2State extends State<Utama2> {
                                           isObscured
                                               ? obscuredText(sensitiveText)
                                               : sensitiveText,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 25,
                                               color: Colors.white)),
-                                      SizedBox(width: 5),
+                                      const SizedBox(width: 5),
                                       IconButton(
                                           onPressed: () {
                                             setState(() {
@@ -280,8 +276,8 @@ class _Utama2State extends State<Utama2> {
                                                 : Icons.remove_red_eye_rounded,
                                             color: Colors.white,
                                           )),
-                                      SizedBox(width: 20),
-                                      Text(
+                                      const SizedBox(width: 20),
+                                      const Text(
                                         "0222 0990 2233",
                                         style: TextStyle(color: Colors.white),
                                       )
@@ -301,11 +297,13 @@ class _Utama2State extends State<Utama2> {
                               children: [
                                 IconButton(
                                     onPressed: () {},
-                                    icon: Icon(Icons.add, color: Colors.white),
+                                    icon: const Icon(Icons.add,
+                                        color: Colors.white),
                                     style: IconButton.styleFrom(
-                                        backgroundColor: Color(0xff0F0E0E),
-                                        fixedSize: Size(50, 50))),
-                                Text(
+                                        backgroundColor:
+                                            const Color(0xff0F0E0E),
+                                        fixedSize: const Size(50, 50))),
+                                const Text(
                                   "Top Up",
                                   style: TextStyle(color: Colors.grey),
                                 )
@@ -315,12 +313,13 @@ class _Utama2State extends State<Utama2> {
                               children: [
                                 IconButton(
                                     onPressed: () {},
-                                    icon: Icon(Icons.arrow_upward,
+                                    icon: const Icon(Icons.arrow_upward,
                                         color: Colors.white),
                                     style: IconButton.styleFrom(
-                                        backgroundColor: Color(0xff0F0E0E),
-                                        fixedSize: Size(50, 50))),
-                                Text(
+                                        backgroundColor:
+                                            const Color(0xff0F0E0E),
+                                        fixedSize: const Size(50, 50))),
+                                const Text(
                                   "Transfer",
                                   style: TextStyle(color: Colors.grey),
                                 )
@@ -330,12 +329,13 @@ class _Utama2State extends State<Utama2> {
                               children: [
                                 IconButton(
                                     onPressed: () {},
-                                    icon: Icon(Icons.attach_money_sharp,
+                                    icon: const Icon(Icons.attach_money_sharp,
                                         color: Colors.white),
                                     style: IconButton.styleFrom(
-                                        backgroundColor: Color(0xff0F0E0E),
-                                        fixedSize: Size(50, 50))),
-                                Text('Cash',
+                                        backgroundColor:
+                                            const Color(0xff0F0E0E),
+                                        fixedSize: const Size(50, 50))),
+                                const Text('Cash',
                                     style: TextStyle(color: Colors.grey))
                               ],
                             ),
@@ -343,12 +343,13 @@ class _Utama2State extends State<Utama2> {
                               children: [
                                 IconButton(
                                     onPressed: () {},
-                                    icon: Icon(Icons.history,
+                                    icon: const Icon(Icons.history,
                                         color: Colors.white),
                                     style: IconButton.styleFrom(
-                                        backgroundColor: Color(0xff0F0E0E),
-                                        fixedSize: Size(50, 50))),
-                                Text('History',
+                                        backgroundColor:
+                                            const Color(0xff0F0E0E),
+                                        fixedSize: const Size(50, 50))),
+                                const Text('History',
                                     style: TextStyle(color: Colors.grey))
                               ],
                             ),
@@ -356,16 +357,16 @@ class _Utama2State extends State<Utama2> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
                     // FITUR SEARCH --------------------------------------------------------------------------------------------------------------------
                     OutlinedButton.icon(
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.search,
                         color: Color(0xff00224D),
                       ),
-                      label: Text(
+                      label: const Text(
                         "Cari Fitur",
                         style: TextStyle(
                             color: Color(0xff00224D),
@@ -374,18 +375,18 @@ class _Utama2State extends State<Utama2> {
                       style: OutlinedButton.styleFrom(
                         fixedSize:
                             Size.fromWidth(MediaQuery.of(context).size.width),
-                        backgroundColor: Color(0xffEEEEEE),
+                        backgroundColor: const Color(0xffEEEEEE),
                         alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
 
                     //FITUR TAMBAHAN LAINNYA --------------------------------------------------------------------------------------------------------------------
                     Container(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: Color(0xffEEEEEE),
+                        color: const Color(0xffEEEEEE),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(children: [
@@ -399,20 +400,20 @@ class _Utama2State extends State<Utama2> {
                                         Navigator.of(context).push(
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    Reload()));
+                                                    const Reload()));
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.local_hospital_outlined,
                                         color: Color(0xff00224D),
                                       ),
                                       style: IconButton.styleFrom(
                                           backgroundColor: Colors.white,
-                                          fixedSize: Size(25, 25))),
-                                  Text(
+                                          fixedSize: const Size(25, 25))),
+                                  const Text(
                                     'Health',
                                     style: TextStyle(color: Color(0xff31363F)),
                                   ),
-                                  Text("")
+                                  const Text("")
                                 ],
                               ),
                               Column(
@@ -422,17 +423,17 @@ class _Utama2State extends State<Utama2> {
                                         Navigator.of(context).push(
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    Reload()));
+                                                    const Reload()));
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.credit_card_outlined,
                                         color: Color(0xff00224D),
                                       ),
                                       style: IconButton.styleFrom(
                                           backgroundColor: Colors.white,
-                                          fixedSize: Size(25, 25))),
-                                  Text('Credit Card'),
-                                  Text('')
+                                          fixedSize: const Size(25, 25))),
+                                  const Text('Credit Card'),
+                                  const Text('')
                                 ],
                               ),
                               Column(
@@ -442,17 +443,17 @@ class _Utama2State extends State<Utama2> {
                                         Navigator.of(context).push(
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    Reload()));
+                                                    const Reload()));
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.school,
                                         color: Color(0xff00224D),
                                       ),
                                       style: IconButton.styleFrom(
                                           backgroundColor: Colors.white,
-                                          fixedSize: Size(25, 25))),
-                                  Text("Education"),
-                                  Text("")
+                                          fixedSize: const Size(25, 25))),
+                                  const Text("Education"),
+                                  const Text("")
                                 ],
                               ),
                               Column(children: [
@@ -460,20 +461,21 @@ class _Utama2State extends State<Utama2> {
                                     onPressed: () {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
-                                              builder: (context) => Reload()));
+                                              builder: (context) =>
+                                                  const Reload()));
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.electric_bolt,
                                       color: Color(0xff00224D),
                                     ),
                                     style: IconButton.styleFrom(
                                         backgroundColor: Colors.white,
-                                        fixedSize: Size(25, 25))),
-                                Text('Electricity'),
-                                Text('')
+                                        fixedSize: const Size(25, 25))),
+                                const Text('Electricity'),
+                                const Text('')
                               ])
                             ]),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -482,76 +484,80 @@ class _Utama2State extends State<Utama2> {
                                     onPressed: () {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
-                                              builder: (context) => Reload()));
+                                              builder: (context) =>
+                                                  const Reload()));
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.water_drop_outlined,
                                       color: Color(0xff00224D),
                                     ),
                                     style: IconButton.styleFrom(
                                         backgroundColor: Colors.white,
-                                        fixedSize: Size(25, 25))),
-                                Text("Tap"),
-                                Text("Water")
+                                        fixedSize: const Size(25, 25))),
+                                const Text("Tap"),
+                                const Text("Water")
                               ]),
                               Column(children: [
                                 IconButton(
                                     onPressed: () {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
-                                              builder: (context) => Reload()));
+                                              builder: (context) =>
+                                                  const Reload()));
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.my_library_books,
                                       color: Color(0xff00224D),
                                     ),
                                     style: IconButton.styleFrom(
                                         backgroundColor: Colors.white,
-                                        fixedSize: Size(25, 25))),
-                                Text('PBB'),
-                                Text('Tax')
+                                        fixedSize: const Size(25, 25))),
+                                const Text('PBB'),
+                                const Text('Tax')
                               ]),
                               Column(children: [
                                 IconButton(
                                     onPressed: () {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
-                                              builder: (context) => Reload()));
+                                              builder: (context) =>
+                                                  const Reload()));
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.smartphone,
                                       color: Color(0xff00224D),
                                     ),
                                     style: IconButton.styleFrom(
                                         backgroundColor: Colors.white,
-                                        fixedSize: Size(25, 25))),
-                                Text("Credit &"),
-                                Text("Packages")
+                                        fixedSize: const Size(25, 25))),
+                                const Text("Credit &"),
+                                const Text("Packages")
                               ]),
                               Column(children: [
                                 IconButton(
                                     onPressed: () {
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
-                                              builder: (context) => Reload()));
+                                              builder: (context) =>
+                                                  const Reload()));
                                     },
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.videogame_asset_sharp,
                                       color: Color(0xff00224D),
                                     ),
                                     style: IconButton.styleFrom(
                                         backgroundColor: Colors.white,
-                                        fixedSize: Size(25, 25))),
-                                Text('Game'),
-                                Text('Voucher')
+                                        fixedSize: const Size(25, 25))),
+                                const Text('Game'),
+                                const Text('Voucher')
                               ])
                             ])
                       ]),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
                     //POSTER IKLAN PROMOSI -----------------------------------------------------------------------------------------------------------------------
-                    Row(
+                    const Row(
                       children: [
                         Text("Rekomendasi Pilihan",
                             style: TextStyle(
@@ -564,104 +570,104 @@ class _Utama2State extends State<Utama2> {
                         Column(children: [
                           ClipRRect(
                               borderRadius: BorderRadius.circular(20),
-                              child: Image(
+                              child: const Image(
                                 image: NetworkImage(
                                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUQodO_JeFso-IDITnQon6fEa_YubHL9dQ0A&s"),
                                 fit: BoxFit.contain,
                               )),
-                          Text("E-Commerce",
+                          const Text("E-Commerce",
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 10)),
-                          Text(
+                          const Text(
                             "Belanja 100.000 cuman bayar 50.000!",
                             style: TextStyle(color: Colors.grey, fontSize: 15),
                           ),
-                          Text(
+                          const Text(
                             "discount akhir tahun dari MoPay",
                             style: TextStyle(color: Colors.grey, fontSize: 15),
                           ),
-                          Text("MoPay",
+                          const Text("MoPay",
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 10))
                         ]),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         Column(children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(20),
-                            child: Image(
+                            child: const Image(
                               image: NetworkImage(
                                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs0qzATuRYhLH_llTQ97CDIMwSks262vFzm49s8miebu6kjR3HKJZAE1YOVqnpn3pMpZg&usqp=CAU"),
                               fit: BoxFit.contain,
                             ),
                           ),
-                          Text("GoFat",
+                          const Text("GoFat",
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 10)),
-                          Text("Ga Mau ribet Bayar GoFat?",
+                          const Text("Ga Mau ribet Bayar GoFat?",
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 15)),
-                          Text("Dari MoPay Aja",
+                          const Text("Dari MoPay Aja",
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 15)),
-                          Text("MoPay",
+                          const Text("MoPay",
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 10))
                         ]),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         Column(children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(20),
-                            child: Image(
+                            child: const Image(
                               image: NetworkImage(
                                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT69Qth7J8UIWwiEZYOWg5GihFgI5eTNXtajrwoyNoIpUFhajqO26IwPLCWmIykX4heME8&usqp=CAU"),
                               fit: BoxFit.contain,
                             ),
                           ),
-                          Text("E-Commerce",
+                          const Text("E-Commerce",
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 10)),
-                          Text("Casback Hingga 100.000",
+                          const Text("Casback Hingga 100.000",
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 15)),
-                          Text("NO Ribet MoPay Aja",
+                          const Text("NO Ribet MoPay Aja",
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 15)),
-                          Text("MoPay",
+                          const Text("MoPay",
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 10))
                         ]),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         Column(children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(20),
-                            child: Image(
+                            child: const Image(
                               image: NetworkImage(
                                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTas22xEror7zXmnZYSTVlGgGa2cc-E0W6Tmg&s"),
                               fit: BoxFit.contain,
                             ),
                           ),
-                          Text("E-Commerce",
+                          const Text("E-Commerce",
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 10)),
-                          Text(
+                          const Text(
                             "MoPrize sampai 150Juta ",
                             style: TextStyle(color: Colors.grey, fontSize: 15),
                           ),
-                          Text(
+                          const Text(
                             "Ikutin MoPrize hanya di MoPay",
                             style: TextStyle(color: Colors.grey, fontSize: 15),
                           ),
-                          Text("MoPay",
+                          const Text("MoPay",
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 10))
                         ])
                       ]),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
                     //
                     // TIPS PENGGUNAAN MOPAY ---------------------------------------------------------------------------------------------------------------------------------------------
-                    Column(
+                    const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(children: [
@@ -698,7 +704,7 @@ class _Utama2State extends State<Utama2> {
                                                 builder:
                                                     (BuildContext context) {
                                                   return AlertDialog(
-                                                      title: Text(
+                                                      title: const Text(
                                                         "Isi Saldo Mopay No Ribet , Yuk Cari Tau Caranya!",
                                                         style: TextStyle(
                                                             fontSize: 20),
@@ -707,14 +713,15 @@ class _Utama2State extends State<Utama2> {
                                                       ),
                                                       content: Container(
                                                         padding:
-                                                            EdgeInsets.all(20),
+                                                            const EdgeInsets
+                                                                .all(20),
                                                         width: MediaQuery.of(
                                                                 context)
                                                             .size
                                                             .width,
                                                         height: 300,
                                                         child:
-                                                            SingleChildScrollView(
+                                                            const SingleChildScrollView(
                                                           scrollDirection:
                                                               Axis.horizontal,
                                                           child: Row(
@@ -871,14 +878,15 @@ class _Utama2State extends State<Utama2> {
                                                                     context)
                                                                 .pop(); // Close dialog
                                                           },
-                                                          child: Text('Close'),
+                                                          child: const Text(
+                                                              'Close'),
                                                         ),
                                                       ]);
                                                 },
                                               );
                                             },
                                             // TAMPILAN DEPAN SEBELUM POP UP TIPS -----------------------------------------------------------------------------------------------------------------------------------------------
-                                            child: Column(
+                                            child: const Column(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
@@ -898,7 +906,7 @@ class _Utama2State extends State<Utama2> {
                                                 ])),
                                       ),
                                     ]),
-                                    SizedBox(width: 20),
+                                    const SizedBox(width: 20),
 
                                     // ISI POP UP TIPS --------------------------------------------------------------------------------------------------------------------------------------
                                     Column(children: [
@@ -911,7 +919,7 @@ class _Utama2State extends State<Utama2> {
                                                 builder:
                                                     (BuildContext context) {
                                                   return AlertDialog(
-                                                    title: Text(
+                                                    title: const Text(
                                                       "Cara Mudah Agar Tidak Lupa Dengan Tagihan",
                                                       style: TextStyle(
                                                           fontSize: 20),
@@ -920,14 +928,15 @@ class _Utama2State extends State<Utama2> {
                                                     ),
                                                     content: Container(
                                                       padding:
-                                                          EdgeInsets.all(20),
+                                                          const EdgeInsets.all(
+                                                              20),
                                                       width:
                                                           MediaQuery.of(context)
                                                               .size
                                                               .width,
                                                       height: 300,
                                                       child:
-                                                          SingleChildScrollView(
+                                                          const SingleChildScrollView(
                                                         scrollDirection:
                                                             Axis.horizontal,
                                                         child: Row(
@@ -1052,7 +1061,8 @@ class _Utama2State extends State<Utama2> {
                                                           Navigator.of(context)
                                                               .pop(); // Close dialog
                                                         },
-                                                        child: Text('Close'),
+                                                        child:
+                                                            const Text('Close'),
                                                       ),
                                                     ],
                                                   );
@@ -1061,7 +1071,7 @@ class _Utama2State extends State<Utama2> {
                                             },
 
                                             // TAMPILAN DEPAN SEBELUM POP UP TIPS ------------------------------------------------------------------------------------------------------------------------------------------------------
-                                            child: Column(
+                                            child: const Column(
                                                 // mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
                                                   Image(
@@ -1095,14 +1105,14 @@ class _Utama2State extends State<Utama2> {
         bottomNavigationBar: SingleChildScrollView(
           child: Container(
             // width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.all(5),
-            decoration: BoxDecoration(color: Colors.white),
+            padding: const EdgeInsets.all(5),
+            decoration: const BoxDecoration(color: Colors.white),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
                       onPressed: () {},
-                      child: Column(
+                      child: const Column(
                         children: [
                           Icon(Icons.home, color: Color(0xff450000)),
                           Text(
@@ -1115,7 +1125,7 @@ class _Utama2State extends State<Utama2> {
                       )),
                   TextButton(
                       onPressed: () {},
-                      child: Column(
+                      child: const Column(
                         children: [
                           Icon(Icons.my_library_books_outlined,
                               color: Colors.grey),
@@ -1127,14 +1137,16 @@ class _Utama2State extends State<Utama2> {
                       )),
                   IconButton.outlined(
                     onPressed: () {},
-                    icon: Icon(Icons.qr_code_sharp, color: Color(0xff450000)),
+                    icon: const Icon(Icons.qr_code_sharp,
+                        color: Color(0xff450000)),
                     style: IconButton.styleFrom(
-                        fixedSize: Size(60, 60),
-                        side: BorderSide(color: Color(0xff450000), width: 2)),
+                        fixedSize: const Size(60, 60),
+                        side: const BorderSide(
+                            color: Color(0xff450000), width: 2)),
                   ),
                   TextButton(
                       onPressed: () {},
-                      child: Column(
+                      child: const Column(
                         children: [
                           Icon(Icons.email, color: Colors.grey),
                           Text(
@@ -1145,7 +1157,7 @@ class _Utama2State extends State<Utama2> {
                       )),
                   TextButton(
                       onPressed: () {},
-                      child: Column(
+                      child: const Column(
                         children: [
                           Icon(Icons.perm_identity, color: Colors.grey),
                           Text(
