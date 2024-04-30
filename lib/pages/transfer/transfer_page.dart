@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/data/data_transfer.dart';
-import 'package:mopay_ewallet/pages/transfer_to_mopay.dart';
+import 'package:mopay_ewallet/pages/transfer/transfer_to_bank.dart';
+import 'package:mopay_ewallet/pages/transfer/transfer_to_mopay.dart';
 import 'package:provider/provider.dart';
 import 'package:mopay_ewallet/template/list_tile_top_up.dart';
 
@@ -20,8 +21,10 @@ class _TransferPageState extends State<TransferPage> {
       appBar: AppBar(
         title: const Text(
           'Transfer',
-          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+          style: TextStyle(fontWeight: FontWeight.w600),
         ),
+        // iconTheme: const IconThemeData(color: Colors.white),
+        foregroundColor: Colors.white,
         backgroundColor: const Color.fromARGB(255, 195, 44, 33),
       ),
       body: Column(
@@ -45,7 +48,11 @@ class _TransferPageState extends State<TransferPage> {
                 ),
                 const SizedBox(height: 5.0),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const TransferToBank(),
+                    ));
+                  },
                   child: const ListTileLeadingIcon(
                     leadingIcon: Icon(Icons.add),
                     methodName: 'Ke Rekening Bank',
