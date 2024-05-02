@@ -6,11 +6,15 @@ class Reload extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+
+      ),
       body: Center(
         child:Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Halaman belum bisa direload")
+          Image(image: AssetImage("assert/sketsa.jpg"), width: 150,),
+          Text("Opss halaman belum bisa kamu akses")
         ],
       ),
       )
