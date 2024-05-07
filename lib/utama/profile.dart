@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:mopay_ewallet/utama/setconnect.dart';
 import 'package:mopay_ewallet/utama/smartpay.dart';
 
 class Profile extends StatelessWidget {
   final String sensitiveText;
-  Profile({super.key, required this.sensitiveText});
+  const Profile({super.key, required this.sensitiveText});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-        //APPBAR ----------------------------------------------------------------------
         appBar: AppBar(
-            iconTheme: IconThemeData(color: Colors.white),
+            iconTheme: const IconThemeData(color: Colors.white),
             flexibleSpace: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   // borderRadius: BorderRadius.circular(20),
                   gradient: LinearGradient(
                 colors: [
