@@ -19,6 +19,8 @@ class _HistoryPageState extends State<HistoryPage> {
     return true;
   }
 
+  DateTime currentDate = DateTime.now();
+
   String lastIndexMonth = '';
   bool monthChecker(String currentMonth) {
     if (currentMonth != lastIndexMonth) {
@@ -36,9 +38,11 @@ class _HistoryPageState extends State<HistoryPage> {
     } else if (data is DataTopUp) {
       return 'Top Up Dari ${data.topUpDari}';
     } else {
-      return 'Not Defined}';
+      return 'Not Defined';
     }
   }
+
+  String selectedFilter = '';
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +70,97 @@ class _HistoryPageState extends State<HistoryPage> {
                     color: Colors.white,
                     child: InkWell(
                       onTap: () {
-                        pilihanFilter(context);
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return StatefulBuilder(
+                              builder: (BuildContext context, setState) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20.0),
+                                  width: double.infinity,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text(
+                                              'Filter Berdasarkan',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Icon(Icons.close),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10.0),
+                                      const Divider(color: Colors.black12),
+                                      RadioListTile(
+                                        value: '7 Hari Terakhir',
+                                        groupValue: selectedFilter,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedFilter = value!;
+                                          });
+                                          Navigator.of(context).pop();
+                                        },
+                                        title: const Text('7 Hari Terakhir'),
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        activeColor: Colors.red,
+                                      ),
+                                      RadioListTile(
+                                        value: '1 Bulan Terakhir',
+                                        groupValue: selectedFilter,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedFilter = value!;
+                                          });
+                                          Navigator.of(context).pop();
+                                        },
+                                        title: const Text('1 Bulan Terakhir'),
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        activeColor: Colors.red,
+                                      ),
+                                      RadioListTile(
+                                        value: '1 Tahun Terakhir',
+                                        groupValue: selectedFilter,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            selectedFilter = value!;
+                                          });
+                                          Navigator.of(context).pop();
+                                        },
+                                        title: const Text('1 Tahun Terakhir'),
+                                        controlAffinity:
+                                            ListTileControlAffinity.trailing,
+                                        activeColor: Colors.red,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        );
                       },
                       splashColor: Colors.grey[100],
                       highlightColor: Colors.grey[100],
@@ -80,13 +174,15 @@ class _HistoryPageState extends State<HistoryPage> {
                               bottom: BorderSide(
                                   color: Colors.black12, width: 0.5)),
                         ),
-                        child: const Row(
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('Filter',
-                                style: TextStyle(
-                                    fontSize: 17, fontWeight: FontWeight.w500)),
-                            Icon(
+                            Text(
+                              selectedFilter == "" ? "Filter" : selectedFilter,
+                              style: const TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w500),
+                            ),
+                            const Icon(
                               Icons.keyboard_arrow_down,
                               color: Colors.black54,
                             ),
@@ -129,155 +225,78 @@ class _HistoryPageState extends State<HistoryPage> {
                 ],
               ),
             ),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: dataHistory.length,
-                  itemBuilder: (context, index) {
-                    String currentMonth =
-                        getMonthName(dataHistory[index].tanggal);
-                    int currentYear = getYear(dataHistory[index].tanggal);
-                    String judul = definedTitleName(dataHistory[index]);
-
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        monthChecker(currentMonth)
-                            ? Container(
-                                alignment: Alignment.centerLeft,
-                                padding: const EdgeInsets.only(left: 15),
-                                height: 40,
-                                child: Text(
-                                  '$currentMonth $currentYear',
-                                  style: const TextStyle(
-                                    color: Colors.black87,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              )
-                            : const SizedBox(height: 0),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border(
-                              bottom: BorderSide(
-                                  color: Colors.grey.withOpacity(0.3)),
-                            ),
-                          ),
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 5),
-                            title: Text(
-                              judul,
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600),
-                            ),
-                            subtitle: Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Text(
-                                dataHistory[index].tipeTransaksi,
-                                style: const TextStyle(color: Colors.black54),
-                              ),
-                            ),
-                            trailing: Text(
-                              signChecker(dataHistory[index].tipeTransaksi)
-                                  ? '+ Rp${formatToIndonesianCurrency(dataHistory[index].nominal)}'
-                                  : '- Rp${formatToIndonesianCurrency(dataHistory[index].nominal)}',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: signChecker(
-                                        dataHistory[index].tipeTransaksi)
-                                    ? Colors.green
-                                    : Colors.red,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }),
-            ),
+            showHistory(dataHistory),
           ],
         ),
       ),
     );
   }
 
-  Future<dynamic> pilihanFilter(BuildContext context) {
-    String _selectedFilter = '';
+  Expanded showHistory(List<DataTransaksi> dataHistory) {
+    return Expanded(
+      child: ListView.builder(
+          itemCount: dataHistory.length,
+          itemBuilder: (context, index) {
+            String currentMonth = getMonthName(dataHistory[index].tanggal);
+            int currentYear = getYear(dataHistory[index].tanggal);
+            String judul = definedTitleName(dataHistory[index]);
 
-    return showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          padding: const EdgeInsets.symmetric(vertical: 20.0),
-          width: double.infinity,
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
-              )),
-          child: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Filter Berdasarkan',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                monthChecker(currentMonth)
+                    ? Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.only(left: 15),
+                        height: 40,
+                        child: Text(
+                          '$currentMonth $currentYear',
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    : const SizedBox(height: 0),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border(
+                      bottom: BorderSide(color: Colors.grey.withOpacity(0.3)),
                     ),
-                    Icon(Icons.close),
-                  ],
+                  ),
+                  child: ListTile(
+                    contentPadding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    title: Text(
+                      judul,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w600),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        dataHistory[index].tipeTransaksi,
+                        style: const TextStyle(color: Colors.black54),
+                      ),
+                    ),
+                    trailing: Text(
+                      signChecker(dataHistory[index].tipeTransaksi)
+                          ? '+ Rp${formatToIndonesianCurrency(dataHistory[index].nominal)}'
+                          : '- Rp${formatToIndonesianCurrency(dataHistory[index].nominal)}',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: signChecker(dataHistory[index].tipeTransaksi)
+                            ? Colors.green
+                            : Colors.red,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10.0),
-              const Divider(
-                color: Colors.black12,
-              ),
-              RadioListTile(
-                value: 'one',
-                groupValue: 'filter',
-                onChanged: (value) {
-                  setState(() {
-                    _selectedFilter = value!;
-                  });
-                },
-                title: const Text('7 Hari Terakhir'),
-                controlAffinity: ListTileControlAffinity.trailing,
-                activeColor: Colors.red,
-              ),
-              RadioListTile(
-                value: 'two',
-                groupValue: 'filter',
-                onChanged: (value) {
-                  setState(() {
-                    _selectedFilter = value!;
-                  });
-                },
-                title: const Text('7 Bulan Terakhir'),
-                controlAffinity: ListTileControlAffinity.trailing,
-                activeColor: Colors.red,
-              ),
-              RadioListTile(
-                value: 'three',
-                groupValue: 'filter',
-                onChanged: (value) {
-                  setState(() {
-                    _selectedFilter = value!;
-                  });
-                },
-                title: const Text('1 Tahun Terakhir'),
-                controlAffinity: ListTileControlAffinity.trailing,
-                activeColor: Colors.red,
-              ),
-            ],
-          ),
-        );
-      },
+              ],
+            );
+          }),
     );
   }
 }
