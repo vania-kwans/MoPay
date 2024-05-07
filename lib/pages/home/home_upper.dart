@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mopay_ewallet/format/currency.dart';
+import 'package:provider/provider.dart';
+import 'package:mopay_ewallet/data/data_user_mopay.dart';
 import 'package:mopay_ewallet/pages/history.dart';
 import 'package:mopay_ewallet/pages/top_up/top_up_methods.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_page.dart';
@@ -12,14 +15,16 @@ class HomeUpper extends StatefulWidget {
 
 class _HomeUpperState extends State<HomeUpper> {
   bool isObscured = false;
-  String totalBalance = "ᴿᴾ 900.000";
 
-  String obscuredText(String text) {
-    return "*" * text.length;
+  String obscuredText(int number) {
+    return "*" * number.toString().length;
   }
 
   @override
   Widget build(BuildContext context) {
+    MopayUserData currentUser =
+        Provider.of<MopayUserDataProvider>(context).currentUser;
+
     return Column(
       children: [
         Stack(
@@ -31,12 +36,12 @@ class _HomeUpperState extends State<HomeUpper> {
                 bottom: 20,
               ),
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width / 2,
+              height: MediaQuery.of(context).size.width / 2 + 20,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: ([
                     Color(0xff496989),
-                    Color.fromARGB(255, 19, 39, 65)
+                    Color.fromARGB(255, 26, 50, 82)
                   ]),
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -48,7 +53,6 @@ class _HomeUpperState extends State<HomeUpper> {
               padding: const EdgeInsets.all(20),
               margin: const EdgeInsets.only(right: 10),
               width: MediaQuery.of(context).size.width,
-              // height: MediaQuery.of(context).size.width / 2,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: ([Color(0xff0F0E0E), Color(0xff850000)]),
@@ -90,7 +94,9 @@ class _HomeUpperState extends State<HomeUpper> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        isObscured ? obscuredText(totalBalance) : totalBalance,
+                        isObscured
+                            ? 'Rp${obscuredText(currentUser.saldo)}'
+                            : 'Rp${formatToIndonesianCurrency(currentUser.saldo)}',
                         style: const TextStyle(
                           fontSize: 20,
                           color: Colors.white,
@@ -129,7 +135,7 @@ class _HomeUpperState extends State<HomeUpper> {
                     ],
                   ),
                   const SizedBox(height: 5),
-                  //FITUR TOP-UP DLL -------------------------------------------------------------------------------------------------------------------
+                  //FITUR UTAMA -------------------------------------------------------------------------------------------------------------------
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [

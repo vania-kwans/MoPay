@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mopay_ewallet/data/data_user_mopay.dart';
 import 'package:mopay_ewallet/pages/home/home_menu.dart';
 import 'package:mopay_ewallet/pages/home/home_recommendation.dart';
 import 'package:mopay_ewallet/pages/home/home_tips.dart';
 import 'package:mopay_ewallet/pages/home/home_upper.dart';
-import 'package:mopay_ewallet/pages/home/test.dart';
-import 'package:mopay_ewallet/pages/top_up/top_up_methods.dart';
 import 'package:mopay_ewallet/utama/profile.dart';
-import 'package:mopay_ewallet/utama/reload.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,16 +16,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // final theFitur = Provider.of<FiturButton>(context).theFitur;
-  int currentTab = 0;
-  final List<Widget> screens = const [
-    HomePage(),
-    PilihanMetodeTopUpPage(),
-    PilihanMetodeTopUpPage(),
-    PilihanMetodeTopUpPage()
-  ];
-
-  final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = const HomePage();
 
   @override
   // POP UP AWAL -------------------------------------------------------------------------------------------
@@ -153,17 +142,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    MopayUserData currentUser =
+        Provider.of<MopayUserDataProvider>(context).currentUser;
+
     return Scaffold(
       //APPBAR -----------------------------------------------------------------------------------------------
       appBar: AppBar(
-          title: const Text(
-            "Welcome Back!",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          title: Image.asset(
+            'assets/images/logo-mopay/logo2.png',
+            width: 100,
           ),
           actions: [
-            const Text(
-              "Hi, Jennie",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Text(
+              "Hi, ${currentUser.nama}",
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(width: 10),
             Container(
@@ -173,10 +165,10 @@ class _HomePageState extends State<HomePage> {
                 radius: 25,
                 child: IconButton(
                   onPressed: () {
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //   builder: (context) =>
-                    //       Profile(sensitiveText: totalBalance),
-                    // ));
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          Profile(sensitiveText: currentUser.saldo.toString()),
+                    ));
                   },
                   icon: const Icon(Icons.person),
                 ),
@@ -231,175 +223,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-          ),
-        ),
-      ),
-
-      // BOTTOM NAVBAR -----------------------------------------------------------------------------------------------------------------------------------------------------------
-      floatingActionButton: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              30.0), // Adjust the value according to your preference
-          border: Border.all(color: Colors.white, width: 4.0),
-        ),
-        child: FloatingActionButton(
-          onPressed: () {},
-          shape: const CircleBorder(),
-          backgroundColor: const Color(0xff850000),
-          foregroundColor: Colors.white,
-          child: const Icon(
-            Icons.qr_code_2,
-            size: 40,
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: Container(
-        color: Colors.transparent,
-        height: MediaQuery.of(context).size.height * 0.07,
-        child: BottomAppBar(
-          elevation: 0,
-          padding: const EdgeInsets.all(0),
-          color: Colors.transparent,
-          shape: const CircularNotchedRectangle(),
-          notchMargin: 15.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              // Bagian kiri
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 2 - 20,
-                child: Row(
-                  children: [
-                    MaterialButton(
-                      padding: const EdgeInsets.all(0),
-                      onPressed: () {
-                        setState(() {
-                          currentScreen = const PilihanMetodeTopUpPage();
-                          currentTab = 0;
-                        });
-                      },
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width / 4 - 20,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.dashboard,
-                              color: currentTab == 0
-                                  ? const Color(0xff850000)
-                                  : Colors.grey,
-                            ),
-                            Text(
-                              'Dashboard',
-                              style: TextStyle(
-                                color: currentTab == 0
-                                    ? const Color(0xff850000)
-                                    : Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    MaterialButton(
-                      padding: const EdgeInsets.all(0),
-                      onPressed: () {
-                        setState(() {
-                          currentScreen = const PilihanMetodeTopUpPage();
-                          currentTab = 1;
-                        });
-                      },
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width / 4 - 20,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.chat,
-                              color: currentTab == 1
-                                  ? const Color(0xff850000)
-                                  : Colors.grey,
-                            ),
-                            Text(
-                              'Chat',
-                              style: TextStyle(
-                                color: currentTab == 1
-                                    ? const Color(0xff850000)
-                                    : Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 40),
-              // Bagian kanan
-              MaterialButton(
-                padding: const EdgeInsets.all(0),
-                onPressed: () {
-                  setState(() {
-                    currentScreen = const PilihanMetodeTopUpPage();
-                    currentTab = 2;
-                  });
-                },
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 4 - 20,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.dashboard,
-                        color: currentTab == 2
-                            ? const Color(0xff850000)
-                            : Colors.grey,
-                      ),
-                      Text(
-                        'Dashboard',
-                        style: TextStyle(
-                          color: currentTab == 2
-                              ? const Color(0xff850000)
-                              : Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              MaterialButton(
-                padding: const EdgeInsets.all(0),
-                onPressed: () {
-                  setState(() {
-                    currentScreen = const PilihanMetodeTopUpPage();
-                    currentTab = 3;
-                  });
-                },
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width / 4 - 20,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.chat,
-                        color: currentTab == 3
-                            ? const Color(0xff850000)
-                            : Colors.grey,
-                      ),
-                      Text(
-                        'Chat',
-                        style: TextStyle(
-                            color: currentTab == 3
-                                ? const Color(0xff850000)
-                                : Colors.grey),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
           ),
         ),
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mopay_ewallet/data/data_tips.dart';
+import 'package:mopay_ewallet/pages/home/data_tips.dart';
 import 'package:provider/provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -37,6 +37,7 @@ class _HomeTipsState extends State<HomeTips> {
             ),
           ],
         ),
+        const SizedBox(height: 10),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
@@ -84,7 +85,7 @@ class DialogContainer extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.50,
               height: MediaQuery.of(context).size.height * 0.20,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.red, width: 1),
+                // border: Border.all(color: Colors.red, width: 1),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10),
