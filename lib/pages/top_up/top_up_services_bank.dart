@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/pages/top_up/top_up_instruction_bank.dart';
 import 'package:provider/provider.dart';
-import 'package:mopay_ewallet/data/data_metode_top_up.dart';
+import 'package:mopay_ewallet/pages/top_up/data_metode_top_up.dart';
 
 class LayananTopUpBank extends StatefulWidget {
   final int idxBank;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mopay_ewallet/data/data_metode_top_up.dart';
+import 'package:mopay_ewallet/pages/top_up/data_metode_top_up.dart';
 import 'package:provider/provider.dart';
 
 class InstruksiTopUpTunaiPage extends StatelessWidget {

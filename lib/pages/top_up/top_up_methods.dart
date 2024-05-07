@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mopay_ewallet/data/data_metode_top_up.dart';
+import 'package:mopay_ewallet/pages/top_up/data_metode_top_up.dart';
 import 'package:mopay_ewallet/pages/top_up/top_up_each_method.dart';
 import 'package:mopay_ewallet/pages/top_up/top_up_services_bank.dart';
 import 'package:mopay_ewallet/pages/top_up/top_up_instruction_tunai.dart';
@@ -20,13 +20,13 @@ class PilihanMetodeTopUpPage extends StatelessWidget {
         foregroundColor: Colors.white,
         backgroundColor: const Color.fromARGB(255, 195, 44, 33),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height -
-              AppBar().preferredSize.height -
-              MediaQuery.of(context).padding.top,
-          color: Colors.grey.withOpacity(0.1),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height -
+            AppBar().preferredSize.height -
+            MediaQuery.of(context).padding.top,
+        color: Colors.grey.withOpacity(0.1),
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

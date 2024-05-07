@@ -3,8 +3,11 @@ import 'package:mopay_ewallet/data/data_bank.dart';
 import 'package:mopay_ewallet/data/data_history_transaksi.dart';
 import 'package:mopay_ewallet/data/data_metode_top_up.dart';
 import 'package:mopay_ewallet/data/data_saldo.dart';
+import 'package:mopay_ewallet/data/data_tips.dart';
 import 'package:mopay_ewallet/data/data_transfer.dart';
 import 'package:mopay_ewallet/pages/home.dart';
+import 'package:mopay_ewallet/pages/home/home_page.dart';
+import 'package:mopay_ewallet/utama/utamabaru.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -24,6 +27,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => DataTransferProvider()),
         ChangeNotifierProvider(create: (context) => DataBankProvider()),
         ChangeNotifierProvider(create: (context) => DataHistoryProvider()),
+        ChangeNotifierProvider(create: (context) => DataTipsSliderProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
