@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mopay_ewallet/data/data_saldo.dart';
+import 'package:mopay_ewallet/data/data_user_mopay.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_confirmation.dart';
 import 'package:provider/provider.dart';
 import 'package:mopay_ewallet/format/currency.dart';
@@ -25,7 +26,7 @@ class _TransferToMopayState extends State<TransferToMopay> {
 
   @override
   Widget build(BuildContext context) {
-    int saldo = Provider.of<SaldoProvider>(context).saldo;
+    int saldo = Provider.of<MopayUserDataProvider>(context).currentUser.saldo;
 
     return Scaffold(
       appBar: AppBar(
@@ -58,8 +59,8 @@ class _TransferToMopayState extends State<TransferToMopay> {
                 ),
                 child: Row(
                   children: [
-                    Image.network(
-                      'https://1.bp.blogspot.com/-hg2Q7RJB540/X3L1-vg-yNI/AAAAAAAAAdI/Nsb-hcTRKcgECx4E4u4sLnvnJeDhuDQdgCLcBGAsYHQ/s2916/Logo%2BBank%2BBCA.png',
+                    Image.asset(
+                      'assets/images/logo-mopay/logo2.png',
                       width: 50,
                     ),
                     const SizedBox(width: 20),

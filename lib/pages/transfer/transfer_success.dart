@@ -32,15 +32,26 @@ class TransferSuccessPage extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 20),
-                  Icon(Icons.check_circle,
-                      color: Colors.greenAccent[700], size: 100),
-                  const SizedBox(height: 5),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.greenAccent[700],
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: const Icon(
+                      Icons.check,
+                      color: Colors.white,
+                      size: 70,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   Text(
                     'Transaksi Berhasil',
                     style: TextStyle(
-                        color: Colors.greenAccent[700],
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500),
+                      color: Colors.greenAccent[700],
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   const SizedBox(height: 10),
                   Text(
@@ -262,8 +273,7 @@ class TransferSuccessPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (context) => const HomePage 
-                              ()),
+                              builder: (context) => const HomePage()),
                         );
                       },
                       icon: const Icon(Icons.close),

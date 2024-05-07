@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/data/data_history_transaksi.dart';
 import 'package:mopay_ewallet/data/data_saldo.dart';
 import 'package:mopay_ewallet/data/data_transfer.dart';
+import 'package:mopay_ewallet/data/data_user_mopay.dart';
 import 'package:mopay_ewallet/format/datetime.dart';
+import 'package:mopay_ewallet/pages/transfer/transfer_failed.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_success.dart';
 import 'package:provider/provider.dart';
 import 'package:mopay_ewallet/format/currency.dart';
@@ -23,6 +25,8 @@ class ConfirmationDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MopayUserData currentUser =
+        Provider.of<MopayUserDataProvider>(context).currentUser;
     int biayaTransaksi = tujuanTransfer == 'MoPay' ? 0 : 2500;
 
     return Dialog(
@@ -199,31 +203,39 @@ class ConfirmationDialog extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Provider.of<SaldoProvider>(context, listen: false)
-                        .subtractSaldo(nominal + biayaTransaksi);
-                    Provider.of<DataTransferProvider>(context, listen: false)
-                        .tambahData(
-                      "Person 1",
-                      getCurrentDate(),
-                      getCurrentTime(),
-                      tujuanTransfer,
-                      nomor,
-                      nominal,
-                      pesan,
-                    );
-                    Provider.of<DataHistoryProvider>(context, listen: false)
-                        .tambahDataTransferKeluar(
-                            '404-nanti mau diganti',
-                            "Person 1",
-                            nominal,
-                            getCurrentDate(),
-                            getCurrentTime(),
-                            tujuanTransfer,
-                            nomor,
-                            pesan);
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const TransferSuccessPage(),
-                    ));
+                    if (currentUser.noTelp != nomor) {
+                      Provider.of<MopayUserDataProvider>(context, listen: false)
+                          .subtractSaldoforCurrentUser(
+                              nominal + biayaTransaksi);
+                      Provider.of<DataTransferProvider>(context, listen: false)
+                          .tambahData(
+                        "Person 1",
+                        getCurrentDate(),
+                        getCurrentTime(),
+                        tujuanTransfer,
+                        nomor,
+                        nominal,
+                        pesan,
+                      );
+                      Provider.of<DataHistoryProvider>(context, listen: false)
+                          .tambahDataTransferKeluar(
+                        '404-nanti mau diganti',
+                        "Person 1",
+                        nominal,
+                        getCurrentDate(),
+                        getCurrentTime(),
+                        tujuanTransfer,
+                        nomor,
+                        pesan,
+                      );
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const TransferSuccessPage(),
+                      ));
+                    } else {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const TransferFailedPage(),
+                      ));
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red[900],
