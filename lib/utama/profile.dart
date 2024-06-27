@@ -4,7 +4,7 @@ import 'package:mopay_ewallet/format/currency.dart';
 import 'package:mopay_ewallet/pages/authentication/login.dart';
 import 'package:mopay_ewallet/pages/change_profile/change_profile.dart';
 import 'package:mopay_ewallet/pages/history/data_history_transaksi.dart';
-import 'package:mopay_ewallet/pages/pin_code/insert_old_pin.dart';
+import 'package:mopay_ewallet/pages/pin_code/update_pin/insert_old_pin.dart';
 import 'package:mopay_ewallet/utama/setconnect.dart';
 import 'package:mopay_ewallet/utama/smartpay.dart';
 import 'package:provider/provider.dart';
@@ -88,7 +88,7 @@ class _ProfileState extends State<Profile> {
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff10200),
+                  backgroundColor: const Color(0x0ff10200),
                   fixedSize: const Size.fromWidth(150),
                 ),
                 child: const Text(
