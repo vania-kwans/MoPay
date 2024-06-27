@@ -2,6 +2,11 @@ import 'package:intl/intl.dart';
 
 DateTime now = DateTime.now();
 
+DateTime formatDate(String date) {
+  DateTime formattedDate = DateFormat('dd MMM yyyy').parse(date);
+  return formattedDate;
+}
+
 String getCurrentDate() {
   String formattedDate = DateFormat('dd MMM yyyy').format(now);
   return formattedDate;
@@ -12,10 +17,17 @@ String getCurrentTime() {
   return formattedTime;
 }
 
-// int getMonthOnly(String date) {
-//   int month = DateFormat('dd MMM yyyy').parse(date).month;
-//   return month;
-// }
+// Untuk dapatkan bulan dalam bentuk angka
+int getMonthOnly(String date) {
+  int month = DateFormat('dd MMM yyyy').parse(date).month;
+  return month;
+}
+
+// Untuk dapatkan tahun dalam bentuk angka
+int getYearOnly(String date) {
+  int month = DateFormat('dd MMM yyyy').parse(date).month;
+  return month;
+}
 
 String getMonthName(String date) {
   String monthName =
