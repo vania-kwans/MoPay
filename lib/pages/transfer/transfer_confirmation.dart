@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mopay_ewallet/data/data_history_transaksi.dart';
 import 'package:mopay_ewallet/data/data_saldo.dart';
+import 'package:mopay_ewallet/pages/history/data_history_transaksi.dart';
 import 'package:mopay_ewallet/data/data_transfer.dart';
 import 'package:mopay_ewallet/data/data_user_mopay.dart';
 import 'package:mopay_ewallet/format/datetime.dart';
@@ -26,7 +26,8 @@ class ConfirmationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MopayUserData currentUser =
-        Provider.of<MopayUserDataProvider>(context).currentUser;
+        Provider.of<MopayUserDataProvider>(context).currentUser!;
+    BalancesProvider balances = Provider.of<BalancesProvider>(context);
     int biayaTransaksi = tujuanTransfer == 'MoPay' ? 0 : 2500;
 
     return Dialog(
@@ -204,9 +205,7 @@ class ConfirmationDialog extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     if (currentUser.noTelp != nomor) {
-                      Provider.of<MopayUserDataProvider>(context, listen: false)
-                          .subtractSaldoforCurrentUser(
-                              nominal + biayaTransaksi);
+                      balances.subtractBalance(nominal + biayaTransaksi);
                       Provider.of<DataTransferProvider>(context, listen: false)
                           .tambahData(
                         "Person 1",

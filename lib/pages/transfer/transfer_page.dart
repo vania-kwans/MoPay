@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/data/data_transfer.dart';
-import 'package:mopay_ewallet/pages/home/home_bucket.dart';
-import 'package:mopay_ewallet/pages/home/home_page.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_to_bank.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_to_mopay.dart';
 import 'package:provider/provider.dart';

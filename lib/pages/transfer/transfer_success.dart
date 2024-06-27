@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/data/data_transfer.dart';
 import 'package:mopay_ewallet/format/currency.dart';
-import 'package:mopay_ewallet/pages/home.dart';
-import 'package:mopay_ewallet/pages/home/home_page.dart';
+import 'package:mopay_ewallet/pages/home/home_bucket.dart';
 import 'package:provider/provider.dart';
 
 class TransferSuccessPage extends StatelessWidget {
@@ -273,7 +272,7 @@ class TransferSuccessPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (context) => const HomePage()),
+                              builder: (context) => const HomeBucket()),
                         );
                       },
                       icon: const Icon(Icons.close),

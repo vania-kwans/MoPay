@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mopay_ewallet/data/data_user_mopay.dart';
-import 'package:mopay_ewallet/pages/transfer/data_bank.dart';
 import 'package:mopay_ewallet/data/data_saldo.dart';
+import 'package:mopay_ewallet/pages/transfer/data_bank.dart';
 import 'package:mopay_ewallet/format/currency.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_confirmation.dart';
 import 'package:provider/provider.dart';
@@ -31,8 +30,9 @@ class _TransferToBankState extends State<TransferToBank> {
 
   @override
   Widget build(BuildContext context) {
-    int saldo = Provider.of<MopayUserDataProvider>(context).currentUser.saldo;
-    String formattedSaldo = formatToIndonesianCurrency(saldo);
+    Balances? currentBalances =
+        Provider.of<BalancesProvider>(context).currentBalance;
+    String formattedSaldo = formatToIndonesianCurrency(currentBalances!.saldo);
     List dataBank = Provider.of<DataBankProvider>(context).dataBank;
 
     return Scaffold(
@@ -113,7 +113,9 @@ class _TransferToBankState extends State<TransferToBank> {
                   label: const Text('Nomor Rekening'),
                   hintText: 'Nomor Rekening',
                   hintStyle: const TextStyle(
-                      color: Colors.grey, fontWeight: FontWeight.w400),
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w400,
+                  ),
                   enabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: Colors.black87,
@@ -202,13 +204,14 @@ class _TransferToBankState extends State<TransferToBank> {
                               if (nominalInt < 10000) {
                                 _isNominalValid = false;
                                 _errorTextNominal = 'Minimal transfer Rp10.000';
-                              } else if (nominalInt > saldo) {
+                              } else if (nominalInt > currentBalances.saldo) {
                                 _isNominalValid = false;
                                 _errorTextNominal = 'Saldo tidak mencukupi';
-                              } else if (nominalInt > saldo - biayaTransaksi) {
+                              } else if (nominalInt >
+                                  currentBalances.saldo - biayaTransaksi) {
                                 _isNominalValid = false;
                                 _errorTextNominal =
-                                    'Maks. Transfer Rp${formatToIndonesianCurrency(saldo - biayaTransaksi)} (Biaya Transaksi Rp${formatToIndonesianCurrency(biayaTransaksi)})';
+                                    'Maks. Transfer Rp${formatToIndonesianCurrency(currentBalances.saldo - biayaTransaksi)} (Biaya Transaksi Rp${formatToIndonesianCurrency(biayaTransaksi)})';
                               } else {
                                 _isNominalValid = true;
                               }
