@@ -96,18 +96,14 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         const SizedBox(height: 25.0),
                         TextFormField(
-                          controller: phoneNumberController,
+                          controller: _phoneNumberController,
                           keyboardType: TextInputType.phone,
-                          // onChanged: (value) {
-                          //   _formkey.currentState?.validate();
-                          // },
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Please Enter a Phone Number";
-                            } else if (!RegExp(
-                                    r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$')
-                                .hasMatch(value)) {
-                              return "Mohon masukkan nomor telepon yang valid";
                             }
                             return null;
                           },
@@ -129,10 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const SizedBox(height: 30),
                         TextFormField(
-                          controller: passController,
-                          // onChanged: (value) {
-                          //   _formkey.currentState?.validate();
-                          // },
+                          controller: _passController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Anda belum mengisi password';
