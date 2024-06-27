@@ -1,64 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:mopay_ewallet/data/data_user_mopay.dart';
-import 'package:mopay_ewallet/utama/profile.dart';
+import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
+import 'package:mopay_ewallet/pages/home/home_bucket.dart';
+import 'package:mopay_ewallet/pages/pin_code/widget/keyboard_number.dart';
+import 'package:mopay_ewallet/utils/app_error.dart';
 import 'package:provider/provider.dart';
 
-class InsertNewPinConfirmation extends StatefulWidget {
-  final String newPin;
-  const InsertNewPinConfirmation({super.key, required this.newPin});
+class InsertPin extends StatefulWidget {
+  const InsertPin({super.key});
 
   @override
-  State<InsertNewPinConfirmation> createState() =>
-      _InsertNewPinConfirmationState();
+  State<InsertPin> createState() => _InsertPinState();
 }
 
-class _InsertNewPinConfirmationState extends State<InsertNewPinConfirmation> {
+class _InsertPinState extends State<InsertPin> {
   String enteredPin = "";
   bool isPinVisible = false;
+  bool isPinValid = false;
 
-  Widget keyboardNumber(int number) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 50),
-      child: TextButton(
-        onPressed: () {
-          setState(() {
-            if (enteredPin.length < 6) {
-              enteredPin += number.toString();
-            }
-            if (enteredPin.length == 6) {
-              if (widget.newPin == enteredPin) {
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => const Profile()),
-                    (route) => false);
-                setState(() {
-                  Provider.of<MopayUserDataProvider>(context, listen: false)
-                      .currentUser!
-                      .nomorPin = enteredPin;
-                });
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text('PIN tidak sesuai. Silakan coba lagi.'),
-                    backgroundColor: Colors.red[700],
-                    behavior: SnackBarBehavior.floating, // Floating behavior
-                    elevation: 10,
-                  ),
-                );
-                enteredPin = "";
-              }
-            }
-          });
-        },
-        child: Text(
-          number.toString(),
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-          ),
-        ),
-      ),
-    );
+  late AuthBloc bloc;
+
+  @override
+  void initState() {
+    bloc = Provider.of<AuthBloc>(context, listen: false);
+    super.initState();
   }
 
   @override
@@ -66,7 +30,7 @@ class _InsertNewPinConfirmationState extends State<InsertNewPinConfirmation> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Konfirmasi PIN'),
+        title: const Text('PIN MoPay Kamu'),
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -80,14 +44,33 @@ class _InsertNewPinConfirmationState extends State<InsertNewPinConfirmation> {
             const SizedBox(height: 10),
             const Center(
               child: Text(
-                "Masukkan 6 digit PIN baru kamu. PIN adalah password rahasia yang akan digunakan untuk verifikasi sebelum aktivitas dna/atau transaksi penting diproses.",
+                'Masukkan PIN Kamu',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Center(
+              child: Text(
+                "Demi keamanan, mohon masukkan PIN Anda.",
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.black87,
                 ),
               ),
             ),
-
+            const Center(
+              child: Text(
+                "Lupa PIN?",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.blue,
+                ),
+              ),
+            ),
             const SizedBox(height: 40),
             // Area kode PIN
             Row(
@@ -122,9 +105,7 @@ class _InsertNewPinConfirmationState extends State<InsertNewPinConfirmation> {
                 );
               }),
             ),
-
             const SizedBox(height: 10),
-
             // Button untuk lihat dan sembunyikan PIN
             TextButton(
               onPressed: () {
@@ -137,24 +118,18 @@ class _InsertNewPinConfirmationState extends State<InsertNewPinConfirmation> {
                 style: const TextStyle(fontSize: 14, color: Colors.black54),
               ),
             ),
-
             // Keyboard area
             for (var i = 0; i < 3; i++)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(
-                        3,
-                        (index) => keyboardNumber(1 + 3 * i + index),
-                      ).toList(),
-                    ),
-                  ],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(
+                    3,
+                    (index) => keyboardNumber(1 + 3 * i + index),
+                  ).toList(),
                 ),
               ),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Row(
@@ -199,9 +174,46 @@ class _InsertNewPinConfirmationState extends State<InsertNewPinConfirmation> {
                 ],
               ),
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextButton(
+                onPressed: () async {
+                  await bloc.logout();
+                },
+                child: const Text("Keluar dari akun",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.red)))
           ],
         ),
       ),
     );
+  }
+
+  Widget keyboardNumber(int number) {
+    return KeyboardNumber(
+        onPressed: () async {
+          if (enteredPin.length < 6) {
+            setState(() => enteredPin += number.toString());
+            return;
+          }
+
+          AppError? error = await bloc.verifyPin(enteredPin);
+          if (!mounted) return;
+          if (error != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(error.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+            return;
+          }
+
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return const HomeBucket();
+          }));
+        },
+        number: number);
   }
 }

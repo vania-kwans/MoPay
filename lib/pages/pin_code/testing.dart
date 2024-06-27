@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mopay_ewallet/data/data_user_mopay.dart';
-import 'package:mopay_ewallet/pages/pin_code/insert_new_pin.dart';
-import 'package:provider/provider.dart';
+import 'package:mopay_ewallet/pages/pin_code/update_pin/insert_new_pin.dart';
 
 class InsertOldPinPage2 extends StatefulWidget {
   const InsertOldPinPage2({super.key});
@@ -24,8 +22,8 @@ class _InsertOldPinPage2State extends State<InsertOldPinPage2> {
             if (enteredPin.length < 6) {
               enteredPin += number.toString();
             } else if (enteredPin.length == 6) {
-              isPinValid = Provider.of<MopayUserDataProvider>(context)
-                  .validatePin(enteredPin);
+              // isPinValid = Provider.of<MopayUserDataProvider>(context)
+              //     .validatePin(enteredPin);
               if (isPinValid) {
                 Navigator.of(context).push(
                   MaterialPageRoute(

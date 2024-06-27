@@ -1,74 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:mopay_ewallet/data/data_user_mopay.dart';
-import 'package:mopay_ewallet/pages/pin_code/insert_new_pin.dart';
-import 'package:provider/provider.dart';
+import 'package:mopay_ewallet/pages/pin_code/update_pin/insert_new_pin_confirmation.dart';
+import 'package:mopay_ewallet/pages/pin_code/widget/keyboard_number.dart';
 
-class InsertOldPinPage extends StatefulWidget {
-  const InsertOldPinPage({super.key});
+class InsertNewPinPage extends StatefulWidget {
+  final String? oldPin;
+  const InsertNewPinPage({super.key, this.oldPin});
 
   @override
-  State<InsertOldPinPage> createState() => _InsertOldPinPageState();
+  State<InsertNewPinPage> createState() => _InsertNewPinPageState();
 }
 
-class _InsertOldPinPageState extends State<InsertOldPinPage> {
+class _InsertNewPinPageState extends State<InsertNewPinPage> {
   String enteredPin = "";
   bool isPinVisible = false;
-  bool isPinValid = false;
-
-  Widget keyboardNumber(int number) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 50),
-      child: TextButton(
-        onPressed: () {
-          setState(() {
-            if (enteredPin.length < 6) {
-              enteredPin += number.toString();
-            }
-            if (enteredPin.length == 6) {
-              isPinValid =
-                  Provider.of<MopayUserDataProvider>(context, listen: false)
-                      .validatePin(enteredPin);
-
-              if (isPinValid) {
-                setState(() {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const InsertNewPinPage(),
-                    ),
-                  );
-                });
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text('PIN tidak sesuai. Silakan coba lagi.'),
-                    backgroundColor: Colors.red[700],
-                    behavior: SnackBarBehavior.floating, // Floating behavior
-                    elevation: 10,
-                  ),
-                );
-                enteredPin = "";
-              }
-            }
-          });
-        },
-        child: Text(
-          number.toString(),
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-          ),
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('PIN MoPay Kamu'),
+        title: const Text('Perbarui PIN'),
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -80,35 +31,15 @@ class _InsertOldPinPageState extends State<InsertOldPinPage> {
           physics: const BouncingScrollPhysics(),
           children: [
             const SizedBox(height: 10),
-            const Center(
-              child: Text(
-                'Masukkan PIN Kamu',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
+            const Text(
+              "Masukkan 6 digit PIN baru kamu. PIN adalah password rahasia yang akan digunakan untuk verifikasi sebelum aktivitas dna/atau transaksi penting diproses.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
               ),
             ),
-            const SizedBox(height: 20),
-            const Center(
-              child: Text(
-                "Demi keamanan, mohon masukkan PIN Anda.",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.black87,
-                ),
-              ),
-            ),
-            const Center(
-              child: Text(
-                "Lupa PIN?",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.blue,
-                ),
-              ),
-            ),
+
             const SizedBox(height: 40),
             // Area kode PIN
             Row(
@@ -143,7 +74,9 @@ class _InsertOldPinPageState extends State<InsertOldPinPage> {
                 );
               }),
             ),
+
             const SizedBox(height: 10),
+
             // Button untuk lihat dan sembunyikan PIN
             TextButton(
               onPressed: () {
@@ -156,18 +89,24 @@ class _InsertOldPinPageState extends State<InsertOldPinPage> {
                 style: const TextStyle(fontSize: 14, color: Colors.black54),
               ),
             ),
+
             // Keyboard area
             for (var i = 0; i < 3; i++)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(
-                    3,
-                    (index) => keyboardNumber(1 + 3 * i + index),
-                  ).toList(),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: List.generate(
+                        3,
+                        (index) => keyboardNumber(1 + 3 * i + index),
+                      ).toList(),
+                    ),
+                  ],
                 ),
               ),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Row(
@@ -216,5 +155,25 @@ class _InsertOldPinPageState extends State<InsertOldPinPage> {
         ),
       ),
     );
+  }
+
+  Widget keyboardNumber(int number) {
+    return KeyboardNumber(
+        onPressed: () async {
+          if (enteredPin.length < 6) {
+            enteredPin += number.toString();
+          }
+          if (enteredPin.length == 6) {
+            if (widget.oldPin != null) {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => InsertNewPinConfirmation(
+                      oldPin: widget.oldPin, newPin: enteredPin),
+                ),
+              );
+            }
+          }
+        },
+        number: number);
   }
 }

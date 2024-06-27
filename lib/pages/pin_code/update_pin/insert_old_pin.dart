@@ -1,46 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:mopay_ewallet/pages/pin_code/insert_new_pin_confirmation.dart';
+import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
+import 'package:mopay_ewallet/pages/pin_code/update_pin/insert_new_pin.dart';
+import 'package:mopay_ewallet/pages/pin_code/widget/keyboard_number.dart';
+import 'package:mopay_ewallet/utils/app_error.dart';
+import 'package:provider/provider.dart';
 
-class InsertNewPinPage extends StatefulWidget {
-  const InsertNewPinPage({super.key});
+class InsertOldPinPage extends StatefulWidget {
+  const InsertOldPinPage({super.key});
 
   @override
-  State<InsertNewPinPage> createState() => _InsertNewPinPageState();
+  State<InsertOldPinPage> createState() => _InsertOldPinPageState();
 }
 
-class _InsertNewPinPageState extends State<InsertNewPinPage> {
+class _InsertOldPinPageState extends State<InsertOldPinPage> {
   String enteredPin = "";
   bool isPinVisible = false;
+  bool isPinValid = false;
 
-  Widget keyboardNumber(int number) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 50),
-      child: TextButton(
-        onPressed: () {
-          setState(() {
-            if (enteredPin.length < 6) {
-              enteredPin += number.toString();
-            }
-            if (enteredPin.length == 6) {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) =>
-                      InsertNewPinConfirmation(newPin: enteredPin),
-                ),
-              );
-            }
-          });
-        },
-        child: Text(
-          number.toString(),
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-          ),
-        ),
-      ),
-    );
+  late AuthBloc bloc;
+
+  @override
+  void initState() {
+    bloc = Provider.of<AuthBloc>(context, listen: false);
+    super.initState();
   }
 
   @override
@@ -48,7 +30,7 @@ class _InsertNewPinPageState extends State<InsertNewPinPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Perbarui PIN'),
+        title: const Text('PIN MoPay Kamu'),
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -60,15 +42,35 @@ class _InsertNewPinPageState extends State<InsertNewPinPage> {
           physics: const BouncingScrollPhysics(),
           children: [
             const SizedBox(height: 10),
-            Text(
-              "Masukkan 6 digit PIN baru kamu. PIN adalah password rahasia yang akan digunakan untuk verifikasi sebelum aktivitas dna/atau transaksi penting diproses.",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.black87,
+            const Center(
+              child: Text(
+                'Masukkan PIN Kamu',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
               ),
             ),
-
+            const SizedBox(height: 20),
+            const Center(
+              child: Text(
+                "Demi keamanan, mohon masukkan PIN Anda.",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
+            const Center(
+              child: Text(
+                "Lupa PIN?",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.blue,
+                ),
+              ),
+            ),
             const SizedBox(height: 40),
             // Area kode PIN
             Row(
@@ -103,9 +105,7 @@ class _InsertNewPinPageState extends State<InsertNewPinPage> {
                 );
               }),
             ),
-
             const SizedBox(height: 10),
-
             // Button untuk lihat dan sembunyikan PIN
             TextButton(
               onPressed: () {
@@ -118,24 +118,18 @@ class _InsertNewPinPageState extends State<InsertNewPinPage> {
                 style: const TextStyle(fontSize: 14, color: Colors.black54),
               ),
             ),
-
             // Keyboard area
             for (var i = 0; i < 3; i++)
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(
-                        3,
-                        (index) => keyboardNumber(1 + 3 * i + index),
-                      ).toList(),
-                    ),
-                  ],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(
+                    3,
+                    (index) => keyboardNumber(1 + 3 * i + index),
+                  ).toList(),
                 ),
               ),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Row(
@@ -184,5 +178,34 @@ class _InsertNewPinPageState extends State<InsertNewPinPage> {
         ),
       ),
     );
+  }
+
+  Widget keyboardNumber(int number) {
+    return KeyboardNumber(
+        onPressed: () async {
+          if (enteredPin.length < 6) {
+            setState(() => enteredPin += number.toString());
+            return;
+          }
+
+          AppError? error = await bloc.verifyPin(enteredPin);
+          if (!mounted) return;
+          if (error != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(error.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+            return;
+          }
+
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return InsertNewPinPage(
+              oldPin: enteredPin,
+            );
+          }));
+        },
+        number: number);
   }
 }
