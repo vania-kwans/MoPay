@@ -40,8 +40,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    List userData = Provider.of<MopayUserDataProvider>(context).data;
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
@@ -106,7 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         TextFormField(
-                          controller: userController,
+                          controller: _userController,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return "Please Create Your UserName";
@@ -133,25 +131,18 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
-                          controller: phoneController,
+                          controller: _phoneController,
                           keyboardType: TextInputType.phone,
                           // onChanged: (value) {
                           //   _formkey.currentState?.validate();
                           // },
                           validator: (value) {
-                            List matchedPhoneNumber = userData
-                                .where((user) =>
-                                    user.noTelp == phoneController.text)
-                                .toList();
-
                             if (value!.isEmpty) {
                               return "Please Enter a Phone Number";
                             } else if (!RegExp(
                                     r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$')
                                 .hasMatch(value)) {
                               return "Please Enter a Valid Phone Number";
-                            } else if (matchedPhoneNumber.isNotEmpty) {
-                              return 'Phone number already used';
                             }
                             return null;
                           },
@@ -161,6 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black)),
                             prefixIcon: Icon(Icons.phone_android),
+                            prefixText: "+62",
                             hintText: ('Insert Your Phone Number'),
                             label: Text(
                               'Phone Number',
@@ -174,23 +166,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         const SizedBox(height: 20),
                         TextFormField(
                           validator: (value) {
-                            List matchedEmail = userData
-                                .where((user) =>
-                                    user.email == emailController.text)
-                                .toList();
-
                             if (value!.isEmpty) {
                               return "Please Enter Your Email";
                             } else if (!RegExp(
                                     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                                 .hasMatch(value)) {
                               return "Please Enter a Valid Email";
-                            } else if (matchedEmail.isNotEmpty) {
-                              return "Email already used";
                             }
                             return null;
                           },
-                          controller: emailController,
+                          controller: _emailController,
                           decoration: const InputDecoration(
                               enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey)),
@@ -208,7 +193,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         const SizedBox(height: 20),
                         TextFormField(
-                          controller: passController,
+                          controller: _passController,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please Enter Your Password';
