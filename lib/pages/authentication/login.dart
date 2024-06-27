@@ -49,8 +49,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    List userData = Provider.of<MopayUserDataProvider>(context).data;
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
@@ -233,31 +231,31 @@ class _LoginPageState extends State<LoginPage> {
                         // ),
                         const SizedBox(height: 25.0),
                         ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formkey.currentState!.validate()) {
-                              String phoneNumber = phoneNumberController.text;
-                              String password = passController.text;
+                              String phoneNumber = _phoneNumberController.text;
+                              String password = _passController.text;
 
-                              int matchedUserIndex = userData.indexWhere(
-                                  (user) =>
-                                      user.noTelp == phoneNumber &&
-                                      user.password == password);
+                              AppError? error =
+                                  await bloc.login(phoneNumber, password);
 
-                              if (matchedUserIndex == -1) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                        'Invalid phone number or password'),
-                                    backgroundColor: Colors.grey,
-                                  ),
-                                );
-                              } else {
-                                Provider.of<MopayUserDataProvider>(context,
-                                        listen: false)
-                                    .setCurrentUser(matchedUserIndex);
+                              await Store.saveLoginPreferences(
+                                  rememberPassword, phoneNumber, password);
+
+                              if (!context.mounted) return;
+                              if (error != null) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text(error.message),
+                                  backgroundColor: Colors.red,
+                                ));
+                              }
+
+                              if (await Store.getToken() != null) {
+                                if (!context.mounted) return;
                                 Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                    builder: (context) => const HomeBucket(),
+                                    builder: (context) => const InsertPin(),
                                   ),
                                 );
                               }
