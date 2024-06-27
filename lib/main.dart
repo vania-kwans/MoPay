@@ -1,7 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
+import 'package:mopay_ewallet/bloc/auth/auth_state.dart';
 import 'package:mopay_ewallet/data/data_saldo.dart';
 import 'package:mopay_ewallet/data/data_user_mopay.dart';
+import 'package:mopay_ewallet/pages/pin_code/insert_pin.dart';
 import 'package:mopay_ewallet/pages/transfer/data_bank.dart';
 import 'package:mopay_ewallet/pages/history/data_history_transaksi.dart';
 import 'package:mopay_ewallet/pages/top_up/data_metode_top_up.dart';
@@ -14,7 +18,22 @@ import 'package:provider/provider.dart';
 
 void main() async {
   await dotenv.load();
-  runApp(const MyApp());
+  if (kDebugMode) {
+    print("BASE_URL: ${dotenv.env['BASE_URL']}");
+  }
+
+  final authBloc = AuthBloc();
+
+  await authBloc.checkLogin();
+
+  Widget app = MultiProvider(
+    providers: [
+      Provider<AuthBloc>.value(value: authBloc),
+    ],
+    child: const MyApp(),
+  );
+
+  runApp(app);
 }
 
 class MyApp extends StatelessWidget {
@@ -41,7 +60,21 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const LoginPage(),
+        home: StreamBuilder<AuthState>(
+            stream: context.read<AuthBloc>().controller,
+            builder: (context, snapshot) {
+              if (snapshot.data?.isLoading ?? false || !snapshot.hasData) {
+                return const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+              if (snapshot.data?.isAuthenticated ?? false) {
+                return const InsertPin();
+              }
+              return const LoginPage();
+            }),
         routes: {
           '/login': (context) => const LoginPage(),
           '/register': (context) => const RegisterPage(),
