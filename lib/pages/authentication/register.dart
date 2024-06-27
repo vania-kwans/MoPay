@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mopay_ewallet/data/data_user_mopay.dart';
-import 'package:mopay_ewallet/pages/home/home_bucket.dart';
+import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
+import 'package:mopay_ewallet/bloc/auth/auth_state.dart';
+import 'package:mopay_ewallet/pages/pin_code/update_pin/insert_new_pin.dart';
+import 'package:mopay_ewallet/utils/app_error.dart';
 import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -11,13 +13,30 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController userController = TextEditingController();
-  TextEditingController passController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _userController = TextEditingController();
+  final _passController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
   bool _isSecurePassword = true;
   bool rememberPassword = true;
+
+  late AuthBloc bloc;
+
+  @override
+  void initState() {
+    bloc = context.read<AuthBloc>();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _userController.dispose();
+    _passController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
