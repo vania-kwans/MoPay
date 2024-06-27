@@ -250,28 +250,73 @@ class _RegisterPageState extends State<RegisterPage> {
                         //     }
                         //   },
                         // ),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (_formkey.currentState!.validate()) {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => const HomeBucket()),
+                        StreamBuilder<AuthState>(
+                            stream: bloc.controller,
+                            builder: (context, snapshot) {
+                              bool isLoading = !snapshot.hasData ||
+                                  (snapshot.data?.isLoading ?? false);
+                              return ElevatedButton(
+                                onPressed: isLoading
+                                    ? null
+                                    : () async {
+                                        if (_formkey.currentState!.validate()) {
+                                          String? phoneNumber =
+                                              _phoneController.text;
+                                          String? email = _emailController.text;
+                                          String? password =
+                                              _passController.text;
+                                          String? username =
+                                              _userController.text;
+
+                                          AppError? error = await bloc.register(
+                                              email: email,
+                                              password: password,
+                                              phoneNumber: phoneNumber,
+                                              name: username);
+
+                                          if (!context.mounted) return;
+
+                                          if (error != null) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(error.message),
+                                                backgroundColor: Colors.red,
+                                              ),
+                                            );
+                                            return;
+                                          }
+
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                  "Registration Successful"),
+                                              backgroundColor: Colors.green,
+                                            ),
+                                          );
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const InsertNewPinPage(),
+                                              ));
+                                        }
+                                      },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  backgroundColor: Colors.red,
+                                  elevation: 5,
+                                  fixedSize: Size.fromWidth(
+                                      MediaQuery.of(context).size.width),
+                                  padding: const EdgeInsets.all(20),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ),
+                                child: const Text("Sign In"),
                               );
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.red,
-                            elevation: 5,
-                            fixedSize: Size.fromWidth(
-                                MediaQuery.of(context).size.width),
-                            padding: const EdgeInsets.all(20),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                          child: const Text("Sign In"),
-                        ),
+                            }),
                         const SizedBox(height: 25),
 
                         Row(
