@@ -286,14 +286,6 @@ class MopayUserDataProvider extends ChangeNotifier {
     }
   }
 
-  bool validatePin(String enteredPin) {
-    if (enteredPin == currentUser!.nomorPin) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   void updateProfile() {
     if (currentUser != null) {
       currentUser!.updatedAt = DateTime.now();
