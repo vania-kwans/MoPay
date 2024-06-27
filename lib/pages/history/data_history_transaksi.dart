@@ -72,10 +72,40 @@ class DataTopUp extends DataTransaksi {
 // Saldo di Home harusnya Rp547.500
 class DataHistoryProvider extends ChangeNotifier {
   List<DataTransaksi> dataHistory = [
+    DataTransferKeluar(
+      noTransaksi: 'MTO3003202411',
+      namaPenerima: "PT Tirta Investama",
+      tanggal: "13 May 2024",
+      waktu: "12:04",
+      transferKe: "BCA",
+      noPenerima: "151171717",
+      nominal: 202500,
+      pesan: 'Uang galon',
+    ),
     DataTransferMasuk(
       noTransaksi: 'MTI3003202411',
       nominal: 500000,
-      tanggal: "02 Apr 2024",
+      tanggal: "12 May 2024",
+      waktu: "17.12",
+      transferDari: "Maybank",
+      namaPengirim: "Ibu Juni",
+      noPenerima: "1234567890",
+      pesan: 'Uang kue kemarin ya',
+    ),
+    DataTransferMasuk(
+      noTransaksi: 'MTI3003202411',
+      nominal: 500000,
+      tanggal: "7 May 2024",
+      waktu: "17.12",
+      transferDari: "Maybank",
+      namaPengirim: "Ibu Juni",
+      noPenerima: "1234567890",
+      pesan: 'Uang kue kemarin ya',
+    ),
+    DataTransferMasuk(
+      noTransaksi: 'MTI3003202411',
+      nominal: 500000,
+      tanggal: "3 May 2024",
       waktu: "17.12",
       transferDari: "Maybank",
       namaPengirim: "Ibu Juni",
@@ -105,7 +135,14 @@ class DataHistoryProvider extends ChangeNotifier {
     DataTopUp(
       noTransaksi: 'MTU1902109876',
       nominal: 300000,
-      tanggal: "02 Feb 2024",
+      tanggal: "02 Feb 2023",
+      waktu: "12.48",
+      topUpDari: "ATM BCA",
+    ),
+    DataTopUp(
+      noTransaksi: 'MTU1902109876',
+      nominal: 300000,
+      tanggal: "02 Feb 2023",
       waktu: "12.48",
       topUpDari: "ATM BCA",
     ),

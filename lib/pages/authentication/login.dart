@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mopay_ewallet/data/data_saldo.dart';
 import 'package:mopay_ewallet/data/data_user_mopay.dart';
-import 'package:mopay_ewallet/pages/authentication/register.dart';
 import 'package:mopay_ewallet/pages/home/home_bucket.dart';
-import 'package:mopay_ewallet/pages/home/home_page.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -24,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent, // Set status bar color to transparent
+      statusBarColor: Colors.transparent,
     ));
   }
 

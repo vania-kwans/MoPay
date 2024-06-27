@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/pages/home/home_bucket.dart';
-import 'package:mopay_ewallet/pages/transfer/transfer_page.dart';
 
 class TransferFailedPage extends StatelessWidget {
   const TransferFailedPage({super.key});

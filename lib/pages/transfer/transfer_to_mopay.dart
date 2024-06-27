@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mopay_ewallet/data/data_saldo.dart';
-import 'package:mopay_ewallet/data/data_user_mopay.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_confirmation.dart';
 import 'package:provider/provider.dart';
 import 'package:mopay_ewallet/format/currency.dart';
@@ -26,7 +25,8 @@ class _TransferToMopayState extends State<TransferToMopay> {
 
   @override
   Widget build(BuildContext context) {
-    int saldo = Provider.of<MopayUserDataProvider>(context).currentUser.saldo;
+    Balances? currentBalances =
+        Provider.of<BalancesProvider>(context).currentBalance;
 
     return Scaffold(
       appBar: AppBar(
@@ -71,7 +71,8 @@ class _TransferToMopayState extends State<TransferToMopay> {
                           'MOPAY Cash',
                           style: TextStyle(fontWeight: FontWeight.w600),
                         ),
-                        Text('Saldo: Rp${formatToIndonesianCurrency(saldo)}'),
+                        Text(
+                            'Saldo: Rp${formatToIndonesianCurrency(currentBalances!.saldo)}'),
                       ],
                     ),
                   ],
@@ -170,7 +171,7 @@ class _TransferToMopayState extends State<TransferToMopay> {
                               if (intValue < 10000) {
                                 _isNominalValid = false;
                                 _errorTextNominal = 'Minimal transfer Rp10.000';
-                              } else if (intValue > saldo) {
+                              } else if (intValue > currentBalances.saldo) {
                                 _isNominalValid = false;
                                 _errorTextNominal = 'Saldo tidak mencukupi';
                               } else {

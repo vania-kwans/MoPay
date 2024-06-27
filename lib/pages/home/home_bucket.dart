@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mopay_ewallet/pages/history.dart';
+import 'package:mopay_ewallet/pages/history/history.dart';
 import 'package:mopay_ewallet/pages/home/home_page.dart';
-import 'package:mopay_ewallet/pages/top_up/top_up_methods.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_page.dart';
+import 'package:mopay_ewallet/utama/profile.dart';
 
 class HomeBucket extends StatefulWidget {
   const HomeBucket({super.key});
@@ -18,7 +18,7 @@ class _HomeBucketState extends State<HomeBucket> {
     HomePage(),
     HistoryPage(),
     TransferPage(),
-    PilihanMetodeTopUpPage()
+    Profile(),
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -37,9 +37,9 @@ class _HomeBucketState extends State<HomeBucket> {
           shape: const CircleBorder(),
           backgroundColor: const Color(0xff850000),
           foregroundColor: Colors.white,
-          child: const Icon(
+          child: Icon(
             Icons.qr_code_2,
-            size: 40,
+            size: MediaQuery.of(context).size.width / 4 * 0.5,
           ),
         ),
       ),
@@ -79,6 +79,8 @@ class _HomeBucketState extends State<HomeBucket> {
                               color: currentTab == 0
                                   ? const Color(0xff850000)
                                   : Colors.grey,
+                              size:
+                                  MediaQuery.of(context).size.width / 4 * 0.25,
                             ),
                             Text(
                               'Home',
@@ -86,6 +88,9 @@ class _HomeBucketState extends State<HomeBucket> {
                                 color: currentTab == 0
                                     ? const Color(0xff850000)
                                     : Colors.grey,
+                                fontSize: MediaQuery.of(context).size.width /
+                                    4 *
+                                    0.125,
                               ),
                             ),
                           ],
@@ -110,6 +115,8 @@ class _HomeBucketState extends State<HomeBucket> {
                               color: currentTab == 1
                                   ? const Color(0xff850000)
                                   : Colors.grey,
+                              size:
+                                  MediaQuery.of(context).size.width / 4 * 0.25,
                             ),
                             Text(
                               'History',
@@ -117,6 +124,9 @@ class _HomeBucketState extends State<HomeBucket> {
                                 color: currentTab == 1
                                     ? const Color(0xff850000)
                                     : Colors.grey,
+                                fontSize: MediaQuery.of(context).size.width /
+                                    4 *
+                                    0.125,
                               ),
                             ),
                           ],
@@ -146,6 +156,7 @@ class _HomeBucketState extends State<HomeBucket> {
                         color: currentTab == 2
                             ? const Color(0xff850000)
                             : Colors.grey,
+                        size: MediaQuery.of(context).size.width / 4 * 0.25,
                       ),
                       Text(
                         'Notification',
@@ -153,6 +164,8 @@ class _HomeBucketState extends State<HomeBucket> {
                           color: currentTab == 2
                               ? const Color(0xff850000)
                               : Colors.grey,
+                          fontSize:
+                              MediaQuery.of(context).size.width / 4 * 0.125,
                         ),
                       ),
                     ],
@@ -177,13 +190,17 @@ class _HomeBucketState extends State<HomeBucket> {
                         color: currentTab == 3
                             ? const Color(0xff850000)
                             : Colors.grey,
+                        size: MediaQuery.of(context).size.width / 4 * 0.25,
                       ),
                       Text(
                         'Profile',
                         style: TextStyle(
-                            color: currentTab == 3
-                                ? const Color(0xff850000)
-                                : Colors.grey),
+                          color: currentTab == 3
+                              ? const Color(0xff850000)
+                              : Colors.grey,
+                          fontSize:
+                              MediaQuery.of(context).size.width / 4 * 0.125,
+                        ),
                       ),
                     ],
                   ),

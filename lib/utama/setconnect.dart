@@ -180,16 +180,16 @@ class SecuritySetting extends StatefulWidget {
 }
 
 class _SecuritySettingState extends State<SecuritySetting> {
-  bool On_off = false;
+  bool onOff = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: const IconThemeData(color: Colors.white),
           flexibleSpace: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(
               colors: [
                 Color(0xffFEA1A1),
@@ -198,7 +198,7 @@ class _SecuritySettingState extends State<SecuritySetting> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             )),
-            child: Center(
+            child: const Center(
               child: Text(
                 "Security Settings",
                 style: TextStyle(color: Colors.white),
@@ -208,20 +208,20 @@ class _SecuritySettingState extends State<SecuritySetting> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        color: Color(0xffEEEEEE),
-        padding: EdgeInsets.all(20),
+        color: const Color(0xffEEEEEE),
+        padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10)),
                 child: Column(children: [
                   TextButton.icon(
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.lock_outline_rounded,
                         color: Colors.grey,
                         size: 30,
@@ -229,7 +229,7 @@ class _SecuritySettingState extends State<SecuritySetting> {
                       label: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             "Ganti PIN",
                             style: TextStyle(color: Colors.black),
                           ),
@@ -239,19 +239,19 @@ class _SecuritySettingState extends State<SecuritySetting> {
                           )
                         ],
                       )),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
                     height: 1,
                     color: Colors.grey[200],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextButton.icon(
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Passkey(),
+                          builder: (context) => const Passkey(),
                         ));
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.vpn_key_outlined,
                         color: Colors.grey,
                         size: 30,
@@ -259,11 +259,11 @@ class _SecuritySettingState extends State<SecuritySetting> {
                       label: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Passkey",
+                          const Text("Passkey",
                               style: TextStyle(color: Colors.black)),
                           Row(
                             children: [
-                              Text("Pasang",
+                              const Text("Pasang",
                                   style: TextStyle(color: Colors.grey)),
                               Icon(
                                 Icons.arrow_forward_ios,
@@ -273,23 +273,24 @@ class _SecuritySettingState extends State<SecuritySetting> {
                           )
                         ],
                       )),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
                     height: 1,
                     color: Colors.grey[200],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextButton.icon(
                       onPressed: () {},
-                      icon: Icon(Icons.settings, color: Colors.grey, size: 30),
+                      icon: const Icon(Icons.settings,
+                          color: Colors.grey, size: 30),
                       label: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Pertanyaan Keamanan",
+                          const Text("Pertanyaan Keamanan",
                               style: TextStyle(color: Colors.black)),
                           Row(
                             children: [
-                              Text("Pasang",
+                              const Text("Pasang",
                                   style: TextStyle(color: Colors.grey)),
                               Icon(
                                 Icons.arrow_forward_ios,
@@ -299,26 +300,26 @@ class _SecuritySettingState extends State<SecuritySetting> {
                           )
                         ],
                       )),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
                     height: 1,
                     color: Colors.grey[200],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextButton.icon(
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.settings_overscan,
                         color: Colors.grey,
                       ),
                       label: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("MoPay Viz",
+                          const Text("MoPay Viz",
                               style: TextStyle(color: Colors.black)),
                           Row(
                             children: [
-                              Text("Pasang",
+                              const Text("Pasang",
                                   style: TextStyle(color: Colors.grey)),
                               Icon(
                                 Icons.arrow_forward_ios,
@@ -328,15 +329,15 @@ class _SecuritySettingState extends State<SecuritySetting> {
                           )
                         ],
                       )),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
                     height: 1,
                     color: Colors.grey[200],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextButton.icon(
                     onPressed: () {},
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.location_on_sharp,
                       color: Colors.grey,
                       size: 30,
@@ -344,16 +345,16 @@ class _SecuritySettingState extends State<SecuritySetting> {
                     label: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Location Permission",
+                        const Text("Location Permission",
                             style: TextStyle(color: Colors.black)),
                         Switch(
-                          value: On_off,
+                          value: onOff,
                           onChanged: (value) {
                             setState(() {
-                              On_off = value;
+                              onOff = value;
                             });
                           },
-                          activeTrackColor: Color(0xff850000),
+                          activeTrackColor: const Color(0xff850000),
                           activeColor: Colors.white,
                         )
                       ],
@@ -383,15 +384,15 @@ class _PasskeyState extends State<Passkey> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.white),
-          title: Center(
+          iconTheme: const IconThemeData(color: Colors.white),
+          title: const Center(
             child: Text(
               "Aktifkan Passkey",
               style: TextStyle(color: Colors.white),
             ),
           ),
           flexibleSpace: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(
                     colors: ([
               Color(0xffFEA1A1),
@@ -401,8 +402,8 @@ class _PasskeyState extends State<Passkey> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.all(20),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
             gradient: LinearGradient(
                 colors: ([
           Color(0xffFEA1A1),
@@ -412,30 +413,30 @@ class _PasskeyState extends State<Passkey> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 80),
-              CircleAvatar(
+              const SizedBox(height: 80),
+              const CircleAvatar(
                 radius: 100,
                 backgroundImage: NetworkImage(
                     "https://media.istockphoto.com/id/1290393291/vector/safety-and-security-of-personal-data-concept.jpg?s=612x612&w=0&k=20&c=dkgl6-1_ZTSJIotGru1dvldX1c_boORZ6u0zYstTsiE="),
               ),
-              SizedBox(height: 30),
-              Text(
+              const SizedBox(height: 30),
+              const Text(
                 "Masuk Dengan Metode Termudah",
                 style: TextStyle(color: Colors.white, fontSize: 25),
               ),
-              Text(
+              const Text(
                 "Passkey Bikin Masuk Keakun MoPay lebih",
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),
-              Text(
+              const Text(
                 "Praktis Dengan Wajah , Sidik Jari ,Ataupun Pola.",
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),
-              Text(
+              const Text(
                 "Tentang Passkey",
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),
-              SizedBox(height: 80),
+              const SizedBox(height: 80),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -447,10 +448,10 @@ class _PasskeyState extends State<Passkey> {
                       });
                     },
                     activeColor: Colors.blueAccent,
-                    side: BorderSide(color: Colors.white),
+                    side: const BorderSide(color: Colors.white),
                   ),
-                  SizedBox(width: 20),
-                  Column(
+                  const SizedBox(width: 20),
+                  const Column(
                     children: [
                       Text(
                         "Dengan Melanjutkan, Kamu Setuju Dengan Syarat &",
@@ -462,28 +463,31 @@ class _PasskeyState extends State<Passkey> {
                   )
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               OutlinedButton(
                 onPressed: () {},
-                child: Text(
+                style: OutlinedButton.styleFrom(
+                  fixedSize: const Size(250, 50),
+                  backgroundColor: Colors.white,
+                ),
+                child: const Text(
                   "Aktifkan Passkey",
                   style: TextStyle(
                       color: Colors.grey,
                       fontSize: 20,
                       fontWeight: FontWeight.bold),
                 ),
-                style: OutlinedButton.styleFrom(
-                    fixedSize: Size(250, 50), backgroundColor: Colors.white),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextButton(
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     "Lain Kali Aja",
                     style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ))
             ],
           ),
