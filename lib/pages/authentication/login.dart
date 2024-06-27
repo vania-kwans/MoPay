@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:mopay_ewallet/data/data_saldo.dart';
-import 'package:mopay_ewallet/data/data_user_mopay.dart';
-import 'package:mopay_ewallet/pages/home/home_bucket.dart';
+import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
+import 'package:mopay_ewallet/bloc/store.dart';
+import 'package:mopay_ewallet/pages/pin_code/insert_pin.dart';
+import 'package:mopay_ewallet/utils/app_error.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,18 +15,36 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController passController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
+  final _passController = TextEditingController();
   final _formkey = GlobalKey<FormState>();
   bool _isSecurePassword = true;
   bool rememberPassword = true;
 
+  late AuthBloc bloc;
+
   @override
   void initState() {
-    super.initState();
+    bloc = context.read<AuthBloc>();
+
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      Map<String, dynamic> loginPreferences = await Store.getLoginPreferences();
+      _phoneNumberController.text = loginPreferences['phoneNumber'] ?? "";
+      rememberPassword = loginPreferences['rememberPassword'] ?? false;
+      setState(() {});
+    });
+
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _phoneNumberController.dispose();
+    _passController.dispose();
+    super.dispose();
   }
 
   @override
