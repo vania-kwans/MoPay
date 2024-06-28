@@ -131,6 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black)),
                             prefixIcon: Icon(Icons.phone_android),
+                            prefixText: "+62 ",
                             hintText: ('Insert Your Phone Number'),
                             label: Text(
                               'Phone Number',
@@ -233,14 +234,16 @@ class _LoginPageState extends State<LoginPage> {
                         ElevatedButton(
                           onPressed: () async {
                             if (_formkey.currentState!.validate()) {
-                              String phoneNumber = _phoneNumberController.text;
+                              String phoneNumber =
+                                  "0${_phoneNumberController.text}";
                               String password = _passController.text;
 
                               AppError? error =
                                   await bloc.login(phoneNumber, password);
 
-                              await Store.saveLoginPreferences(
-                                  rememberPassword, phoneNumber, password);
+                              // JANGAN SIMPAN 0 DIDEPAN AGAR TIDAK BENTROK DENGAN PREFIX
+                              await Store.saveLoginPreferences(rememberPassword,
+                                  _phoneNumberController.text, password);
 
                               if (!context.mounted) return;
                               if (error != null) {
