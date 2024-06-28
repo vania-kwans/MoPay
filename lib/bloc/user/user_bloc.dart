@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
 import 'package:mopay_ewallet/bloc/interceptors.dart';
 import 'package:mopay_ewallet/bloc/user/user_state.dart';
+import 'package:mopay_ewallet/main.dart';
 import 'package:mopay_ewallet/models/user.dart';
 import 'package:mopay_ewallet/utils/app_error.dart';
 import 'package:mopay_ewallet/utils/print_error.dart';
@@ -13,6 +14,9 @@ class UserBloc {
   final dio = Dio(BaseOptions(baseUrl: dotenv.env["BASE_URL"]!));
 
   final controller = BehaviorSubject<UserState>.seeded(UserState.initial());
+
+  final publicProfileController =
+      BehaviorSubject<UserState>.seeded(UserState.initial());
 
   final AuthBloc authBloc;
 
@@ -33,6 +37,10 @@ class UserBloc {
     }
     print("update stream user");
     controller.add(state);
+  }
+
+  void resetProfileController() {
+    publicProfileController.add(UserState.initial());
   }
 
   AppError _updateError(Object error) {
@@ -61,17 +69,29 @@ class UserBloc {
         UserState.loading());
     try {
       var response = await dio.get("/balance");
-      int data = response.data;
+      int data = response.data['balance'];
 
       User? user = controller.valueOrNull?.user?.copyWith(balance: data);
       if (user == null) {
-        authBloc.logout();
         throw Exception("User is null");
       }
       _updateStream(UserState.success(user));
     } catch (err) {
       printError(err);
       _updateError(err);
+    }
+  }
+
+  Future<void> getPublicProfile(String? phoneNumber) async {
+    publicProfileController.add(UserState.loading());
+    try {
+      var response = await dio.get("/profile/public?phoneNumber=$phoneNumber");
+      publicProfileController
+          .add(UserState.success(User.fromJson(response.data)));
+    } catch (err) {
+      printError(err);
+      AppError error = AppError.fromObjectErr(err);
+      publicProfileController.add(UserState.error(error));
     }
   }
 }
