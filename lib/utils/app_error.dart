@@ -15,4 +15,6 @@ class AppError {
       return AppError(message: 'Something went wrong');
     }
   }
+
+  String get errorMessage => "$code - $message";
 }
