@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mopay_ewallet/data/data_saldo.dart';
+import 'package:mopay_ewallet/bloc/user/user_bloc.dart';
+import 'package:mopay_ewallet/bloc/user/user_state.dart';
 import 'package:mopay_ewallet/format/currency.dart';
 import 'package:provider/provider.dart';
 import 'package:mopay_ewallet/pages/history/history.dart';
@@ -15,6 +16,14 @@ class HomeUpper extends StatefulWidget {
 
 class _HomeUpperState extends State<HomeUpper> {
   bool isObscured = false;
+  late UserBloc userBloc;
+
+  @override
+  void initState() {
+    userBloc = Provider.of<UserBloc>(context, listen: false);
+
+    super.initState();
+  }
 
   String obscuredText(int number) {
     return "*" * number.toString().length;
@@ -22,8 +31,6 @@ class _HomeUpperState extends State<HomeUpper> {
 
   @override
   Widget build(BuildContext context) {
-    Balances? currentUserBalance =
-        Provider.of<BalancesProvider>(context, listen: false).currentBalance;
     return Stack(
       children: [
         const SizedBox(height: 20),
@@ -88,19 +95,25 @@ class _HomeUpperState extends State<HomeUpper> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    isObscured
-                        ? 'Rp${obscuredText(currentUserBalance!.saldo)}'
-                        : 'Rp${formatToIndonesianCurrency(currentUserBalance!.saldo)}',
-                    // isObscured
-                    //     ? 'Rp${obscuredText(currentUserBalance.saldo)}'
-                    //     : 'Rp${formatToIndonesianCurrency(currentUserBalance.saldo)}',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  StreamBuilder<UserState>(
+                      stream: userBloc.state,
+                      builder: (context, snapshot) {
+                        int currentUserBalance =
+                            snapshot.data?.user?.balance ?? 0;
+                        return Text(
+                          isObscured
+                              ? 'Rp${obscuredText(currentUserBalance)}'
+                              : 'Rp${formatToIndonesianCurrency(currentUserBalance)}',
+                          // isObscured
+                          //     ? 'Rp${obscuredText(currentUserBalance.saldo)}'
+                          //     : 'Rp${formatToIndonesianCurrency(currentUserBalance.saldo)}',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      }),
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
