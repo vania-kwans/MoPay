@@ -37,6 +37,8 @@ dependencies:
   shared_preferences: ^2.2.3
   carousel_slider_plus: ^6.0.0
   jwt_decode: ^0.3.1
+  lottie: ^3.1.2
+  collection: ^1.18.0
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +74,7 @@ flutter:
     - assets/images/slider/
     - assets/images/background/
     - assets/images/profile-pic/
+    - assets/lottie/
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
