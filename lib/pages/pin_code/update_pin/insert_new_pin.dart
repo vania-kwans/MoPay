@@ -30,16 +30,15 @@ class _InsertNewPinPageState extends State<InsertNewPinPage> {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           physics: const BouncingScrollPhysics(),
           children: [
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             const Text(
-              "Masukkan 6 digit PIN baru kamu. PIN adalah password rahasia yang akan digunakan untuk verifikasi sebelum aktivitas dna/atau transaksi penting diproses.",
-              textAlign: TextAlign.center,
+              "Masukkan 6 digit PIN baru kamu.\nPIN adalah password rahasian yang akan digunakan untuk verifikasi sebelum aktivitas dan/atau transaksi penting diproses.",
               style: TextStyle(
-                fontSize: 14,
+                fontSize: 15,
                 color: Colors.black87,
               ),
+              textAlign: TextAlign.center,
             ),
-
             const SizedBox(height: 40),
             // Area kode PIN
             Row(
@@ -54,11 +53,11 @@ class _InsertNewPinPageState extends State<InsertNewPinPage> {
                       : (MediaQuery.of(context).size.width - 20) / 20,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.0),
-                    color: index < enteredPin.length
-                        ? isPinVisible
-                            ? const Color.fromARGB(255, 195, 44, 33)
-                            : const Color.fromARGB(255, 195, 44, 33)
-                        : Colors.grey.withOpacity(0.1),
+                    color: isPinVisible
+                        ? Colors.transparent
+                        : index >= enteredPin.length
+                            ? Colors.grey.withOpacity(0.1)
+                            : Colors.grey.shade500,
                   ),
                   child: isPinVisible && index < enteredPin.length
                       ? Center(
@@ -66,7 +65,7 @@ class _InsertNewPinPageState extends State<InsertNewPinPage> {
                             enteredPin[index],
                             style: const TextStyle(
                               fontSize: 17,
-                              color: Colors.white,
+                              color: Colors.black,
                             ),
                           ),
                         )
@@ -74,42 +73,40 @@ class _InsertNewPinPageState extends State<InsertNewPinPage> {
                 );
               }),
             ),
-
             const SizedBox(height: 10),
-
             // Button untuk lihat dan sembunyikan PIN
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  isPinVisible = !isPinVisible;
-                });
-              },
-              child: Text(
-                isPinVisible ? 'Hide password' : 'See password',
-                style: const TextStyle(fontSize: 14, color: Colors.black54),
-              ),
-            ),
-
-            // Keyboard area
-            for (var i = 0; i < 3; i++)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(
-                        3,
-                        (index) => keyboardNumber(1 + 3 * i + index),
-                      ).toList(),
-                    ),
-                  ],
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    isPinVisible = !isPinVisible;
+                  });
+                },
+                child: Text(
+                  isPinVisible ? 'Hide password' : 'See password',
+                  style: const TextStyle(fontSize: 14, color: Colors.black54),
                 ),
               ),
-
+            ),
+            const SizedBox(height: 30),
+            // Keyboard area
+            for (var i = 0; i < 3; i++) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(
+                    3,
+                    (index) => keyboardNumber(1 + 3 * i + index),
+                  ).toList(),
+                ),
+              ),
+              const SizedBox(height: 50)
+            ],
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
@@ -118,14 +115,11 @@ class _InsertNewPinPageState extends State<InsertNewPinPage> {
                         enteredPin = "";
                       });
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.only(top: 50),
-                      child: Text(
-                        'Reset',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
+                    child: const Text(
+                      'Reset',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -139,13 +133,10 @@ class _InsertNewPinPageState extends State<InsertNewPinPage> {
                         }
                       });
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 15, top: 40),
-                      child: Icon(
-                        Icons.backspace,
-                        color: Colors.black,
-                        size: 24,
-                      ),
+                    child: const Icon(
+                      Icons.backspace,
+                      color: Colors.black,
+                      size: 24,
                     ),
                   ),
                 ],
@@ -160,19 +151,22 @@ class _InsertNewPinPageState extends State<InsertNewPinPage> {
   Widget keyboardNumber(int number) {
     return KeyboardNumber(
         onPressed: () async {
-          if (enteredPin.length < 6) {
+          if (enteredPin.length < 5) {
             enteredPin += number.toString();
+            setState(() {});
+            return;
           }
-          if (enteredPin.length == 6) {
-            if (widget.oldPin != null) {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => InsertNewPinConfirmation(
-                      oldPin: widget.oldPin, newPin: enteredPin),
-                ),
-              );
-            }
-          }
+          enteredPin += number.toString();
+          setState(() {});
+
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => InsertNewPinConfirmation(
+                  // OLD PIN KOSONG BERARTI REGISTER PIN BARU
+                  oldPin: widget.oldPin,
+                  newPin: enteredPin),
+            ),
+          );
         },
         number: number);
   }

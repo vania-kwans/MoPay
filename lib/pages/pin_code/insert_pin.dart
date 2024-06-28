@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
+import 'package:mopay_ewallet/bloc/auth/auth_state.dart';
+import 'package:mopay_ewallet/bloc/store.dart';
 import 'package:mopay_ewallet/pages/home/home_bucket.dart';
+import 'package:mopay_ewallet/pages/pin_code/update_pin/forgot_pin.dart';
 import 'package:mopay_ewallet/pages/pin_code/widget/keyboard_number.dart';
 import 'package:mopay_ewallet/utils/app_error.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +27,36 @@ class _InsertPinState extends State<InsertPin> {
   @override
   void initState() {
     bloc = Provider.of<AuthBloc>(context, listen: false);
+
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      DateTime lastPinEnter = await Store.getLastPinEnter();
+      // Jika user sudah 5 menit tidak memasukkan pin, maka user harus memasukkan pin
+      if (lastPinEnter
+          .isBefore(DateTime.now().subtract(const Duration(minutes: 5)))) {
+        await Store.removeLastPinEnter();
+        bloc.resetPinStream();
+        return;
+      }
+
+      // Jika user sudah memasukkan pin, maka langsung ke home
+      if (!mounted) return;
+      showDialog(
+          context: context,
+          builder: (context) => PopScope(
+                canPop: false,
+                child: Dialog(
+                  child: Lottie.asset('assets/lottie/mopayLottie.json'),
+                ),
+              ));
+
+      await Future.delayed(const Duration(seconds: 1));
+
+      if (!mounted) return;
+      Navigator.pop(context);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const HomeBucket()));
+    });
+
     super.initState();
   }
 
@@ -62,64 +97,84 @@ class _InsertPinState extends State<InsertPin> {
                 ),
               ),
             ),
-            const Center(
-              child: Text(
-                "Lupa PIN?",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.blue,
+            Center(
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ForgotPin()));
+                },
+                child: const Text(
+                  "Lupa PIN?",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.blue,
+                  ),
                 ),
               ),
             ),
             const SizedBox(height: 40),
             // Area kode PIN
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: List.generate(6, (index) {
-                return Container(
-                  width: isPinVisible
-                      ? (MediaQuery.of(context).size.width - 20) / 8
-                      : (MediaQuery.of(context).size.width - 20) / 20,
-                  height: isPinVisible
-                      ? (MediaQuery.of(context).size.width - 20) / 8
-                      : (MediaQuery.of(context).size.width - 20) / 20,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50.0),
-                    color: index < enteredPin.length
-                        ? isPinVisible
-                            ? const Color.fromARGB(255, 195, 44, 33)
-                            : const Color.fromARGB(255, 195, 44, 33)
-                        : Colors.grey.withOpacity(0.1),
-                  ),
-                  child: isPinVisible && index < enteredPin.length
-                      ? Center(
-                          child: Text(
-                            enteredPin[index],
-                            style: const TextStyle(
-                              fontSize: 17,
-                              color: Colors.white,
-                            ),
-                          ),
-                        )
-                      : null,
-                );
-              }),
-            ),
+            StreamBuilder<AuthState>(
+                stream: bloc.pinController,
+                builder: (context, snapshot) {
+                  bool hasError = snapshot.data?.hasError ?? false;
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: List.generate(6, (index) {
+                      return Container(
+                        width: isPinVisible
+                            ? (MediaQuery.of(context).size.width - 20) / 8
+                            : (MediaQuery.of(context).size.width - 20) / 20,
+                        height: isPinVisible
+                            ? (MediaQuery.of(context).size.width - 20) / 8
+                            : (MediaQuery.of(context).size.width - 20) / 20,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50.0),
+                          color: isPinVisible
+                              ? Colors.transparent
+                              : index >= enteredPin.length
+                                  ? Colors.grey.withOpacity(0.1)
+                                  : hasError
+                                      ? const Color.fromARGB(255, 195, 44, 33)
+                                      : Colors.grey.shade500,
+                        ),
+                        child: isPinVisible && index < enteredPin.length
+                            ? Center(
+                                child: Text(
+                                  enteredPin[index],
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    color: hasError
+                                        ? const Color.fromARGB(255, 195, 44, 33)
+                                        : Colors.black,
+                                  ),
+                                ),
+                              )
+                            : null,
+                      );
+                    }),
+                  );
+                }),
             const SizedBox(height: 10),
             // Button untuk lihat dan sembunyikan PIN
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  isPinVisible = !isPinVisible;
-                });
-              },
-              child: Text(
-                isPinVisible ? 'Hide password' : 'See password',
-                style: const TextStyle(fontSize: 14, color: Colors.black54),
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    isPinVisible = !isPinVisible;
+                  });
+                },
+                child: Text(
+                  isPinVisible ? 'Hide password' : 'See password',
+                  style: const TextStyle(fontSize: 14, color: Colors.black54),
+                ),
               ),
             ),
+            const SizedBox(height: 30),
             // Keyboard area
-            for (var i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++) ...[
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Row(
@@ -130,9 +185,12 @@ class _InsertPinState extends State<InsertPin> {
                   ).toList(),
                 ),
               ),
+              const SizedBox(height: 50)
+            ],
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
@@ -141,14 +199,11 @@ class _InsertPinState extends State<InsertPin> {
                         enteredPin = "";
                       });
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.only(top: 50),
-                      child: Text(
-                        'Reset',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
+                    child: const Text(
+                      'Reset',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -159,23 +214,21 @@ class _InsertPinState extends State<InsertPin> {
                         if (enteredPin.isNotEmpty) {
                           enteredPin =
                               enteredPin.substring(0, enteredPin.length - 1);
+                          bloc.resetPinStream();
                         }
                       });
                     },
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 15, top: 40),
-                      child: Icon(
-                        Icons.backspace,
-                        color: Colors.black,
-                        size: 24,
-                      ),
+                    child: const Icon(
+                      Icons.backspace,
+                      color: Colors.black,
+                      size: 24,
                     ),
                   ),
                 ],
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             TextButton(
                 onPressed: () async {
@@ -193,13 +246,31 @@ class _InsertPinState extends State<InsertPin> {
   Widget keyboardNumber(int number) {
     return KeyboardNumber(
         onPressed: () async {
-          if (enteredPin.length < 6) {
+          if (enteredPin.length + 1 < 6) {
             setState(() => enteredPin += number.toString());
+            bloc.resetPinStream();
             return;
           }
 
+          setState(() {
+            enteredPin += number.toString();
+          });
+
+          showDialog(
+              context: context,
+              builder: (context) => PopScope(
+                    canPop: false,
+                    child: Dialog(
+                      child: Lottie.asset('assets/lottie/mopayLottie.json'),
+                    ),
+                  ));
+
           AppError? error = await bloc.verifyPin(enteredPin);
+
+          // POP LOADING DIALOG
           if (!mounted) return;
+          Navigator.pop(context);
+
           if (error != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -210,6 +281,8 @@ class _InsertPinState extends State<InsertPin> {
             return;
           }
 
+          await Store.setLastPinEnter(DateTime.now());
+          if (!mounted) return;
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return const HomeBucket();
           }));

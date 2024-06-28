@@ -12,25 +12,22 @@ class KeyboardNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthBloc bloc = context.read<AuthBloc>();
-    return Padding(
-      padding: const EdgeInsets.only(top: 50),
-      child: StreamBuilder<AuthState>(
-          stream: bloc.controller,
-          builder: (context, snapshot) {
-            bool isLoading =
-                snapshot.data?.isLoading ?? false || !snapshot.hasData;
-            return TextButton(
-              onPressed: isLoading ? null : onPressed,
-              child: Text(
-                number.toString(),
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: isLoading ? Colors.grey : Colors.black,
-                ),
+    return StreamBuilder<AuthState>(
+        stream: bloc.controller,
+        builder: (context, snapshot) {
+          bool isLoading =
+              snapshot.data?.isLoading ?? false || !snapshot.hasData;
+          return TextButton(
+            onPressed: isLoading ? null : onPressed,
+            child: Text(
+              number.toString(),
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w600,
+                color: isLoading ? Colors.grey : Colors.black,
               ),
-            );
-          }),
-    );
+            ),
+          );
+        });
   }
 }
