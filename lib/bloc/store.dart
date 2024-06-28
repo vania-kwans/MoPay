@@ -40,4 +40,36 @@ class Store {
     Map<String, dynamic> loginPreferencesMap = jsonDecode(loginPreferences);
     return loginPreferencesMap;
   }
+
+  static Future<void> removeLoginPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('loginPreferences');
+  }
+
+  static Future<void> setLastAdsShown(DateTime dateTime) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('lastAdsShown', dateTime.millisecondsSinceEpoch);
+  }
+
+  static Future<DateTime> getLastAdsShown() async {
+    final prefs = await SharedPreferences.getInstance();
+    int lastAdsShown = prefs.getInt('lastAdsShown') ?? 0;
+    return DateTime.fromMillisecondsSinceEpoch(lastAdsShown);
+  }
+
+  static Future<void> setLastPinEnter(DateTime dateTime) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('lastPinEnter', dateTime.millisecondsSinceEpoch);
+  }
+
+  static Future<DateTime> getLastPinEnter() async {
+    final prefs = await SharedPreferences.getInstance();
+    int lastPinEnter = prefs.getInt('lastPinEnter') ?? 0;
+    return DateTime.fromMillisecondsSinceEpoch(lastPinEnter);
+  }
+
+  static Future<void> removeLastPinEnter() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('lastPinEnter');
+  }
 }
