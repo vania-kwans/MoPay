@@ -57,6 +57,11 @@ class Store {
     return DateTime.fromMillisecondsSinceEpoch(lastAdsShown);
   }
 
+  static Future<void> removeLastAdsShown() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('lastAdsShown');
+  }
+
   static Future<void> setLastPinEnter(DateTime dateTime) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setInt('lastPinEnter', dateTime.millisecondsSinceEpoch);
