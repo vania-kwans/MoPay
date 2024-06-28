@@ -96,6 +96,32 @@ class TransactionBloc {
     }
   }
 
+  Future transfer({
+    required String phoneNumber,
+    required int nominal,
+    String? description,
+  }) async {
+    _updateStream(TransactionState.loading());
+    try {
+      var response = await dio.post("/transaction/transfer/mobile", data: {
+        "phoneNumber": phoneNumber,
+        "amount": nominal,
+        if (description != null) "description": description,
+      });
+
+      var data = response.data as Map<String, dynamic>;
+
+      Transaction transaction = Transaction.fromJson(data);
+
+      _updateStream(TransactionState.success());
+
+      return transaction;
+    } catch (err) {
+      printError(err);
+      return _updateError(err);
+    }
+  }
+
   Future<AppError?> makePayment(
       {required int nominal, String? description}) async {
     _updateStream(TransactionState.loading());
