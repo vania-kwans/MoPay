@@ -28,7 +28,7 @@ class HomeRecommendation extends StatelessWidget {
               ),
               createRecommendationBlock(
                 context,
-                linkGambar: 'assets/images/logo/slider2.jpeg',
+                linkGambar: 'assets/images/slider/slider2.jpeg',
                 tema: 'GoFat',
                 judul: 'Ga Mau ribet Bayar GoFat? Dari MoPay Aja',
               ),
