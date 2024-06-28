@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_state.dart';
+import 'package:mopay_ewallet/bloc/user/user_bloc.dart';
 import 'package:mopay_ewallet/data/data_saldo.dart';
 import 'package:mopay_ewallet/data/data_user_mopay.dart';
 import 'package:mopay_ewallet/pages/pin_code/insert_pin.dart';
+import 'package:mopay_ewallet/pages/splash_page.dart';
 import 'package:mopay_ewallet/pages/transfer/data_bank.dart';
 import 'package:mopay_ewallet/pages/history/data_history_transaksi.dart';
 import 'package:mopay_ewallet/pages/top_up/data_metode_top_up.dart';
@@ -61,20 +63,18 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        navigatorKey: navigatorKey,
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: const Color(0xff850000)),
+            useMaterial3: true,
+            indicatorColor: const Color(0xff850000)),
         home: StreamBuilder<AuthState>(
             stream: context.read<AuthBloc>().controller,
             builder: (context, snapshot) {
               if (snapshot.data?.isLoading ?? false || !snapshot.hasData) {
-                return const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
+                return const SplashPage();
               }
               if (snapshot.data?.isAuthenticated ?? false) {
                 return const InsertPin();
