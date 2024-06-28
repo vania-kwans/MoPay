@@ -38,6 +38,19 @@ class AuthBloc {
     return error;
   }
 
+  void resetPinStream() {
+    _updatePinStream(AuthState.initial());
+  }
+
+  void resetStream() {
+    _updateStream(AuthState.initial());
+  }
+
+  void dispose() {
+    controller.close();
+    pinController.close();
+  }
+
   Future<AppError?> login(String phoneNumber, String password) async {
     try {
       _updateStream(AuthState.isLoading());
@@ -74,10 +87,10 @@ class AuthBloc {
       Map<String, dynamic> decoded = Jwt.parseJwt(token);
       DateTime expiredAt =
           DateTime.fromMillisecondsSinceEpoch(decoded['exp'] * 1000);
-      print(expiredAt);
 
       if (DateTime.now().isAfter(expiredAt)) {
         _updateStream(AuthState.initial());
+        Store.removeToken();
         return null;
       }
 
@@ -138,7 +151,7 @@ class AuthBloc {
         print(err);
       }
       AppError error = AppError.fromObjectErr(err);
-      _updateStream(AuthState.hasError(error));
+      _updatePinStream(AuthState.hasError(error));
       return error;
     }
     return null;
@@ -157,7 +170,7 @@ class AuthBloc {
         print(err);
       }
       AppError error = AppError.fromObjectErr(err);
-      _updateStream(AuthState.hasError(error));
+      _updatePinStream(AuthState.hasError(error));
       return error;
     }
     return null;
