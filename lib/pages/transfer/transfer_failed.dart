@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/pages/home/home_bucket.dart';
+import 'package:mopay_ewallet/utils/app_error.dart';
 
 class TransferFailedPage extends StatelessWidget {
-  const TransferFailedPage({super.key});
+  final AppError? error;
+  const TransferFailedPage({super.key, this.error});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,11 @@ class TransferFailedPage extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const Text('404-unprocessable request'),
+                    Text(error?.errorMessage ?? "410 - Gone",
+                        style: TextStyle(
+                          color: Colors.redAccent[700],
+                          fontSize: 16,
+                        )),
                   ],
                 ),
                 const Expanded(

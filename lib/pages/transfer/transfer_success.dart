@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mopay_ewallet/data/data_transfer.dart';
 import 'package:mopay_ewallet/format/currency.dart';
+import 'package:mopay_ewallet/models/transaction.dart';
 import 'package:mopay_ewallet/pages/home/home_bucket.dart';
 import 'package:provider/provider.dart';
 
 class TransferSuccessPage extends StatelessWidget {
-  const TransferSuccessPage({super.key});
+  final Transaction transactionReceipt;
+  final int biayaTransaksi;
+  const TransferSuccessPage(
+      {super.key,
+      required this.transactionReceipt,
+      required this.biayaTransaksi});
 
   @override
   Widget build(BuildContext context) {
-    DataTransfer currentdataTransfer =
-        Provider.of<DataTransferProvider>(context).dataTransfer[0];
-
-    int biayaTransaksi = currentdataTransfer.transferKe == 'MoPay' ? 0 : 2500;
-
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(
-            MediaQuery.of(context).padding.top - AppBar().preferredSize.height),
-        child: AppBar(
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.white,
-        ),
-      ),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -31,18 +26,8 @@ class TransferSuccessPage extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 20),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.greenAccent[700],
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: const Icon(
-                      Icons.check,
-                      color: Colors.white,
-                      size: 70,
-                    ),
-                  ),
+                  Lottie.asset('assets/lottie/success.json',
+                      height: 100, width: 100, fit: BoxFit.cover),
                   const SizedBox(height: 20),
                   Text(
                     'Transaksi Berhasil',
@@ -54,7 +39,7 @@ class TransferSuccessPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    'Rp${formatToIndonesianCurrency(currentdataTransfer.nominal + biayaTransaksi)}',
+                    'Rp${formatToIndonesianCurrency(transactionReceipt.amount - biayaTransaksi)}',
                     style: const TextStyle(
                         fontSize: 30, fontWeight: FontWeight.bold),
                   ),
@@ -90,7 +75,7 @@ class TransferSuccessPage extends StatelessWidget {
                         ),
                         Center(
                           child: Text(
-                            currentdataTransfer.nama,
+                            transactionReceipt.targetUser?.name ?? "-",
                             style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.w600),
                           ),
@@ -99,7 +84,7 @@ class TransferSuccessPage extends StatelessWidget {
                         RincianTransaksi(
                           keterangan: 'Nominal Transfer',
                           nilai:
-                              'Rp${formatToIndonesianCurrency(currentdataTransfer.nominal + biayaTransaksi)}',
+                              'Rp${formatToIndonesianCurrency(transactionReceipt.amount)}',
                           color: Colors.black87,
                         ),
                         const SizedBox(height: 5),
@@ -112,7 +97,7 @@ class TransferSuccessPage extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          currentdataTransfer.pesan,
+                          transactionReceipt.description,
                           style: const TextStyle(
                             color: Colors.black87,
                             fontSize: 15,
@@ -155,22 +140,24 @@ class TransferSuccessPage extends StatelessWidget {
                           RincianTransaksi(
                             keterangan: 'MoPay Cash Terpakai',
                             nilai:
-                                'Rp${formatToIndonesianCurrency(currentdataTransfer.nominal + biayaTransaksi)}',
+                                'Rp${formatToIndonesianCurrency(transactionReceipt.amount)}',
                           ),
                           const SizedBox(height: 7.0),
                           RincianTransaksi(
                             keterangan: 'Tanggal',
-                            nilai: currentdataTransfer.tanggal,
+                            nilai: DateFormat.yMEd()
+                                .format(transactionReceipt.createdAt),
                           ),
                           const SizedBox(height: 7.0),
                           RincianTransaksi(
                             keterangan: 'Waktu',
-                            nilai: currentdataTransfer.waktu,
+                            nilai: DateFormat.Hms()
+                                .format(transactionReceipt.createdAt),
                           ),
                           const SizedBox(height: 7.0),
-                          const RincianTransaksi(
+                          RincianTransaksi(
                             keterangan: 'No. Transaksi',
-                            nilai: '248832842348242',
+                            nilai: transactionReceipt.id.hashCode.toString(),
                           ),
                           const SizedBox(height: 7.0),
                           const Divider(color: Colors.black12),
@@ -178,7 +165,7 @@ class TransferSuccessPage extends StatelessWidget {
                           RincianTransaksi(
                             keterangan: 'Nominal Transaksi',
                             nilai:
-                                'Rp${formatToIndonesianCurrency(currentdataTransfer.nominal)}',
+                                'Rp${formatToIndonesianCurrency(transactionReceipt.amount - biayaTransaksi)}',
                           ),
                           const SizedBox(height: 7.0),
                           RincianTransaksi(
@@ -192,7 +179,7 @@ class TransferSuccessPage extends StatelessWidget {
                           RincianTransaksi(
                             keterangan: 'Total',
                             nilai:
-                                'Rp${formatToIndonesianCurrency(currentdataTransfer.nominal + biayaTransaksi)}',
+                                'Rp${formatToIndonesianCurrency(transactionReceipt.amount)}',
                             color: Colors.red.shade900,
                             isBold: true,
                           ),
