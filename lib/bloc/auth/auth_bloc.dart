@@ -135,6 +135,8 @@ class AuthBloc {
 
   Future logout() async {
     await Store.removeToken();
+    await Store.removeLastPinEnter();
+    await Store.removeLastAdsShown();
     _updateStream(AuthState.initial());
   }
 
