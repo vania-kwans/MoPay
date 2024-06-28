@@ -16,6 +16,7 @@ import 'package:mopay_ewallet/pages/authentication/login.dart';
 import 'package:mopay_ewallet/pages/authentication/register.dart';
 import 'package:provider/provider.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
 void main() async {
   await dotenv.load();
   if (kDebugMode) {
@@ -26,9 +27,14 @@ void main() async {
 
   await authBloc.checkLogin();
 
+  final userBloc = UserBloc(authBloc);
+
   Widget app = MultiProvider(
     providers: [
       Provider<AuthBloc>.value(value: authBloc),
+      Provider<UserBloc>.value(
+        value: userBloc,
+      )
     ],
     child: const MyApp(),
   );
