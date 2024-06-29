@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_state.dart';
 import 'package:mopay_ewallet/bloc/user/user_bloc.dart';
@@ -16,14 +17,19 @@ import 'package:mopay_ewallet/data/data_transfer.dart';
 import 'package:mopay_ewallet/pages/authentication/forget_password.dart';
 import 'package:mopay_ewallet/pages/authentication/login.dart';
 import 'package:mopay_ewallet/pages/authentication/register.dart';
+import 'package:mopay_ewallet/utils/my_firebase.dart';
 import 'package:provider/provider.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
-void main() async {
+Future<void> main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await dotenv.load();
   if (kDebugMode) {
     print("BASE_URL: ${dotenv.env['BASE_URL']}");
   }
+
+  await MyFirebase.initialize();
 
   final authBloc = AuthBloc();
 
@@ -41,6 +47,7 @@ void main() async {
     child: const MyApp(),
   );
 
+  FlutterNativeSplash.remove();
   runApp(app);
 }
 

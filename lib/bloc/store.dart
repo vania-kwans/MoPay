@@ -77,4 +77,31 @@ class Store {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('lastPinEnter');
   }
+
+  static Future<void> setFirebaseMessagingToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('firebaseMessagingToken', token);
+  }
+
+  static Future<String?> getFirebaseMessagingToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('firebaseMessagingToken');
+  }
+
+  static Future<void> setFirebaseTokenState(bool state) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('loggedInWithFirebaseToken', state);
+  }
+
+  static Future<bool> isLoggedInWithFirebaseToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('loggedInWithFirebaseToken') ?? false;
+  }
+
+  static Future<void> clearCache() async {
+    await Store.removeToken();
+    await Store.removeLastPinEnter();
+    await Store.removeLastAdsShown();
+    await Store.setFirebaseTokenState(false);
+  }
 }

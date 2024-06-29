@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "776656787726",
+    "project_id": "mopay-travellingo",
+    "storage_bucket": "mopay-travellingo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776656787726:android:24847d7c784946ca841f5f",
+        "android_client_info": {
+          "package_name": "com.example.mopay_ewallet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4lIICQmc6Gw0tnLOmfRZCmGu1ys9vxsw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
