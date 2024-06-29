@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mopay_ewallet/bloc/interceptors.dart';
 import 'package:mopay_ewallet/bloc/transaction/transaction_state.dart';
-import 'package:mopay_ewallet/models/pending_payment.dart';
 import 'package:mopay_ewallet/models/transaction.dart';
 import 'package:mopay_ewallet/pages/history/history.dart';
 import 'package:mopay_ewallet/utils/app_error.dart';
@@ -42,6 +41,10 @@ class TransactionBloc {
   Future<void> getTransaction([TransactionFilterData? filterData]) async {
     controller.add(TransactionState.loading());
     try {
+      if (filterData?.type == TransactionType.pending) {
+        await getPendingPayment();
+        return;
+      }
       var query = filterData?.getQuery();
 
       String url =
@@ -66,13 +69,26 @@ class TransactionBloc {
           .map((e) => transactionData.add(Transaction.fromJson(e)))
           .toList();
 
-      List<PendingPayment> pendingPaymentData = [];
       pendingPayment
-          .map((e) => pendingPaymentData.add(PendingPayment.fromJson(e)))
+          .map((e) => transactionData.add(PendingPayment.fromJson(e)))
           .toList();
 
-      _updateStream(
-          TransactionState.achieveData(transactionData, pendingPaymentData));
+      _updateStream(TransactionState.achieveData(transactionData));
+    } catch (err) {
+      printError(err);
+      _updateError(err);
+    }
+  }
+
+  Future<void> getTransactionDetail(String id) async {
+    controller.add(TransactionState.loading());
+    try {
+      var response = await dio.get("/transaction/$id");
+      var data = response.data as Map<String, dynamic>;
+
+      var transaction = Transaction.fromJson(data);
+
+      _updateStream(TransactionState.achieveData([transaction]));
     } catch (err) {
       printError(err);
       _updateError(err);
@@ -98,13 +114,27 @@ class TransactionBloc {
           .map((e) => transactionData.add(Transaction.fromJson(e)))
           .toList();
 
-      List<PendingPayment> pendingPaymentData = [];
       pendingPayment
-          .map((e) => pendingPaymentData.add(PendingPayment.fromJson(e)))
+          .map((e) => transactionData.add(PendingPayment.fromJson(e)))
           .toList();
 
-      _updateStream(
-          TransactionState.achieveData(transactionData, pendingPaymentData));
+      _updateStream(TransactionState.achieveData(transactionData));
+    } catch (err) {
+      printError(err);
+      _updateError(err);
+    }
+  }
+
+  Future<void> getPendingPayment() async {
+    controller.add(TransactionState.loading());
+    try {
+      var response = await dio.get("/transaction/pending");
+      var data = response.data as List<dynamic>;
+
+      List<Transaction> pendingPaymentData = [];
+      data.map((e) => pendingPaymentData.add(PendingPayment.fromJson(e)));
+
+      _updateStream(TransactionState.achieveData(pendingPaymentData));
     } catch (err) {
       printError(err);
       _updateError(err);

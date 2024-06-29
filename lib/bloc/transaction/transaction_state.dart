@@ -1,17 +1,14 @@
-import 'package:mopay_ewallet/models/pending_payment.dart';
 import 'package:mopay_ewallet/models/transaction.dart';
 import 'package:mopay_ewallet/utils/app_error.dart';
 
 class TransactionState {
   final List<Transaction>? transactionData;
-  final List<PendingPayment>? pendingPaymentData;
   final bool isLoading;
   final bool hasError;
   final AppError? error;
 
   TransactionState({
     this.transactionData,
-    this.pendingPaymentData,
     this.isLoading = false,
     this.hasError = false,
     this.error,
@@ -47,11 +44,7 @@ class TransactionState {
     return TransactionState();
   }
 
-  factory TransactionState.achieveData(
-      [List<Transaction>? transactionData,
-      List<PendingPayment>? pendingPaymentData]) {
-    return TransactionState(
-        transactionData: transactionData,
-        pendingPaymentData: pendingPaymentData);
+  factory TransactionState.achieveData(List<Transaction>? transactionData) {
+    return TransactionState(transactionData: transactionData);
   }
 }

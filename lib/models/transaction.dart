@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/models/user.dart';
 
 enum TransactionType {
+  expense,
   topup,
   transfer,
   payment,
   receive,
   pending,
   all,
-  expense
 }
 
 class TransactionTypeUtil {
@@ -95,7 +95,7 @@ class Transaction {
     this.targetUser,
     required this.type,
     required this.amount,
-    required this.description,
+    this.description = "",
     required this.createdAt,
   });
 
@@ -128,5 +128,41 @@ class Transaction {
       description: description ?? this.description,
       createdAt: createdAt ?? this.createdAt,
     );
+  }
+}
+
+class PendingPayment extends Transaction {
+  final DateTime expiredAt;
+  final Duration durationLeft;
+
+  PendingPayment({
+    required super.id,
+    required super.targetUser,
+    required super.type,
+    required super.amount,
+    required super.description,
+    required super.createdAt,
+    required this.expiredAt,
+    required this.durationLeft,
+  });
+
+  factory PendingPayment.fromJson(Map<String, dynamic> json) {
+    return PendingPayment(
+      id: json['_id'],
+      targetUser:
+          json['targetUser'] == null ? null : User.fromJson(json['targetUser']),
+      type: TransactionType.pending,
+      amount: json['amount'],
+      description: json['description'],
+      createdAt: DateTime.parse(json['createdAt']),
+      expiredAt: DateTime.parse(json['expiredAt']),
+      durationLeft: findDurationLeft(DateTime.parse(json['expiredAt'])),
+    );
+  }
+
+  static Duration findDurationLeft(DateTime expiredAt) {
+    var now = DateTime.now();
+    var duration = expiredAt.difference(now);
+    return duration;
   }
 }
