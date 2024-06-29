@@ -83,8 +83,10 @@ class TransactionBloc {
   Future<void> getTransactionDetail(String id) async {
     controller.add(TransactionState.loading());
     try {
-      var response = await dio.get("/transaction/$id");
+      var response = await dio.get("/transaction/id");
       var data = response.data as Map<String, dynamic>;
+
+      if (kDebugMode) print(data);
 
       var transaction = Transaction.fromJson(data);
 
@@ -125,14 +127,37 @@ class TransactionBloc {
     }
   }
 
-  Future<void> getPendingPayment() async {
+  Future<void> getPendingPayment([String? id]) async {
     controller.add(TransactionState.loading());
     try {
-      var response = await dio.get("/transaction/pending");
-      var data = response.data as List<dynamic>;
+      String url = "/transaction/pending";
+      if (id != null) {
+        url += "/$id";
+      }
+      var response = await dio.get(url);
+      var data = response.data;
 
       List<Transaction> pendingPaymentData = [];
-      data.map((e) => pendingPaymentData.add(PendingPayment.fromJson(e)));
+
+      if (kDebugMode) print(data);
+
+      if (data is List) {
+        pendingPaymentData =
+            data.map((e) => PendingPayment.fromJson(e)).toList();
+      }
+      //
+      else if (data is Map<String, dynamic>) {
+        pendingPaymentData.add(PendingPayment.fromJson(data));
+      }
+
+      if (data.isEmpty) {
+        _updateStream(TransactionState.achieveData([]));
+        return;
+      }
+
+      if (kDebugMode) {
+        print(pendingPaymentData);
+      }
 
       _updateStream(TransactionState.achieveData(pendingPaymentData));
     } catch (err) {
