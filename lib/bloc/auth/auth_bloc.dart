@@ -72,9 +72,7 @@ class AuthBloc {
 
       _updateStream(AuthState.isAuthenticated());
     } catch (err) {
-      if (kDebugMode) {
-        print(err);
-      }
+      printError(err);
       return _updateError(err);
     }
     return null;
@@ -121,9 +119,8 @@ class AuthBloc {
 
       _updateStream(AuthState.isAuthenticated());
     } catch (err) {
-      if (kDebugMode) {
-        print(err);
-      }
+      printError(err);
+
       return _updateError(err);
     }
     return null;
@@ -160,11 +157,17 @@ class AuthBloc {
 
   Future<AppError?> logout() async {
     try {
-      await dio.post('/logout');
       await Store.clearCache();
       _updateStream(AuthState.initial());
+      // Error saat logout tidak perlu dihandle
+      try {
+        await dio.post('/logout');
+      } catch (err) {
+        printError(err);
+      }
       return null;
     } catch (err) {
+      printError(err);
       return _updateError();
     }
   }
