@@ -198,6 +198,7 @@ class _InsertNewPinConfirmationState extends State<InsertNewPinConfirmation> {
                 ),
               );
               Navigator.pop(context);
+              return;
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -209,6 +210,18 @@ class _InsertNewPinConfirmationState extends State<InsertNewPinConfirmation> {
               );
               setState(() => enteredPin = "");
             }
+            return;
+          }
+          if (widget.newPin != enteredPin) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Text('PIN tidak sama.'),
+                backgroundColor: Colors.red[700],
+                behavior: SnackBarBehavior.floating, // Floating behavior
+                elevation: 10,
+              ),
+            );
+            setState(() => enteredPin = "");
             return;
           }
           // DAFTAR PIN BARU JIKA OLD PIN TIDAK ADA
