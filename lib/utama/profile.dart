@@ -315,19 +315,19 @@ class _ProfileState extends State<Profile> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context)
-                                              .push(MaterialPageRoute(
-                                            builder: (context) => HistoryPage(
-                                              entryFilter:
-                                                  TransactionFilterData(
-                                                      type: TransactionType
-                                                          .receive),
-                                            ),
-                                          ));
-                                        },
-                                        child: Expanded(
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) => HistoryPage(
+                                                entryFilter:
+                                                    TransactionFilterData(
+                                                        type: TransactionType
+                                                            .receive),
+                                              ),
+                                            ));
+                                          },
                                           child: Row(
                                             children: [
                                               const CircleAvatar(
@@ -370,19 +370,19 @@ class _ProfileState extends State<Profile> {
                                         ),
                                       ),
                                       const VerticalDivider(),
-                                      GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context)
-                                              .push(MaterialPageRoute(
-                                            builder: (context) => HistoryPage(
-                                              entryFilter:
-                                                  TransactionFilterData(
-                                                      type: TransactionType
-                                                          .expense),
-                                            ),
-                                          ));
-                                        },
-                                        child: Expanded(
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) => HistoryPage(
+                                                entryFilter:
+                                                    TransactionFilterData(
+                                                        type: TransactionType
+                                                            .expense),
+                                              ),
+                                            ));
+                                          },
                                           child: Row(
                                             children: [
                                               const CircleAvatar(
