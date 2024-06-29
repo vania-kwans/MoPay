@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_state.dart';
 import 'package:mopay_ewallet/bloc/store.dart';
+import 'package:mopay_ewallet/main.dart';
 import 'package:mopay_ewallet/pages/home/home_bucket.dart';
 import 'package:mopay_ewallet/pages/pin_code/insert_pin.dart';
 import 'package:mopay_ewallet/utils/app_error.dart';
@@ -257,9 +258,9 @@ class _LoginPageState extends State<LoginPage> {
                                               _phoneNumberController.text,
                                               password);
 
-                                          if (!context.mounted) return;
                                           if (error != null) {
-                                            ScaffoldMessenger.of(context)
+                                            ScaffoldMessenger.of(navigatorKey
+                                                    .currentContext!)
                                                 .showSnackBar(SnackBar(
                                               content: Text(error.message),
                                               backgroundColor: Colors.red,
