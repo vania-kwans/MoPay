@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/pages/fitur/tagihan_listrik.dart';
 import 'package:mopay_ewallet/pages/fitur/token_listrik.dart';
@@ -18,56 +17,66 @@ class _PlnState extends State<Pln> {
         title: Text('PLN'),
       ),
       body: Container(
-        child: Column(
+          child: Column(children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    IconButton(onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => TokenListrik(),));
+                IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => TokenListrik(),
+                      ));
                     },
-                        icon: CircleAvatar(
-                          backgroundColor: Colors.yellow,
-                          child: Icon(Icons.electric_bolt , color: Colors.red,),
-                        )),
-                    SizedBox(width: 20),
-                    Text("Token Listrik"),
-                  ],
-                ),
-                Icon(Icons.arrow_forward_ios)
+                    icon: CircleAvatar(
+                      backgroundColor: Colors.yellow,
+                      child: Icon(
+                        Icons.electric_bolt,
+                        color: Colors.red,
+                      ),
+                    )),
+                SizedBox(width: 20),
+                Text("Token Listrik"),
               ],
             ),
-                  Divider(
-                    indent: 50,
-                    // endIndent: 50,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          IconButton(onPressed: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => TagihanListrik(),));
-                          },
-                              icon: CircleAvatar(
-                                backgroundColor: Colors.yellow,
-                                child: Icon(Icons.electric_bolt , color: Colors.red,),
-                              )),
-                          SizedBox(width: 20),
-                          Text("Tagihan Listrik"),
-                        ],
-                      ),
-                      Icon(Icons.arrow_forward_ios)
+            Icon(Icons.arrow_forward_ios)
           ],
         ),
-            Divider(
-              indent: 50,
-              // endIndent: 50,
+        Divider(
+          indent: 50,
+          // endIndent: 50,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => TagihanListrik(),
+                      ));
+                    },
+                    icon: CircleAvatar(
+                      backgroundColor: Colors.yellow,
+                      child: Icon(
+                        Icons.electric_bolt,
+                        color: Colors.red,
+                      ),
+                    )),
+                SizedBox(width: 20),
+                Text("Tagihan Listrik"),
+              ],
             ),
-      ])
-    ),
+            Icon(Icons.arrow_forward_ios)
+          ],
+        ),
+        Divider(
+          indent: 50,
+          // endIndent: 50,
+        ),
+      ])),
     );
   }
 }
