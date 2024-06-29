@@ -1,11 +1,8 @@
-
-
 import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/data/data_user_mopay.dart';
 import 'package:provider/provider.dart';
-
 
 class TagihanListrik extends StatelessWidget {
   @override
@@ -17,7 +14,10 @@ class TagihanListrik extends StatelessWidget {
             expandedHeight: 200.0,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text("Tagihan Listrik" , style: TextStyle(color: Colors.black),),
+              title: Text(
+                "Tagihan Listrik",
+                style: TextStyle(color: Colors.black),
+              ),
               background: Image.network(
                 "https://png.pngtree.com/png-clipart/20230824/original/pngtree-professional-electricians-workers-do-necessary-electrical-installation-picture-image_8450855.png",
                 fit: BoxFit.contain,
@@ -26,13 +26,12 @@ class TagihanListrik extends StatelessWidget {
           ),
           SliverToBoxAdapter(
             child: Padding(
-              padding:  EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0),
               child: GridHarga(),
             ),
           ),
         ],
       ),
-
     );
   }
 }
@@ -50,7 +49,7 @@ class _GridHargaState extends State<GridHarga> {
   void finds(String keyword) {
     setState(() {
       find = DataPelanggan.firstWhere(
-            (pelanggan) => pelanggan.IdPelanggan.contains(keyword),
+        (pelanggan) => pelanggan.IdPelanggan.contains(keyword),
         orElse: () => Pelanggan(
           nomorMeter: '',
           IdPelanggan: '',
@@ -70,8 +69,7 @@ class _GridHargaState extends State<GridHarga> {
     setState(() {
       if (_noToken.text.length >= 10) {
         _isButtonEnabled = true;
-      }
-      else {
+      } else {
         _isButtonEnabled = false;
       }
     });
@@ -147,7 +145,8 @@ class _GridHargaState extends State<GridHarga> {
                       ),
                       Text(
                         "Detail Pembayaran",
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25),
                       ),
                       SizedBox(
                         height: 80,
@@ -205,7 +204,9 @@ class _GridHargaState extends State<GridHarga> {
                             ElevatedButton(
                               onPressed: () {
                                 MopayUserData currentUser =
-                                Provider.of<MopayUserDataProvider>(context, listen: false).currentUser!;
+                                    Provider.of<MopayUserDataProvider>(context,
+                                            listen: false)
+                                        .currentUser!;
                                 showDialog(
                                   context: context,
                                   builder: (context) {
@@ -221,7 +222,12 @@ class _GridHargaState extends State<GridHarga> {
                                   },
                                 );
                               },
-                              child: Text("Lanjut" , style: TextStyle(fontWeight: FontWeight.bold , color: Colors.white),),
+                              child: Text(
+                                "Lanjut",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
                               style: ElevatedButton.styleFrom(
                                 fixedSize: Size.fromHeight(50),
                                 backgroundColor: Color(0xFF850000),
@@ -234,7 +240,9 @@ class _GridHargaState extends State<GridHarga> {
                     ],
                   ),
                 if (find == null)
-                  Image(image: NetworkImage("https://static.vecteezy.com/system/resources/previews/016/026/432/original/user-not-found-account-not-register-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-icon-vector.jpg")),
+                  Image(
+                      image: NetworkImage(
+                          "https://static.vecteezy.com/system/resources/previews/016/026/432/original/user-not-found-account-not-register-concept-illustration-flat-design-eps10-modern-graphic-element-for-landing-page-empty-state-ui-infographic-icon-vector.jpg")),
               ],
             ),
           ),
@@ -243,21 +251,21 @@ class _GridHargaState extends State<GridHarga> {
     );
   }
 
-
-
   @override
   void initState() {
     super.initState();
     _noToken.addListener(_checkInput);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text("Nomor Meteran", textAlign: TextAlign.start,),
+        Text(
+          "Nomor Meteran",
+          textAlign: TextAlign.start,
+        ),
         TextField(
           onChanged: finds,
           controller: _noToken,
@@ -265,85 +273,63 @@ class _GridHargaState extends State<GridHarga> {
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20)
-            ),
+            enabledBorder:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
             hintText: "Contoh 1234567890",
           ),
         ),
         SizedBox(height: 20),
         ElevatedButton(
-          onPressed: _isButtonEnabled ? _showBottomSheet: null,
-
+          onPressed: _isButtonEnabled ? _showBottomSheet : null,
           style: ElevatedButton.styleFrom(
               disabledBackgroundColor: Colors.grey[300],
-              backgroundColor: Color(0xFF850000)
+              backgroundColor: Color(0xFF850000)),
+          child: Text(
+            'Lanjutkan',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
-          child: Text('Lanjutkan', style: TextStyle(color: Colors.white , fontWeight: FontWeight.bold),),
         ),
         // SizedBox(height: 20),
         // _showGridView ? _buildGridView() : Container(),
       ],
     );
   }
-
 }
-
-
 
 class Pilihan {
   int harga;
   int admin;
 
-  Pilihan({required this.harga, required this.admin
-  });
+  Pilihan({required this.harga, required this.admin});
 }
 
 List<Pilihan> PilihanPembelian = [
-  Pilihan(
-      harga: 20000,
-      admin: 2500),
-  Pilihan(
-      harga: 50000,
-      admin: 2500),
-  Pilihan(
-      harga: 100000,
-      admin: 2500),
-  Pilihan(
-      harga: 200000,
-      admin: 2750),
-  Pilihan(
-      harga: 500000,
-      admin: 2750),
-  Pilihan(
-      harga: 1000000,
-      admin: 2750),
-  Pilihan(
-      harga: 5000000,
-      admin: 2750),
-  Pilihan(
-      harga: 10000000,
-      admin: 2750)
+  Pilihan(harga: 20000, admin: 2500),
+  Pilihan(harga: 50000, admin: 2500),
+  Pilihan(harga: 100000, admin: 2500),
+  Pilihan(harga: 200000, admin: 2750),
+  Pilihan(harga: 500000, admin: 2750),
+  Pilihan(harga: 1000000, admin: 2750),
+  Pilihan(harga: 5000000, admin: 2750),
+  Pilihan(harga: 10000000, admin: 2750)
 ];
 
-class Pelanggan{
+class Pelanggan {
   String nomorMeter;
-  String IdPelanggan ;
-  String Nama ;
+  String IdPelanggan;
+  String Nama;
   String DayaTarif;
-  int Iuran ;
-  int Admin ;
+  int Iuran;
+  int Admin;
 
-  Pelanggan(
-      {
-        required this.nomorMeter ,
-        required this.IdPelanggan,
-        required this.Nama,
-        required this.DayaTarif,
-        required this.Iuran,
-        required this.Admin,
-      }
-      );
+  Pelanggan({
+    required this.nomorMeter,
+    required this.IdPelanggan,
+    required this.Nama,
+    required this.DayaTarif,
+    required this.Iuran,
+    required this.Admin,
+  });
 }
 
 List<Pelanggan> DataPelanggan = [
@@ -352,9 +338,8 @@ List<Pelanggan> DataPelanggan = [
       IdPelanggan: "1234567890",
       Nama: "elly",
       DayaTarif: "R2M/000000200VA",
-      Iuran : 500000,
-      Admin: 2500
-  ),
+      Iuran: 500000,
+      Admin: 2500),
   Pelanggan(
       nomorMeter: "1234567890",
       IdPelanggan: "12345432123",
@@ -370,7 +355,3 @@ List<Pelanggan> DataPelanggan = [
       Iuran: 499000,
       Admin: 2500)
 ];
-
-
-
-
