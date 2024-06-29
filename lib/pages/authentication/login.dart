@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
+import 'package:mopay_ewallet/bloc/auth/auth_state.dart';
 import 'package:mopay_ewallet/bloc/store.dart';
+import 'package:mopay_ewallet/pages/home/home_bucket.dart';
 import 'package:mopay_ewallet/pages/pin_code/insert_pin.dart';
 import 'package:mopay_ewallet/utils/app_error.dart';
 import 'package:provider/provider.dart';
@@ -231,52 +233,76 @@ class _LoginPageState extends State<LoginPage> {
                         //   ),
                         // ),
                         const SizedBox(height: 25.0),
-                        ElevatedButton(
-                          onPressed: () async {
-                            if (_formkey.currentState!.validate()) {
-                              String phoneNumber =
-                                  "0${_phoneNumberController.text}";
-                              String password = _passController.text;
+                        StreamBuilder<AuthState>(
+                            stream: bloc.controller,
+                            builder: (context, snapshot) {
+                              bool isLoading = snapshot.data?.isLoading ??
+                                  false || !snapshot.hasData;
+                              return ElevatedButton(
+                                onPressed: isLoading
+                                    ? null
+                                    : () async {
+                                        if (_formkey.currentState!.validate()) {
+                                          String phoneNumber =
+                                              "0${_phoneNumberController.text}";
+                                          String password =
+                                              _passController.text;
 
-                              AppError? error =
-                                  await bloc.login(phoneNumber, password);
+                                          AppError? error = await bloc.login(
+                                              phoneNumber, password);
 
-                              // JANGAN SIMPAN 0 DIDEPAN AGAR TIDAK BENTROK DENGAN PREFIX
-                              await Store.saveLoginPreferences(rememberPassword,
-                                  _phoneNumberController.text, password);
+                                          // JANGAN SIMPAN 0 DIDEPAN AGAR TIDAK BENTROK DENGAN PREFIX
+                                          await Store.saveLoginPreferences(
+                                              rememberPassword,
+                                              _phoneNumberController.text,
+                                              password);
 
-                              if (!context.mounted) return;
-                              if (error != null) {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(SnackBar(
-                                  content: Text(error.message),
+                                          if (!context.mounted) return;
+                                          if (error != null) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                              content: Text(error.message),
+                                              backgroundColor: Colors.red,
+                                            ));
+                                          }
+
+                                          if (await Store.getToken() != null) {
+                                            if (!context.mounted) return;
+                                            bool? isPinValid =
+                                                await Navigator.of(context)
+                                                    .push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const InsertPin(),
+                                              ),
+                                            );
+
+                                            if (isPinValid != null &&
+                                                isPinValid) {
+                                              if (!context.mounted) return;
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const HomeBucket()));
+                                            }
+                                          }
+                                        }
+                                      },
+                                style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.white,
                                   backgroundColor: Colors.red,
-                                ));
-                              }
-
-                              if (await Store.getToken() != null) {
-                                if (!context.mounted) return;
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) => const InsertPin(),
+                                  elevation: 5,
+                                  fixedSize: Size.fromWidth(
+                                      MediaQuery.of(context).size.width),
+                                  padding: const EdgeInsets.all(20),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
                                   ),
-                                );
-                              }
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.red,
-                            elevation: 5,
-                            fixedSize: Size.fromWidth(
-                                MediaQuery.of(context).size.width),
-                            padding: const EdgeInsets.all(20),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                          child: const Text("Sign In"),
-                        ),
+                                ),
+                                child: const Text("Sign In"),
+                              );
+                            }),
                         const SizedBox(height: 25.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

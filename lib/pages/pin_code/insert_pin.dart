@@ -283,9 +283,7 @@ class _InsertPinState extends State<InsertPin> {
 
           await Store.setLastPinEnter(DateTime.now());
           if (!mounted) return;
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return const HomeBucket();
-          }));
+          Navigator.pop(context, true);
         },
         number: number);
   }
