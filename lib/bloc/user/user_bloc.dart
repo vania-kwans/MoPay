@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
 import 'package:mopay_ewallet/bloc/interceptors.dart';
 import 'package:mopay_ewallet/bloc/user/user_state.dart';
-import 'package:mopay_ewallet/main.dart';
 import 'package:mopay_ewallet/models/user.dart';
 import 'package:mopay_ewallet/utils/app_error.dart';
 import 'package:mopay_ewallet/utils/print_error.dart';
@@ -35,7 +34,9 @@ class UserBloc {
       }
       return;
     }
-    print("update stream user");
+    if (kDebugMode) {
+      print("update stream user");
+    }
     controller.add(state);
   }
 

@@ -6,7 +6,7 @@ import 'package:mopay_ewallet/bloc/auth/auth_state.dart';
 import 'package:mopay_ewallet/bloc/user/user_bloc.dart';
 import 'package:mopay_ewallet/data/data_saldo.dart';
 import 'package:mopay_ewallet/data/data_user_mopay.dart';
-import 'package:mopay_ewallet/pages/pin_code/insert_pin.dart';
+import 'package:mopay_ewallet/pages/home/home_bucket.dart';
 import 'package:mopay_ewallet/pages/splash_page.dart';
 import 'package:mopay_ewallet/pages/transfer/data_bank.dart';
 import 'package:mopay_ewallet/pages/history/data_history_transaksi.dart';
@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
                 return const SplashPage();
               }
               if (snapshot.data?.isAuthenticated ?? false) {
-                return const InsertPin();
+                return const HomeBucket();
               }
               return const LoginPage();
             }),

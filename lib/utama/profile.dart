@@ -10,6 +10,7 @@ import 'package:mopay_ewallet/models/transaction.dart';
 import 'package:mopay_ewallet/models/user.dart';
 import 'package:mopay_ewallet/pages/authentication/login.dart';
 import 'package:mopay_ewallet/pages/change_profile/change_profile.dart';
+import 'package:mopay_ewallet/pages/history/history.dart';
 import 'package:mopay_ewallet/pages/pin_code/update_pin/insert_old_pin.dart';
 import 'package:mopay_ewallet/utama/setconnect.dart';
 import 'package:mopay_ewallet/utama/smartpay.dart';
@@ -314,83 +315,113 @@ class _ProfileState extends State<Profile> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Expanded(
-                                        child: Row(
-                                          children: [
-                                            const CircleAvatar(
-                                              backgroundColor:
-                                                  Color(0xff4CCD99),
-                                              child: Icon(
-                                                Icons.arrow_downward,
-                                                color: Colors.white,
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) => HistoryPage(
+                                              entryFilter:
+                                                  TransactionFilterData(
+                                                      type: TransactionType
+                                                          .receive),
+                                            ),
+                                          ));
+                                        },
+                                        child: Expanded(
+                                          child: Row(
+                                            children: [
+                                              const CircleAvatar(
+                                                backgroundColor:
+                                                    Color(0xff4CCD99),
+                                                child: Icon(
+                                                  Icons.arrow_downward,
+                                                  color: Colors.white,
+                                                ),
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              width: 20,
-                                            ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const Text(
-                                                    "Saldo Masuk",
-                                                    style: TextStyle(
-                                                        color: Colors.grey),
-                                                  ),
-                                                  isLoading
-                                                      ? const LinearProgressIndicator()
-                                                      : Text(
-                                                          NumberFormat.currency(
-                                                                  locale: 'id',
-                                                                  decimalDigits:
-                                                                      0,
-                                                                  symbol: 'Rp')
-                                                              .format(income)),
-                                                ],
+                                              const SizedBox(
+                                                width: 20,
                                               ),
-                                            ),
-                                          ],
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      "Saldo Masuk",
+                                                      style: TextStyle(
+                                                          color: Colors.grey),
+                                                    ),
+                                                    isLoading
+                                                        ? const LinearProgressIndicator()
+                                                        : Text(NumberFormat
+                                                                .currency(
+                                                                    locale:
+                                                                        'id',
+                                                                    decimalDigits:
+                                                                        0,
+                                                                    symbol:
+                                                                        'Rp')
+                                                            .format(income)),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       const VerticalDivider(),
-                                      Expanded(
-                                        child: Row(
-                                          children: [
-                                            const CircleAvatar(
-                                              backgroundColor:
-                                                  Color(0xffE72929),
-                                              child: Icon(
-                                                Icons.arrow_upward,
-                                                color: Colors.white,
-                                              ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) => HistoryPage(
+                                              entryFilter:
+                                                  TransactionFilterData(
+                                                      type: TransactionType
+                                                          .expense),
                                             ),
-                                            const SizedBox(
-                                              width: 20,
-                                            ),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const Text(
-                                                    "Saldo Keluar",
-                                                    style: TextStyle(
-                                                        color: Colors.grey),
-                                                  ),
-                                                  isLoading
-                                                      ? const LinearProgressIndicator()
-                                                      : Text(
-                                                          NumberFormat.currency(
-                                                                  locale: 'id',
-                                                                  decimalDigits:
-                                                                      0,
-                                                                  symbol: 'Rp')
-                                                              .format(expense)),
-                                                ],
+                                          ));
+                                        },
+                                        child: Expanded(
+                                          child: Row(
+                                            children: [
+                                              const CircleAvatar(
+                                                backgroundColor:
+                                                    Color(0xffE72929),
+                                                child: Icon(
+                                                  Icons.arrow_upward,
+                                                  color: Colors.white,
+                                                ),
                                               ),
-                                            )
-                                          ],
+                                              const SizedBox(
+                                                width: 20,
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      "Saldo Keluar",
+                                                      style: TextStyle(
+                                                          color: Colors.grey),
+                                                    ),
+                                                    isLoading
+                                                        ? const LinearProgressIndicator()
+                                                        : Text(NumberFormat
+                                                                .currency(
+                                                                    locale:
+                                                                        'id',
+                                                                    decimalDigits:
+                                                                        0,
+                                                                    symbol:
+                                                                        'Rp')
+                                                            .format(expense)),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ],
