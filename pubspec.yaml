@@ -42,12 +42,13 @@ dev_dependencies:
 
 flutter_native_splash:
   color: "#850000"
-  image: "assets/images/logo-mopay/logo4.png"
+  image: assets/images/logo-mopay/logo4.png
 
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/logo-mopay/logo4.png"
+  image_path: "assets/images/logo-mopay/mopay_icon.png"
+  min_sdk_android: 21
 
 flutter:
   uses-material-design: true
