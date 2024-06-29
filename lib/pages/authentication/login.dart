@@ -264,6 +264,7 @@ class _LoginPageState extends State<LoginPage> {
                                               content: Text(error.message),
                                               backgroundColor: Colors.red,
                                             ));
+                                            return;
                                           }
 
                                           if (await Store.getToken() != null) {
