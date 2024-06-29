@@ -6,7 +6,7 @@ import 'package:mopay_ewallet/bloc/store.dart';
 import 'package:mopay_ewallet/pages/history/history.dart';
 import 'package:mopay_ewallet/pages/home/home_page.dart';
 import 'package:mopay_ewallet/pages/pin_code/insert_pin.dart';
-import 'package:mopay_ewallet/pages/transfer/transfer_page.dart';
+import 'package:mopay_ewallet/pages/transaction/pending_payment_page.dart';
 import 'package:mopay_ewallet/utama/profile.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +23,7 @@ class _HomeBucketState extends State<HomeBucket> {
   final List<Widget> screens = const [
     HomePage(),
     HistoryPage(),
-    TransferPage(),
+    PendingPaymentPage(),
     Profile(),
   ];
 
