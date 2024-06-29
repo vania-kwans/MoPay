@@ -107,7 +107,7 @@ class Transaction {
       type: TransactionTypeUtil.fromString(json['type']),
       amount: json['amount'],
       description: json['description'],
-      createdAt: DateTime.parse(json['createdAt']),
+      createdAt: DateTime.parse(json['createdAt']).toLocal(),
     );
   }
 
@@ -153,9 +153,9 @@ class PendingPayment extends Transaction {
           json['targetUser'] == null ? null : User.fromJson(json['targetUser']),
       type: TransactionType.pending,
       amount: json['amount'],
-      description: json['description'],
-      createdAt: DateTime.parse(json['createdAt']),
-      expiredAt: DateTime.parse(json['expiredAt']),
+      description: json['description'] ?? "Pembayaran kepada Travellingo",
+      createdAt: DateTime.parse(json['createdAt']).toLocal(),
+      expiredAt: DateTime.parse(json['expiredAt']).toLocal(),
       durationLeft: findDurationLeft(DateTime.parse(json['expiredAt'])),
     );
   }
