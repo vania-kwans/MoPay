@@ -152,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black)),
                             prefixIcon: Icon(Icons.phone_android),
-                            prefixText: "+62",
+                            prefixText: "+62 ",
                             hintText: ('Insert Your Phone Number'),
                             label: Text(
                               'Phone Number',
@@ -271,7 +271,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           AppError? error = await bloc.register(
                                               email: email,
                                               password: password,
-                                              phoneNumber: phoneNumber,
+                                              phoneNumber: "0$phoneNumber",
                                               name: username);
 
                                           if (!context.mounted) return;
@@ -295,7 +295,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                               backgroundColor: Colors.green,
                                             ),
                                           );
-                                          Navigator.push(
+                                          Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
