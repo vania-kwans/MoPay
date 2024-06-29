@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mopay_ewallet/bloc/interceptors.dart';
 import 'package:mopay_ewallet/bloc/transaction/transaction_state.dart';
 import 'package:mopay_ewallet/models/pending_payment.dart';
 import 'package:mopay_ewallet/models/transaction.dart';
+import 'package:mopay_ewallet/pages/history/history.dart';
 import 'package:mopay_ewallet/utils/app_error.dart';
 import 'package:mopay_ewallet/utils/print_error.dart';
 import 'package:rxdart/rxdart.dart';
@@ -11,8 +13,7 @@ import 'package:rxdart/rxdart.dart';
 class TransactionBloc {
   final dio = Dio(BaseOptions(baseUrl: dotenv.env["BASE_URL"]!));
 
-  final controller =
-      BehaviorSubject<TransactionState>.seeded(TransactionState.initial());
+  final controller = BehaviorSubject<TransactionState>();
 
   TransactionBloc() {
     dio.interceptors.add(TokenInterceptors());
@@ -37,14 +38,28 @@ class TransactionBloc {
     controller.close();
   }
 
-  Future<void> getTransaction() async {
+  /// GET ALL TRANSACTION DATA
+  Future<void> getTransaction([TransactionFilterData? filterData]) async {
     controller.add(TransactionState.loading());
     try {
-      var response = await dio.get("/transaction");
+      var query = filterData?.getQuery();
+
+      String url =
+          "/transaction${query != null && query.isNotEmpty ? '?$query' : ""}";
+
+      if (kDebugMode) {
+        print(url);
+      }
+
+      var response = await dio.get(url);
       var data = response.data as Map<String, dynamic>;
 
       var completedTransaction = data['completedTransaction'] as List<dynamic>;
       var pendingPayment = data['pendingPayment'] as List<dynamic>;
+
+      if (kDebugMode) {
+        print(data);
+      }
 
       List<Transaction> transactionData = [];
       completedTransaction
@@ -72,7 +87,7 @@ class TransactionBloc {
 
       String query =
           "?startDate=${startDate.toUtc().toIso8601String()}&endDate=${endDate.toUtc().toIso8601String()}";
-      var response = await dio.get("/transaction/metrics$query");
+      var response = await dio.get("/transaction$query");
       var data = response.data as Map<String, dynamic>;
 
       var completedTransaction = data['completedTransaction'] as List<dynamic>;
@@ -96,7 +111,7 @@ class TransactionBloc {
     }
   }
 
-  Future transfer({
+  Future transferToPhoneNumber({
     required String phoneNumber,
     required int nominal,
     String? description,
@@ -122,8 +137,8 @@ class TransactionBloc {
     }
   }
 
-  Future<AppError?> makePayment(
-      {required int nominal, String? description}) async {
+  /// GENERAL USE FOR PAYMENT (GLOBAL)
+  Future makePayment({required int nominal, String? description}) async {
     _updateStream(TransactionState.loading());
     try {
       await dio.post("/transaction/payment", data: {
@@ -138,6 +153,30 @@ class TransactionBloc {
     }
   }
 
+  /// GENERAL USE FOR TRANSFER (GLOBAL)
+  Future makeTransfer(
+      {required String accountNumber,
+      required int nominal,
+      String? description}) async {
+    _updateStream(TransactionState.loading());
+    try {
+      var response = await dio.post("/transaction/transfer", data: {
+        "amount": nominal,
+        "description": description ?? "Transfer ke rekening $accountNumber",
+      });
+
+      var data = response.data as Map<String, dynamic>;
+
+      Transaction transaction = Transaction.fromJson(data);
+
+      _updateStream(TransactionState.success());
+      return transaction;
+    } catch (err) {
+      return _updateError(err);
+    }
+  }
+
+  // TOPUP
   Future<AppError?> topUp({required int nominal}) async {
     _updateStream(TransactionState.loading());
     try {
@@ -152,6 +191,7 @@ class TransactionBloc {
     }
   }
 
+  /// ONLY FOR TRAVELLINGO PAYMENT
   Future<AppError?> makeTravellingoPayment(String? pendingPaymentId) async {
     _updateStream(TransactionState.loading());
     try {

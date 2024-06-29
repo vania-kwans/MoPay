@@ -1,6 +1,15 @@
+import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/models/user.dart';
 
-enum TransactionType { topup, transfer, payment, receive }
+enum TransactionType {
+  topup,
+  transfer,
+  payment,
+  receive,
+  pending,
+  all,
+  expense
+}
 
 class TransactionTypeUtil {
   static const Map<String, TransactionType> _stringToType = {
@@ -8,6 +17,9 @@ class TransactionTypeUtil {
     "transfer": TransactionType.transfer,
     "payment": TransactionType.payment,
     "receive": TransactionType.receive,
+    "pending": TransactionType.pending,
+    "expense": TransactionType.expense,
+    "all": TransactionType.all,
   };
 
   static TransactionType fromString(String type) {
@@ -16,6 +28,57 @@ class TransactionTypeUtil {
 
   static String fromType(TransactionType type) {
     return type.toString().split('.').last;
+  }
+
+  static String fromTypeToHumanReadable(TransactionType type) {
+    switch (type) {
+      case TransactionType.expense:
+        return "Expense";
+      case TransactionType.topup:
+        return "Top Up";
+      case TransactionType.transfer:
+        return "Transfer";
+      case TransactionType.payment:
+        return "Payment";
+      case TransactionType.receive:
+        return "Receive";
+      case TransactionType.pending:
+        return "Pending";
+      case TransactionType.all:
+        return "All";
+    }
+  }
+
+  static Color fromTypeToColor(TransactionType type) {
+    if (type == TransactionType.topup || type == TransactionType.receive) {
+      return const Color(0xFF00C853);
+    } else if (type == TransactionType.transfer ||
+        type == TransactionType.payment) {
+      return const Color(0xFFD32F2F);
+    } else if (type == TransactionType.pending) {
+      return Colors.amber.shade500;
+    } else {
+      return const Color(0xFF000000);
+    }
+  }
+
+  static String? toQuery(TransactionType type) {
+    switch (type) {
+      case TransactionType.expense:
+        return "expense";
+      case TransactionType.topup:
+        return "topup";
+      case TransactionType.transfer:
+        return "transfer";
+      case TransactionType.payment:
+        return "payment";
+      case TransactionType.receive:
+        return "receive";
+      case TransactionType.pending:
+        return "pending";
+      case TransactionType.all:
+        return null;
+    }
   }
 }
 
