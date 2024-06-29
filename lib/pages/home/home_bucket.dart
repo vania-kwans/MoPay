@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:lottie/lottie.dart';
+import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
+import 'package:mopay_ewallet/bloc/store.dart';
 import 'package:mopay_ewallet/pages/history/history.dart';
 import 'package:mopay_ewallet/pages/home/home_page.dart';
+import 'package:mopay_ewallet/pages/pin_code/insert_pin.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_page.dart';
 import 'package:mopay_ewallet/utama/profile.dart';
+import 'package:provider/provider.dart';
 
 class HomeBucket extends StatefulWidget {
   const HomeBucket({super.key});
@@ -22,6 +28,55 @@ class _HomeBucketState extends State<HomeBucket> {
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
+
+  late AuthBloc bloc;
+
+  @override
+  void initState() {
+    bloc = context.read<AuthBloc>();
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      // Loading Dialog
+      showDialog(
+          context: context,
+          builder: (context) => PopScope(
+                canPop: false,
+                child: Dialog(
+                  child: Lottie.asset('assets/lottie/mopayLottie.json'),
+                ),
+              ));
+
+      DateTime lastPinEnter = await Store.getLastPinEnter();
+      // Jika user sudah 5 menit tidak memasukkan pin, maka user harus memasukkan pin
+      if (lastPinEnter
+          .isBefore(DateTime.now().subtract(const Duration(minutes: 5)))) {
+        await Store.removeLastPinEnter();
+        bloc.resetPinStream();
+        if (!mounted) return;
+        bool? isPinValid = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const InsertPin(),
+          ),
+        );
+
+        // Jika user sudah memasukkan pin, maka langsung ke home
+        if (!mounted) return;
+        Navigator.pop(context);
+
+        if (isPinValid == null || !isPinValid) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/login', (route) => false);
+        }
+        return;
+      }
+
+      // Jika user sudah memasukkan pin, maka langsung ke home
+      await Future.delayed(const Duration(seconds: 1));
+      if (!mounted) return;
+      Navigator.pop(context);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
