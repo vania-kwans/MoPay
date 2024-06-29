@@ -1,11 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mopay_ewallet/bloc/user/user_bloc.dart';
 import 'package:mopay_ewallet/bloc/user/user_state.dart';
-import 'package:mopay_ewallet/models/user.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_confirmation.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';

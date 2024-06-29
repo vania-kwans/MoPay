@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mopay_ewallet/bloc/transaction/transaction_bloc.dart';
 import 'package:mopay_ewallet/bloc/transaction/transaction_state.dart';
 import 'package:mopay_ewallet/bloc/user/user_bloc.dart';
-import 'package:mopay_ewallet/bloc/user/user_state.dart';
-import 'package:mopay_ewallet/data/data_saldo.dart';
 import 'package:mopay_ewallet/models/user.dart';
-import 'package:mopay_ewallet/pages/history/data_history_transaksi.dart';
-import 'package:mopay_ewallet/data/data_transfer.dart';
-import 'package:mopay_ewallet/data/data_user_mopay.dart';
-import 'package:mopay_ewallet/format/datetime.dart';
+import 'package:mopay_ewallet/pages/pin_code/insert_pin.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_failed.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_success.dart';
 import 'package:mopay_ewallet/utils/app_error.dart';
@@ -49,8 +43,19 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
     userBloc = context.read<UserBloc>();
     transactionBloc = TransactionBloc();
     currentUser = userBloc.controller.valueOrNull!.user!;
-    targetUser = userBloc.publicProfileController.valueOrNull!.user!;
-    biayaTransaksi = widget.tujuanTransfer == 'MoPay' ? 0 : 2500;
+    if (widget.tujuanTransfer == 'MoPay') {
+      targetUser = userBloc.controller.valueOrNull!.user!;
+      biayaTransaksi = 0;
+    } else {
+      targetUser = User(
+        email: '',
+        balance: 0,
+        name: "Bank ${widget.tujuanTransfer}",
+        phoneNumber: '',
+        id: '',
+      );
+      biayaTransaksi = 2500;
+    }
     super.initState();
   }
 
@@ -66,7 +71,6 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
           builder: (context, snapshot) {
             bool isLoading =
                 snapshot.data?.isLoading ?? false || !snapshot.hasData;
-            bool hasError = snapshot.data?.hasError ?? false;
 
             if (isLoading) {
               return Lottie.asset('assets/lottie/mopayLottie.json');
@@ -240,11 +244,17 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () async {
+                          bool? isPinValid = await Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => const InsertPin()));
+                          if (!(isPinValid ?? false)) return;
+
                           if (widget.tujuanTransfer == 'MoPay') {
-                            var response = await transactionBloc.transfer(
-                                phoneNumber: widget.nomor,
-                                nominal: widget.nominal,
-                                description: widget.pesan);
+                            var response =
+                                await transactionBloc.transferToPhoneNumber(
+                                    phoneNumber: widget.nomor,
+                                    nominal: widget.nominal,
+                                    description: widget.pesan);
                             if (!context.mounted) return;
                             if (response is AppError) {
                               Navigator.of(context).pop();
@@ -262,6 +272,30 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                                 ),
                               ));
                             }
+                            return;
+                          }
+
+                          // TRANSFER KE BANK
+                          var response = await transactionBloc.makeTransfer(
+                              accountNumber: widget.nomor,
+                              nominal: widget.nominal,
+                              description: widget.pesan);
+                          if (!context.mounted) return;
+                          if (response is AppError) {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => TransferFailedPage(
+                                error: response,
+                              ),
+                            ));
+                          } else {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => TransferSuccessPage(
+                                transactionReceipt: response,
+                                biayaTransaksi: biayaTransaksi,
+                              ),
+                            ));
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -297,20 +331,3 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
     );
   }
 }
-
-// void showConfirmationPage(
-//   BuildContext context,
-//   String nomor,
-//   String nominal,
-//   String pesan,
-// ) {
-//   showDialog(
-//     context: context,
-//     barrierDismissible: false,
-//     builder: (context) => ConfirmationDialog(
-//       nomor: nomor,
-//       nominal: nominal,
-//       pesan: pesan,
-//     ),
-//   );
-// }

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_state.dart';
 import 'package:mopay_ewallet/bloc/store.dart';
-import 'package:mopay_ewallet/pages/home/home_bucket.dart';
 import 'package:mopay_ewallet/pages/pin_code/update_pin/forgot_pin.dart';
 import 'package:mopay_ewallet/pages/pin_code/widget/keyboard_number.dart';
 import 'package:mopay_ewallet/utils/app_error.dart';
@@ -27,36 +25,6 @@ class _InsertPinState extends State<InsertPin> {
   @override
   void initState() {
     bloc = Provider.of<AuthBloc>(context, listen: false);
-
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      DateTime lastPinEnter = await Store.getLastPinEnter();
-      // Jika user sudah 5 menit tidak memasukkan pin, maka user harus memasukkan pin
-      if (lastPinEnter
-          .isBefore(DateTime.now().subtract(const Duration(minutes: 5)))) {
-        await Store.removeLastPinEnter();
-        bloc.resetPinStream();
-        return;
-      }
-
-      // Jika user sudah memasukkan pin, maka langsung ke home
-      if (!mounted) return;
-      showDialog(
-          context: context,
-          builder: (context) => PopScope(
-                canPop: false,
-                child: Dialog(
-                  child: Lottie.asset('assets/lottie/mopayLottie.json'),
-                ),
-              ));
-
-      await Future.delayed(const Duration(seconds: 1));
-
-      if (!mounted) return;
-      Navigator.pop(context);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const HomeBucket()));
-    });
-
     super.initState();
   }
 
