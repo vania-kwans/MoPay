@@ -19,6 +19,7 @@ class _InsertPinState extends State<InsertPin> {
   String enteredPin = "";
   bool isPinVisible = false;
   bool isPinValid = false;
+  int totalTry = 0;
 
   late AuthBloc bloc;
 
@@ -240,12 +241,19 @@ class _InsertPinState extends State<InsertPin> {
           Navigator.pop(context);
 
           if (error != null) {
+            totalTry++;
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(error.message),
+                content: Text(
+                    "PIN yang Anda masukkan salah. Silakan coba lagi \n Total percobaan tersisa: ${5 - totalTry}"),
                 backgroundColor: Colors.red,
               ),
             );
+
+            if (totalTry >= 5) {
+              await bloc.logout();
+              return;
+            }
             return;
           }
 
