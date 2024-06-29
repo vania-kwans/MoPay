@@ -6,6 +6,7 @@ import 'package:mopay_ewallet/bloc/interceptors.dart';
 import 'package:mopay_ewallet/bloc/store.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_state.dart';
 import 'package:mopay_ewallet/utils/app_error.dart';
+import 'package:mopay_ewallet/utils/print_error.dart';
 import 'package:rxdart/rxdart.dart';
 
 class AuthBloc {
@@ -55,14 +56,20 @@ class AuthBloc {
     try {
       _updateStream(AuthState.isLoading());
 
+      String firebaseMessagingToken =
+          await Store.getFirebaseMessagingToken() ?? "";
+
       var response = await dio.post('/login', data: {
-        "fcmToken": "123",
+        "fcmToken": firebaseMessagingToken,
         "phoneNumber": phoneNumber,
         "password": password
       });
 
       var token = response.data['token'];
       await Store.setToken(token);
+
+      await Store.setFirebaseTokenState(true);
+
       _updateStream(AuthState.isAuthenticated());
     } catch (err) {
       if (kDebugMode) {
@@ -81,6 +88,7 @@ class AuthBloc {
 
       if (token == null) {
         _updateStream(AuthState.initial());
+        await Store.clearCache();
         return null;
       }
 
@@ -90,8 +98,25 @@ class AuthBloc {
 
       if (DateTime.now().isAfter(expiredAt)) {
         _updateStream(AuthState.initial());
-        Store.removeToken();
+        await Store.clearCache();
         return null;
+      }
+
+      var hasLoggedInWithFirebaseToken =
+          await Store.isLoggedInWithFirebaseToken();
+
+      if (!hasLoggedInWithFirebaseToken) {
+        _updateStream(AuthState.initial());
+        await Store.clearCache();
+        return null;
+      }
+
+      String fcmToken = await Store.getFirebaseMessagingToken() ?? "";
+
+      try {
+        await dio.post('/login/fcm', data: {"fcmToken": fcmToken});
+      } catch (err) {
+        printError(err);
       }
 
       _updateStream(AuthState.isAuthenticated());
@@ -133,11 +158,15 @@ class AuthBloc {
     }
   }
 
-  Future logout() async {
-    await Store.removeToken();
-    await Store.removeLastPinEnter();
-    await Store.removeLastAdsShown();
-    _updateStream(AuthState.initial());
+  Future<AppError?> logout() async {
+    try {
+      await dio.post('/logout');
+      await Store.clearCache();
+      _updateStream(AuthState.initial());
+      return null;
+    } catch (err) {
+      return _updateError();
+    }
   }
 
   Future<AppError?> verifyPin(String? pin) async {
