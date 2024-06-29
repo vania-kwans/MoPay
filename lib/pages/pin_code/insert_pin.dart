@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_bloc.dart';
 import 'package:mopay_ewallet/bloc/auth/auth_state.dart';
 import 'package:mopay_ewallet/bloc/store.dart';
+import 'package:mopay_ewallet/pages/authentication/login.dart';
 import 'package:mopay_ewallet/pages/pin_code/update_pin/forgot_pin.dart';
 import 'package:mopay_ewallet/pages/pin_code/widget/keyboard_number.dart';
 import 'package:mopay_ewallet/utils/app_error.dart';
@@ -202,6 +203,12 @@ class _InsertPinState extends State<InsertPin> {
             TextButton(
                 onPressed: () async {
                   await bloc.logout();
+                  if (!context.mounted) return;
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPage()),
+                      (route) => false);
                 },
                 child: const Text("Keluar dari akun",
                     style: TextStyle(
