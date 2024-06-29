@@ -252,6 +252,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         child: InkWell(
                           onTap: () {
                             showModalBottomSheet(
+                              isScrollControlled: true,
                               context: context,
                               builder: (BuildContext context) {
                                 return StatefulBuilder(
