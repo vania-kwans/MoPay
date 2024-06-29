@@ -9,110 +9,120 @@ class HomeAds extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
         backgroundColor: Colors.transparent,
-        title: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-          CircleAvatar(
-            backgroundColor: const Color(0xff850000),
-            child: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(
-                  Icons.close,
-                  color: Colors.white,
-                )),
-          ),
-        ]),
         content: Container(
-          padding: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 10),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const Text("SMS",
-                    style: TextStyle(
-                        color: Color(0xff450000),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20)),
-                const Text("Sedia MoPay Sekarang",
-                    style: TextStyle(
-                        color: Color(0xff450000),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 8)),
-                Column(
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                padding: const EdgeInsets.only(top: 10),
+                child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    const Text("SMS",
+                        style: TextStyle(
+                            color: Color(0xff450000),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20)),
+                    const Text("Sedia MoPay Sekarang",
+                        style: TextStyle(
+                            color: Color(0xff450000),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 8)),
+                    Column(
                       children: [
-                        const Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('Cash',
+                            const Column(
+                              children: [
+                                Text('Cash',
+                                    style: TextStyle(
+                                        color: Color(0xff850000),
+                                        fontWeight: FontWeight.bold)),
+                                Text('back',
+                                    style: TextStyle(
+                                        color: Color(0xff850000),
+                                        fontWeight: FontWeight.bold))
+                              ],
+                            ),
+                            const SizedBox(width: 5),
+                            const Text("10",
                                 style: TextStyle(
                                     color: Color(0xff850000),
+                                    fontSize: 80,
                                     fontWeight: FontWeight.bold)),
-                            Text('back',
-                                style: TextStyle(
-                                    color: Color(0xff850000),
-                                    fontWeight: FontWeight.bold))
+                            const SizedBox(width: 5),
+                            CircleAvatar(
+                              backgroundColor: Colors.grey[300],
+                              child: const Icon(
+                                Icons.percent,
+                                color: Color(0xff850000),
+                              ),
+                            )
                           ],
                         ),
-                        const SizedBox(width: 5),
-                        const Text("10",
+                      ],
+                    ),
+                    const Column(
+                      children: [
+                        Text(
+                          "Beli paket data",
+                          style:
+                              TextStyle(color: Color(0xff450000), fontSize: 15),
+                        ),
+                        Text("pas darurat bisa mulai",
                             style: TextStyle(
-                                color: Color(0xff850000),
-                                fontSize: 80,
-                                fontWeight: FontWeight.bold)),
-                        const SizedBox(width: 5),
-                        CircleAvatar(
-                          backgroundColor: Colors.grey[300],
-                          child: const Icon(
-                            Icons.percent,
-                            color: Color(0xff850000),
-                          ),
+                                color: Color(0xff450000), fontSize: 15)),
+                        Text('15rb , sereceh itu',
+                            style: TextStyle(
+                                color: Color(0xff450000), fontSize: 15)),
+                        SizedBox(height: 5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.calendar_month,
+                              color: Color(0xffF7C566),
+                              size: 10,
+                            ),
+                            Text('Setiap Minggu',
+                                style: TextStyle(
+                                    fontSize: 10, color: Color(0xffF7C566))),
+                          ],
                         )
                       ],
                     ),
+                    const SizedBox(height: 10),
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: const Image(
+                          image: NetworkImage(
+                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAoucDGF3UETzeXgL0Hp2UtyiN-GEcVn0iSQ&s"),
+                        ))
                   ],
                 ),
-                const Column(
-                  children: [
-                    Text(
-                      "Beli paket data",
-                      style: TextStyle(color: Color(0xff450000), fontSize: 15),
-                    ),
-                    Text("pas darurat bisa mulai",
-                        style:
-                            TextStyle(color: Color(0xff450000), fontSize: 15)),
-                    Text('15rb , sereceh itu',
-                        style:
-                            TextStyle(color: Color(0xff450000), fontSize: 15)),
-                    SizedBox(height: 5),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.calendar_month,
-                          color: Color(0xffF7C566),
-                          size: 10,
-                        ),
-                        Text('Setiap Minggu',
-                            style: TextStyle(
-                                fontSize: 10, color: Color(0xffF7C566))),
-                      ],
-                    )
-                  ],
+              ),
+              Positioned(
+                right: 10,
+                child: CircleAvatar(
+                  radius: 15,
+                  backgroundColor: const Color(0xff850000),
+                  child: IconButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                        color: Colors.white,
+                        size: 15,
+                      )),
                 ),
-                const SizedBox(height: 10),
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: const Image(
-                      image: NetworkImage(
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAoucDGF3UETzeXgL0Hp2UtyiN-GEcVn0iSQ&s"),
-                    ))
-              ],
-            ),
+              ),
+            ],
           ),
         ));
   }
