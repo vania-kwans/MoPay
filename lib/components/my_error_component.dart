@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mopay_ewallet/utils/app_error.dart';
 
 class MyErrorComponent extends StatelessWidget {
   final Function() onRefresh;
-  const MyErrorComponent({super.key, required this.onRefresh});
+  final AppError? error;
+  const MyErrorComponent({super.key, required this.onRefresh, this.error});
 
   @override
   Widget build(BuildContext context) {
@@ -13,14 +15,14 @@ class MyErrorComponent extends StatelessWidget {
           onTap: onRefresh,
           child: Container(
             color: Colors.transparent,
-            child: const Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.refresh),
-                SizedBox(
+                const Icon(Icons.refresh),
+                const SizedBox(
                   height: 20,
                 ),
-                Text("Terjadi kesalahan."),
+                Text(error?.errorMessage ?? "Terjadi kesalahan."),
               ],
             ),
           ),
