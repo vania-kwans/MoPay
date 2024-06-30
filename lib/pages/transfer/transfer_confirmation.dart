@@ -44,7 +44,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
     transactionBloc = TransactionBloc();
     currentUser = userBloc.controller.valueOrNull!.user!;
     if (widget.tujuanTransfer == 'MoPay') {
-      targetUser = userBloc.controller.valueOrNull!.user!;
+      targetUser = userBloc.publicProfileController.valueOrNull!.user!;
       biayaTransaksi = 0;
     } else {
       targetUser = User(
@@ -69,8 +69,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
       child: StreamBuilder<TransactionState>(
           stream: transactionBloc.state,
           builder: (context, snapshot) {
-            bool isLoading =
-                snapshot.data?.isLoading ?? false || !snapshot.hasData;
+            bool isLoading = snapshot.data?.isLoading ?? false;
 
             if (isLoading) {
               return Lottie.asset('assets/lottie/mopayLottie.json');
