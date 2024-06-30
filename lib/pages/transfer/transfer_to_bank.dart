@@ -7,6 +7,7 @@ import 'package:mopay_ewallet/pages/transfer/data_bank.dart';
 import 'package:mopay_ewallet/format/currency.dart';
 import 'package:mopay_ewallet/pages/transfer/transfer_confirmation.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 
 class TransferToBank extends StatefulWidget {
   const TransferToBank({super.key});
@@ -21,16 +22,17 @@ class _TransferToBankState extends State<TransferToBank> {
   final TextEditingController _pesan = TextEditingController();
   int biayaTransaksi = 2500;
 
-  String _selectedBank = "";
-  bool _isBankSelected = true;
   final bool _isNominalValid = true;
   final bool _isNoRekeningValid = true;
 
-  String _errorTextPilihBank = '';
   final String _errorTextNoRekening = '';
   final String _errorTextNominal = '';
 
   late UserBloc bloc;
+
+  final validator = BehaviorSubject<bool>.seeded(false);
+
+  final _selectedBank = BehaviorSubject<String>();
 
   @override
   void initState() {
@@ -99,27 +101,30 @@ class _TransferToBankState extends State<TransferToBank> {
                       ),
                     ),
                     const SizedBox(height: 50.0),
-                    DropdownButtonFormField(
-                      items: dataBank
-                          .map((e) => DropdownMenuItem(
-                                value: e.nama,
-                                child: Text(e.nama),
-                              ))
-                          .toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedBank = value.toString();
-                          if (_selectedBank == '') {
-                            _isBankSelected = false;
-                            _errorTextPilihBank = 'Harus pilih bank tujuan';
-                          }
-                        });
-                      },
-                      decoration: InputDecoration(
-                        hintText: 'Pilih Bank',
-                        errorText: _isBankSelected ? null : _errorTextPilihBank,
-                      ),
-                    ),
+                    StreamBuilder<String>(
+                        stream: _selectedBank,
+                        builder: (context, snapshot) {
+                          bool isBankSelected =
+                              snapshot.hasData && snapshot.data!.isNotEmpty;
+                          return DropdownButtonFormField(
+                            items: dataBank
+                                .map((e) => DropdownMenuItem(
+                                      value: e.nama,
+                                      child: Text(e.nama),
+                                    ))
+                                .toList(),
+                            onChanged: (value) {
+                              _selectedBank.add(value.toString());
+                            },
+                            value: snapshot.data,
+                            decoration: InputDecoration(
+                              hintText: 'Pilih Bank',
+                              errorText: isBankSelected
+                                  ? null
+                                  : 'Pilih salah satu bank',
+                            ),
+                          );
+                        }),
                     const SizedBox(height: 30.0),
                     TextFormField(
                       controller: _noRekening,
@@ -150,9 +155,10 @@ class _TransferToBankState extends State<TransferToBank> {
                       ),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
+                        validator.add(false);
                         int? currentBankDigit = dataBank
-                            .firstWhereOrNull(
-                                (data) => data.nama == _selectedBank)
+                            .firstWhereOrNull((data) =>
+                                data.nama == _selectedBank.valueOrNull)
                             ?.jlhDigitNoRek;
                         if (currentBankDigit == null) {
                           return null;
@@ -161,6 +167,7 @@ class _TransferToBankState extends State<TransferToBank> {
                             value.length < currentBankDigit) {
                           return 'Nomor rekening tidak sesuai';
                         }
+                        validator.add(true);
                         return null;
                       },
                     ),
@@ -217,6 +224,7 @@ class _TransferToBankState extends State<TransferToBank> {
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               validator: (value) {
+                                validator.add(false);
                                 int value = int.tryParse(_nominal.text) ?? 0;
                                 if (value < 10000) {
                                   return 'Minimal transfer Rp10.000';
@@ -226,6 +234,7 @@ class _TransferToBankState extends State<TransferToBank> {
                                     currentBalances - biayaTransaksi) {
                                   return 'Maks. Transfer Rp${formatToIndonesianCurrency(currentBalances - biayaTransaksi)} (Biaya Transaksi Rp${formatToIndonesianCurrency(biayaTransaksi)})';
                                 }
+                                validator.add(true);
                                 return null;
                               },
                             ),
@@ -262,47 +271,40 @@ class _TransferToBankState extends State<TransferToBank> {
                       maxLines: null,
                     ),
                     const SizedBox(height: 50.0),
-                    SizedBox(
-                      width: double.infinity,
-                      child: (_noRekening.text.isNotEmpty &&
-                              _nominal.text.isNotEmpty &&
-                              _isBankSelected &&
-                              _isNoRekeningValid &&
-                              _isNominalValid)
-                          ? ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  showDialog(
-                                    context: context,
-                                    barrierDismissible: false,
-                                    builder: (context) => ConfirmationDialog(
-                                        tujuanTransfer: _selectedBank,
-                                        nomor: _noRekening.text,
-                                        nominal:
-                                            int.tryParse(_nominal.text) ?? 0,
-                                        pesan: _pesan.text),
-                                  );
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red[900],
-                                foregroundColor: Colors.white,
-                              ),
-                              child: const Text(
-                                'TRANSFER',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            )
-                          : const ElevatedButton(
-                              onPressed: null,
-                              child: Text(
-                                'TRANSFER',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                    StreamBuilder<bool>(
+                        stream: validator,
+                        builder: (context, snapshot) {
+                          bool isValid = snapshot.data ?? false;
+                          return SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: !isValid
+                                    ? null
+                                    : () {
+                                        showDialog(
+                                          context: context,
+                                          barrierDismissible: false,
+                                          builder: (context) =>
+                                              ConfirmationDialog(
+                                                  tujuanTransfer: _selectedBank
+                                                      .valueOrNull!,
+                                                  nomor: _noRekening.text,
+                                                  nominal: int.tryParse(
+                                                          _nominal.text) ??
+                                                      0,
+                                                  pesan: _pesan.text),
+                                        );
+                                      },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red[900],
+                                  foregroundColor: Colors.white,
                                 ),
-                              ),
-                            ),
-                    ),
+                                child: const Text(
+                                  'TRANSFER',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ));
+                        }),
                   ],
                 ),
               ),
