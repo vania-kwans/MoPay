@@ -44,7 +44,7 @@ class _ProfileState extends State<Profile> {
     return GestureDetector(
       onHorizontalDragStart: (details) {
         if (details.globalPosition.dx < 100) {
-          Navigator.pop(context);
+          if (Navigator.canPop(context)) Navigator.pop(context);
         }
       },
       child: Scaffold(
