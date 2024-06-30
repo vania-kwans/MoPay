@@ -213,6 +213,7 @@ class _InsertNewPinConfirmationState extends State<InsertNewPinConfirmation> {
             return;
           }
           if (widget.newPin != enteredPin) {
+            Navigator.pop(context);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: const Text('PIN tidak sama.'),
