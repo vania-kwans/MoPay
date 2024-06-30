@@ -1,7 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mopay_ewallet/bloc/transaction/transaction_bloc.dart';
+import 'package:mopay_ewallet/bloc/transaction/transaction_state.dart';
+import 'package:mopay_ewallet/format/currency.dart';
 import 'package:mopay_ewallet/pages/top_up/data_metode_top_up.dart';
 import 'package:mopay_ewallet/pages/top_up/top_up_instruction_tunai.dart';
 import 'package:mopay_ewallet/pages/top_up/top_up_services_bank.dart';
+import 'package:mopay_ewallet/utils/app_error.dart';
 import 'package:provider/provider.dart';
 
 class MetodeTopUpPage extends StatefulWidget {
@@ -13,8 +18,11 @@ class MetodeTopUpPage extends StatefulWidget {
 }
 
 class _MetodeTopUpPageState extends State<MetodeTopUpPage> {
+  final bloc = TransactionBloc();
+
   @override
   void dispose() {
+    bloc.dispose();
     super.dispose();
   }
 
@@ -84,6 +92,47 @@ class _MetodeTopUpPageState extends State<MetodeTopUpPage> {
                         },
                       ),
                     ),
+                    if (kDebugMode)
+                      StreamBuilder<TransactionState>(
+                          stream: bloc.state,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return const Text("Error");
+                            }
+
+                            bool isLoading = snapshot.data?.isLoading ?? false;
+                            return ListTile(
+                              contentPadding: const EdgeInsets.all(10),
+                              leading: const CircleAvatar(
+                                radius: 25,
+                                child: Icon(Icons.monetization_on_outlined),
+                              ),
+                              title: Text(
+                                isLoading
+                                    ? "Mohon tunggu..."
+                                    : "Debug Topup \nTambah Saldo sebanyak Rp${formatToIndonesianCurrency(2000000)}",
+                                style: const TextStyle(fontSize: 17),
+                              ),
+                              onTap: () async {
+                                AppError? error =
+                                    await bloc.topUp(nominal: 2000000);
+                                if (error != null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(error.message),
+                                    ),
+                                  );
+                                  return;
+                                }
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Topup berhasil"),
+                                  ),
+                                );
+                              },
+                            );
+                          })
                   ],
                 ),
               ),
