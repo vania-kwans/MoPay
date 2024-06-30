@@ -157,14 +157,14 @@ class AuthBloc {
 
   Future<AppError?> logout() async {
     try {
-      await Store.clearCache();
-      _updateStream(AuthState.initial());
-      // Error saat logout tidak perlu dihandle
       try {
         await dio.post('/logout');
       } catch (err) {
         printError(err);
       }
+      await Store.clearCache();
+      _updateStream(AuthState.initial());
+      // Error saat logout tidak perlu dihandle
       return null;
     } catch (err) {
       printError(err);
@@ -200,9 +200,7 @@ class AuthBloc {
         return null;
       }
     } catch (err) {
-      if (kDebugMode) {
-        print(err);
-      }
+      printError(err);
       AppError error = AppError.fromObjectErr(err);
       _updatePinStream(AuthState.hasError(error));
       return error;
