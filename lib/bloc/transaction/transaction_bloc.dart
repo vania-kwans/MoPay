@@ -247,15 +247,20 @@ class TransactionBloc {
   }
 
   /// ONLY FOR TRAVELLINGO PAYMENT
-  Future<AppError?> makeTravellingoPayment(String? pendingPaymentId) async {
+  Future makeTravellingoPayment(String? pendingPaymentId) async {
     _updateStream(TransactionState.loading());
     try {
-      await dio.post("/transaction/payment/travellingo/transaction", data: {
+      var response =
+          await dio.post("/transaction/payment/travellingo/transaction", data: {
         "pendingPaymentId": pendingPaymentId,
       });
 
+      var data = response.data as Map<String, dynamic>;
+
+      Transaction transaction = Transaction.fromJson(data);
+
       _updateStream(TransactionState.success());
-      return null;
+      return transaction;
     } catch (err) {
       return _updateError(err);
     }
