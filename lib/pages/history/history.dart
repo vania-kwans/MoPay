@@ -7,6 +7,8 @@ import 'package:mopay_ewallet/components/my_error_component.dart';
 import 'package:mopay_ewallet/models/transaction.dart';
 import 'package:mopay_ewallet/format/currency.dart';
 import 'package:mopay_ewallet/format/datetime.dart';
+import 'package:mopay_ewallet/pages/transfer/transfer_success.dart';
+import 'package:mopay_ewallet/utils/transition.dart';
 import 'package:rxdart/rxdart.dart';
 
 enum DateRange { last7Days, last30Days, last365Days, all }
@@ -51,7 +53,7 @@ class TransactionFilterData {
   String getQuery() {
     List<String> query = [];
     if (type != TransactionType.all) {
-      query.add('type=${TransactionTypeUtil.toQuery(type)}');
+      query.add('type=${TransactionTypeUtil.fromType(type)}');
     }
     if (dateRange != DateRange.all) {
       List<DateTime>? range = DateRangeUtil.getRange(dateRange);
@@ -518,6 +520,16 @@ class _HistoryPageState extends State<HistoryPage> {
                           ),
                         ),
                         child: ListTile(
+                          onTap: () {
+                            // TODO : Implementasi Navigasi ke halaman detail transaksi, passing saja data[index]
+                            // CONTOH : (Tapi ini pakai success page, jadi harus diganti dengan detail page)
+
+                            Navigator.push(
+                                context,
+                                slideInFromBottom(TransferSuccessPage(
+                                    transactionReceipt: data[index],
+                                    biayaTransaksi: 0)));
+                          },
                           contentPadding: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 5),
                           title: Text(
