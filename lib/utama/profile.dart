@@ -41,26 +41,33 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          _buildBody(),
-          Positioned(
-            top: 30,
-            left: 5,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: widget.isRerouted
-                  ? const Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    )
-                  : const SizedBox(),
-            ),
-          )
-        ],
+    return GestureDetector(
+      onHorizontalDragStart: (details) {
+        if (details.globalPosition.dx < 100) {
+          Navigator.pop(context);
+        }
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            _buildBody(),
+            Positioned(
+              top: 30,
+              left: 5,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: widget.isRerouted
+                    ? const Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      )
+                    : const SizedBox(),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
