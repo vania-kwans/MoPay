@@ -100,13 +100,21 @@ class TransactionBloc {
   Future<void> getMonthlyTransaction() async {
     controller.add(TransactionState.loading());
     try {
-      var startDate = DateTime(DateTime.now().year, DateTime.now().month, 1);
-      var endDate = DateTime(DateTime.now().year, DateTime.now().month + 1, 0);
+      var currentDate = DateTime.now().toUtc();
 
-      String query =
-          "?startDate=${startDate.toUtc().toIso8601String()}&endDate=${endDate.toUtc().toIso8601String()}";
-      var response = await dio.get("/transaction$query");
+      var startDate = DateTime(currentDate.year, currentDate.month, 1, 0, 0, 0);
+      var endDate =
+          DateTime(currentDate.year, currentDate.month + 1, 0, 23, 59, 59, 999);
+
+      String url =
+          "/transaction?startDate=${startDate.toIso8601String()}&endDate=${endDate.toIso8601String()}";
+
+      var response = await dio.get(url);
       var data = response.data as Map<String, dynamic>;
+
+      if (kDebugMode) {
+        print(data);
+      }
 
       var completedTransaction = data['completedTransaction'] as List<dynamic>;
       var pendingPayment = data['pendingPayment'] as List<dynamic>;
