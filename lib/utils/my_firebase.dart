@@ -31,23 +31,50 @@ class MyFirebase {
   );
 
   static Future<void> initialize() async {
+    if (kDebugMode) {
+      print('Initializing Firebase');
+    }
+
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
+
+    if (kDebugMode) {
+      print('Firebase Initialized');
+    }
 
     final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
-    final token = await FirebaseMessaging.instance.getToken();
+    if (kDebugMode) {
+      print('Notification Channel Created');
+    }
 
-    if (token != null) {
+    if (kDebugMode) {
+      print("Get Firebase Messaging Token");
+    }
+
+    try {
+      final token = await FirebaseMessaging.instance.getToken();
+
       if (kDebugMode) {
-        print('Firebase Messaging Token: $token');
+        print("Firebase messaging token  : $token");
       }
-      Store.setFirebaseMessagingToken(token);
+
+      if (token != null) await Store.setFirebaseMessagingToken(token);
+    } catch (err) {
+      if (kDebugMode) {
+        print("Error get firebase messaging token : $err");
+      }
+      return;
     }
 
     FirebaseMessaging.onMessage.listen((message) {
@@ -79,7 +106,6 @@ class MyFirebase {
 
   static void showNotification(RemoteMessage message) {
     final notification = message.notification;
-    final android = message.notification?.android;
     final payload = jsonDecode(notification?.body ?? "{}");
 
     final title = notification?.title;
