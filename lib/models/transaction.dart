@@ -3,6 +3,7 @@ import 'package:mopay_ewallet/models/user.dart';
 
 enum TransactionType {
   expense,
+  income,
   topup,
   transfer,
   payment,
@@ -19,6 +20,7 @@ class TransactionTypeUtil {
     "receive": TransactionType.receive,
     "pending": TransactionType.pending,
     "expense": TransactionType.expense,
+    "income": TransactionType.income,
     "all": TransactionType.all,
   };
 
@@ -27,7 +29,10 @@ class TransactionTypeUtil {
   }
 
   static String fromType(TransactionType type) {
-    return type.toString().split('.').last;
+    return _stringToType.keys.firstWhere(
+      (k) => _stringToType[k] == type,
+      orElse: () => "",
+    );
   }
 
   static String fromTypeToHumanReadable(TransactionType type) {
@@ -44,6 +49,8 @@ class TransactionTypeUtil {
         return "Receive";
       case TransactionType.pending:
         return "Pending";
+      case TransactionType.income:
+        return "Income";
       case TransactionType.all:
         return "All";
     }
@@ -59,25 +66,6 @@ class TransactionTypeUtil {
       return Colors.amber.shade500;
     } else {
       return const Color(0xFF000000);
-    }
-  }
-
-  static String? toQuery(TransactionType type) {
-    switch (type) {
-      case TransactionType.expense:
-        return "expense";
-      case TransactionType.topup:
-        return "topup";
-      case TransactionType.transfer:
-        return "transfer";
-      case TransactionType.payment:
-        return "payment";
-      case TransactionType.receive:
-        return "receive";
-      case TransactionType.pending:
-        return "pending";
-      case TransactionType.all:
-        return null;
     }
   }
 }
@@ -106,7 +94,7 @@ class Transaction {
           json['targetUser'] == null ? null : User.fromJson(json['targetUser']),
       type: TransactionTypeUtil.fromString(json['type']),
       amount: json['amount'],
-      description: json['description'],
+      description: json['description'] ?? "",
       createdAt: DateTime.parse(json['createdAt']).toLocal(),
     );
   }
@@ -156,7 +144,8 @@ class PendingPayment extends Transaction {
       description: json['description'] ?? "Pembayaran kepada Travellingo",
       createdAt: DateTime.parse(json['createdAt']).toLocal(),
       expiredAt: DateTime.parse(json['expiredAt']).toLocal(),
-      durationLeft: findDurationLeft(DateTime.parse(json['expiredAt'])),
+      durationLeft:
+          findDurationLeft(DateTime.parse(json['expiredAt']).toLocal()),
     );
   }
 
