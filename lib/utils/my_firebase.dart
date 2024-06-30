@@ -93,7 +93,6 @@ class MyFirebase {
 
     flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onDidReceiveBackgroundNotificationResponse: onNotificationClick,
       onDidReceiveNotificationResponse: onNotificationClick,
     );
   }

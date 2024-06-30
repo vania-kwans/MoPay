@@ -287,6 +287,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                             return;
                                           }
 
+                                          await bloc.login(
+                                              "0$phoneNumber", password);
+
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             const SnackBar(
@@ -295,6 +298,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                               backgroundColor: Colors.green,
                                             ),
                                           );
+
                                           Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
@@ -314,7 +318,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                 ),
-                                child: const Text("Sign In"),
+                                child: const Text("Register Account"),
                               );
                             }),
                         const SizedBox(height: 25),

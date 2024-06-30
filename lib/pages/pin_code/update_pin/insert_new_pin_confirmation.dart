@@ -231,6 +231,19 @@ class _InsertNewPinConfirmationState extends State<InsertNewPinConfirmation> {
           if (!mounted) return;
           // POP LOADING DIALOG
           Navigator.pop(context);
+
+          if (error != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(error.message),
+                backgroundColor: Colors.red[700],
+                behavior: SnackBarBehavior.floating, // Floating behavior
+                elevation: 10,
+              ),
+            );
+            setState(() => enteredPin = "");
+            return;
+          }
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: const Text('PIN succesfully registered.'),
