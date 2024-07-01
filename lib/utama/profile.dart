@@ -331,7 +331,7 @@ class _ProfileState extends State<Profile> {
                                                 entryFilter:
                                                     TransactionFilterData(
                                                         type: TransactionType
-                                                            .receive),
+                                                            .income),
                                               ),
                                             ));
                                           },
