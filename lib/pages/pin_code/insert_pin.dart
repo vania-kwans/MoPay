@@ -249,6 +249,7 @@ class _InsertPinState extends State<InsertPin> {
 
           if (error != null) {
             totalTry++;
+            setState(() => enteredPin = "");
             bloc.resetPinStream();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
