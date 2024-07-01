@@ -82,10 +82,10 @@ class _HomeBucketState extends State<HomeBucket> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: Container(
           color: Colors.transparent,
-          height: MediaQuery.of(context).size.height * 0.07,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: BottomAppBar(
               elevation: 0,
-              padding: const EdgeInsets.all(0),
+              padding: EdgeInsets.zero,
               color: Colors.transparent,
               shape: const CircularNotchedRectangle(),
               notchMargin: 15.0,
@@ -97,7 +97,10 @@ class _HomeBucketState extends State<HomeBucket> {
 
                   _bottomNavbarButton(Icons.history, "History", 1),
 
-                  const Spacer(),
+                  const Flexible(
+                    flex: 2,
+                    child: SizedBox(),
+                  ),
                   // Bagian kanan
                   _bottomNavbarButton(Icons.notifications, "Notification", 2),
                   _bottomNavbarButton(Icons.account_circle, "Profile", 3)
@@ -109,9 +112,8 @@ class _HomeBucketState extends State<HomeBucket> {
   Widget _bottomNavbarButton(IconData icon, String text, int index) {
     return Flexible(
       flex: 2,
-      child: MaterialButton(
-        padding: const EdgeInsets.all(0),
-        onPressed: () {
+      child: GestureDetector(
+        onTap: () {
           setState(() {
             // currentScreen = const PilihanMetodeTopUpPage();
             currentTab = index;
@@ -124,14 +126,12 @@ class _HomeBucketState extends State<HomeBucket> {
               icon,
               color:
                   currentTab == index ? const Color(0xff850000) : Colors.grey,
-              size: MediaQuery.of(context).size.width / 4 * 0.25,
             ),
             Text(
               text,
               style: TextStyle(
                 color:
                     currentTab == index ? const Color(0xff850000) : Colors.grey,
-                fontSize: MediaQuery.of(context).size.width / 4 * 0.125,
               ),
             ),
           ],
