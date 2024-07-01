@@ -297,29 +297,45 @@ class _HistoryPageState extends State<HistoryPage> {
                                         ),
                                         const SizedBox(height: 10.0),
                                         const Divider(color: Colors.black12),
-                                        ...TransactionType.values.map((e) =>
-                                            RadioListTile<TransactionType>(
-                                              value: e,
-                                              groupValue: filterData.type,
-                                              onChanged: (value) {
-                                                _filterData.add(
-                                                  TransactionFilterData(
-                                                    type: value!,
-                                                    dateRange:
-                                                        filterData.dateRange,
-                                                  ),
-                                                );
-                                                Navigator.of(context).pop();
-                                              },
-                                              title: Text(
-                                                TransactionTypeUtil
-                                                    .fromTypeToHumanReadable(e),
+                                        for (int i = 0;
+                                            i < TransactionType.values.length;
+                                            i++) ...[
+                                          if (i % 3 == 0 && i != 0)
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Divider(
+                                                color: Colors.grey.shade200,
                                               ),
-                                              controlAffinity:
-                                                  ListTileControlAffinity
-                                                      .trailing,
-                                              activeColor: Colors.red,
-                                            )),
+                                            ),
+                                          RadioListTile<TransactionType>(
+                                            value: TransactionType.values[i],
+                                            groupValue: filterData.type,
+                                            onChanged: (value) {
+                                              _filterData.add(
+                                                TransactionFilterData(
+                                                  type: value!,
+                                                  dateRange:
+                                                      filterData.dateRange,
+                                                ),
+                                              );
+                                              Navigator.of(context).pop();
+                                            },
+                                            title: Text(
+                                              TransactionTypeUtil
+                                                  .fromTypeToHumanReadable(
+                                                      TransactionType
+                                                          .values[i]),
+                                            ),
+                                            controlAffinity:
+                                                ListTileControlAffinity
+                                                    .trailing,
+                                            activeColor: TransactionTypeUtil
+                                                .fromTypeToColor(
+                                                    TransactionType.values[i]),
+                                          ),
+                                        ]
                                       ],
                                     ),
                                   );
@@ -467,6 +483,10 @@ class _HistoryPageState extends State<HistoryPage> {
             List<Transaction> data = snapshot.data?.transactionData ?? [];
 
             if (data.isEmpty) {
+              TransactionType type =
+                  _filterData.valueOrNull?.type ?? TransactionType.all;
+              String transactionType =
+                  TransactionTypeUtil.fromTypeToHumanReadable(type);
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -476,7 +496,8 @@ class _HistoryPageState extends State<HistoryPage> {
                         height: 100,
                         renderCache: RenderCache.raster),
                     const SizedBox(height: 10),
-                    const Text("Tidak ada transaksi"),
+                    Text(
+                        "Tidak ada transaksi ${type == TransactionType.all ? "" : transactionType.toLowerCase()}"),
                   ],
                 ),
               );

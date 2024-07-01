@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/models/user.dart';
 
 enum TransactionType {
-  expense,
+  // Income
   income,
-  topup,
-  transfer,
-  payment,
   receive,
+  topup,
+
+  // Expense
+  expense,
+  payment,
+  transfer,
+
+  // Other
   pending,
   all,
 }
@@ -38,21 +43,21 @@ class TransactionTypeUtil {
   static String fromTypeToHumanReadable(TransactionType type) {
     switch (type) {
       case TransactionType.expense:
-        return "Expense";
+        return "Pengeluaran";
       case TransactionType.topup:
         return "Top Up";
       case TransactionType.transfer:
         return "Transfer";
       case TransactionType.payment:
-        return "Payment";
+        return "Pembayaran";
       case TransactionType.receive:
-        return "Receive";
+        return "Penerimaan";
       case TransactionType.pending:
         return "Pending";
       case TransactionType.income:
-        return "Income";
+        return "Pemasukan";
       case TransactionType.all:
-        return "All";
+        return "Semua";
     }
   }
 
