@@ -106,7 +106,7 @@ class _ProfileState extends State<Profile> {
                 child: Column(
                   children: [
                     Container(
-                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                        padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
                               colors: [
@@ -146,6 +146,9 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 )
                               ],
+                            ),
+                            const SizedBox(
+                              height: 10,
                             ),
                             Row(
                               children: [
