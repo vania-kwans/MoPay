@@ -1,16 +1,58 @@
-# mopay_ewallet
+<p>
+  <img src="https://github.com/Vania-221110551/project_ewallet/blob/main/assets/mopay.jpg"/>
+</p>
 
-A new Flutter project.
+# 🏦 MoPay E-Wallet
+An e-wallet application that allows users to store their money, manage their economy, make payments, and support QRIS payment.
 
-## Getting Started
+## 👾 Tech Stack
+- Frontend: Dart, Flutter
+- Backend: Node.js, Express
+- Deployment: Netlify
 
-This project is a starting point for a Flutter application.
+## 🔭 How It Works
+- User Registration/Login:
+  - Users can create a new account or log in to an existing one.
+- Money Management:
+  - Users can store money, track expenses, and manage their finances within the app.
+- Payment Features:
+  - Users can make payments to a variety of institutions, including:
+    - Health institutes
+    - Credit card companies
+    - Educational institutions
+    - Electric and water utility companies
+    - Tax authorities
+    - Phone credit purchases
+    - Friends and banks transfers
+- QRIS Payment Support:
+  - Users can make payments using QRIS codes for a seamless transaction experience.
+- Event Recommendations:
+  - Users receive recommendations on the most updated events.
 
-A few resources to get you started if this is your first Flutter project:
+## ❓ Why Choose MoPay
+- Comprehensive Payments: Pay a wide range of bills and institutions effortlessly.
+- Financial Management: Keep track of your expenses and manage your economy efficiently.
+- QRIS Support: Enjoy easy and quick payments using QRIS codes.
+- Personalized Recommendations: Stay updated with the latest events and offers.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 💨 Getting Started
+1. Clone the repository 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+    ```bash 
+    git clone https://github.com/Vania-221110551/project_ewallet
+    ```
+
+2. Navigate to the desired project directory
+
+    ```bash 
+    cd project-ewallet 
+    ```
+
+3. Install the required dependencies
+
+    ```bash
+    flutter pub get
+    ```
+## 🤝 Our partner
+### ✈️ Travellingo 
+A mobile-platformed application that allows users to safely and remotely get tickets for cinemas, recreation, airplanes, trains, buses, or any type of transportation.
