@@ -71,9 +71,9 @@ class _InsertPinState extends State<InsertPin> {
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ForgotPin()));
+                    context,
+                    MaterialPageRoute(builder: (context) => const ForgotPin()),
+                  );
                 },
                 child: const Text(
                   "Lupa PIN?",
@@ -103,12 +103,12 @@ class _InsertPinState extends State<InsertPin> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50.0),
                           color: isPinVisible
-                              ? Colors.transparent
+                              ? const Color.fromARGB(255, 195, 44, 33)
                               : index >= enteredPin.length
                                   ? Colors.grey.withOpacity(0.1)
                                   : hasError
                                       ? const Color.fromARGB(255, 195, 44, 33)
-                                      : Colors.grey.shade500,
+                                      : const Color.fromARGB(255, 195, 44, 33),
                         ),
                         child: isPinVisible && index < enteredPin.length
                             ? Center(
@@ -118,7 +118,7 @@ class _InsertPinState extends State<InsertPin> {
                                     fontSize: 17,
                                     color: hasError
                                         ? const Color.fromARGB(255, 195, 44, 33)
-                                        : Colors.black,
+                                        : Colors.white,
                                   ),
                                 ),
                               )
