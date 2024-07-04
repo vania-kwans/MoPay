@@ -41,7 +41,7 @@ dev_dependencies:
   flutter_lints: ^3.0.0
 
 flutter_native_splash:
-  color: "#850000"
+  color: "#ffffff"
   image: assets/images/logo-mopay/logo4.png
 
 flutter_launcher_icons:
