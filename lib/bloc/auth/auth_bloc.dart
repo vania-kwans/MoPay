@@ -57,7 +57,7 @@ class AuthBloc {
       _updateStream(AuthState.isLoading());
 
       String firebaseMessagingToken =
-          await Store.getFirebaseMessagingToken() ?? "";
+          await Store.getFirebaseMessagingToken() ?? "123";
 
       var response = await dio.post('/login', data: {
         "fcmToken": firebaseMessagingToken,
