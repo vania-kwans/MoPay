@@ -14,7 +14,7 @@ class AppError {
         return AppError(message: 'No internet connection');
       }
       return AppError(
-          message: err.response?.data,
+          message: err.response?.data ?? "Something went wrong",
           code: err.response?.statusCode.toString());
     } else {
       return AppError(message: 'Something went wrong');
