@@ -55,6 +55,7 @@ class _HomeUpperState extends State<HomeUpper> {
           padding: const EdgeInsets.all(20),
           margin: const EdgeInsets.only(right: 10),
           width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.width / 2 + 20,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: ([Color(0xff0F0E0E), Color(0xff850000)]),
@@ -104,9 +105,6 @@ class _HomeUpperState extends State<HomeUpper> {
                           isObscured
                               ? 'Rp${obscuredText(currentUserBalance)}'
                               : 'Rp${formatToIndonesianCurrency(currentUserBalance)}',
-                          // isObscured
-                          //     ? 'Rp${obscuredText(currentUserBalance.saldo)}'
-                          //     : 'Rp${formatToIndonesianCurrency(currentUserBalance.saldo)}',
                           style: const TextStyle(
                             fontSize: 20,
                             color: Colors.white,
@@ -209,12 +207,15 @@ Column createFitureButton(
           }
         },
         icon: icon,
-        color: Colors.white,
-        iconSize: 30,
+        color: const Color.fromRGBO(255, 255, 255, 1),
+        iconSize: (MediaQuery.of(context).size.width - 90) / 10,
       ),
       Text(
         namaFitur,
-        style: const TextStyle(fontSize: 14, color: Colors.white),
+        style: TextStyle(
+          fontSize: (MediaQuery.of(context).size.width - 90) / 20,
+          color: Colors.white,
+        ),
       )
     ],
   );

@@ -64,8 +64,10 @@ class _HomeBucketState extends State<HomeBucket> {
     return Scaffold(
         body: PageStorage(bucket: bucket, child: screens[currentTab]),
         floatingActionButton: Container(
+          width: MediaQuery.of(context).size.width / 4 * 0.7,
+          height: MediaQuery.of(context).size.width / 4 * 0.7,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30.0),
+            borderRadius: BorderRadius.circular(50.0),
             border: Border.all(color: Colors.white, width: 3.0),
           ),
           child: FloatingActionButton(
@@ -94,7 +96,6 @@ class _HomeBucketState extends State<HomeBucket> {
                 children: <Widget>[
                   // Bagian kiri
                   _bottomNavbarButton(Icons.home, "Home", 0),
-
                   _bottomNavbarButton(Icons.history, "History", 1),
 
                   const Flexible(
@@ -124,12 +125,14 @@ class _HomeBucketState extends State<HomeBucket> {
           children: [
             Icon(
               icon,
+              size: MediaQuery.of(context).size.width / 4 * 0.25,
               color:
                   currentTab == index ? const Color(0xff850000) : Colors.grey,
             ),
             Text(
               text,
               style: TextStyle(
+                fontSize: MediaQuery.of(context).size.width / 4 * 0.13,
                 color:
                     currentTab == index ? const Color(0xff850000) : Colors.grey,
               ),

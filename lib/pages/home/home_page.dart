@@ -75,7 +75,9 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -136,28 +138,6 @@ class _HomePageState extends State<HomePage> {
                                 SizedBox(height: 20),
                                 HomeTips(),
                                 SizedBox(height: 50),
-                                // // FITUR SEARCH --------------------------------------------------------------------------------------------------------------------
-                                // OutlinedButton.icon(
-                                //   onPressed: () {},
-                                //   icon: const Icon(
-                                //     Icons.search,
-                                //     color: Color(0xff00224D),
-                                //   ),
-                                //   label: const Text(
-                                //     "Cari Fitur",
-                                //     style: TextStyle(
-                                //         color: Color(0xff00224D),
-                                //         fontWeight: FontWeight.bold),
-                                //   ),
-                                //   style: OutlinedButton.styleFrom(
-                                //     fixedSize:
-                                //         Size.fromWidth(MediaQuery.of(context).size.width),
-                                //     backgroundColor: const Color(0xffEEEEEE),
-                                //     alignment: Alignment.centerLeft,
-                                //     padding: const EdgeInsets.all(20),
-                                //   ),
-                                // ),
-                                // const SizedBox(height: 10),
                               ],
                             ),
                           ],
