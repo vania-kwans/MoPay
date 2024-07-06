@@ -39,14 +39,14 @@ class _HomeMenuState extends State<HomeMenu> {
               ),
               createMenuButton(
                 context,
-                iconName: 'Credit Card',
+                iconName: 'Kartu Kredit',
                 icon: const Icon(Icons.credit_card_outlined),
                 iconColor: Colors.green.shade900,
                 bgColor: Colors.green.shade100,
               ),
               createMenuButton(
                 context,
-                iconName: 'Education',
+                iconName: 'Pendidikan',
                 icon: const Icon(Icons.school),
                 iconColor: Colors.green.shade900,
                 bgColor: Colors.green.shade100,
