@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mopay_ewallet/bloc/user/user_bloc.dart';
 import 'package:mopay_ewallet/data/data_user_mopay.dart';
 import 'package:mopay_ewallet/format/validation.dart';
+import 'package:mopay_ewallet/models/user.dart';
 import 'package:provider/provider.dart';
 
 class ChangeProfileName extends StatefulWidget {
@@ -14,9 +16,11 @@ class _ChangeProfileNameState extends State<ChangeProfileName> {
   final TextEditingController _profileName = TextEditingController();
   bool _isButtonEnabled = false;
   String? _errorText;
+  late UserBloc bloc;
 
   @override
   void initState() {
+    bloc = Provider.of<UserBloc>(context, listen: false);
     super.initState();
     _profileName.addListener(_validateProfileName);
   }
@@ -41,8 +45,7 @@ class _ChangeProfileNameState extends State<ChangeProfileName> {
 
   @override
   Widget build(BuildContext context) {
-    MopayUserData currentUser =
-        Provider.of<MopayUserDataProvider>(context).currentUser!;
+    User currentUser = Provider.of<CurrentUserProvider>(context).currentUser;
 
     return Scaffold(
         appBar: AppBar(
@@ -70,7 +73,7 @@ class _ChangeProfileNameState extends State<ChangeProfileName> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      currentUser.nama,
+                      currentUser.name,
                       style: const TextStyle(
                         color: Colors.black87,
                         fontSize: 18,
@@ -135,6 +138,10 @@ class _ChangeProfileNameState extends State<ChangeProfileName> {
                 child: ElevatedButton(
                   onPressed: _isButtonEnabled
                       ? () {
+                          setState(() {
+                            bloc.updateUserName(_profileName.text);
+                          });
+
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content:
@@ -145,11 +152,11 @@ class _ChangeProfileNameState extends State<ChangeProfileName> {
                               elevation: 10, // Elevation to make i
                             ),
                           );
-                          setState(() {
-                            Provider.of<MopayUserDataProvider>(context,
-                                    listen: false)
-                                .changeName(_profileName.text);
-                          });
+                          //  setState(() {
+                          //     Provider.of<MopayUserDataProvider>(context,
+                          //             listen: false)
+                          //         .changeName(_profileName.text);
+                          //   });
 
                           Navigator.pop(context);
                         }

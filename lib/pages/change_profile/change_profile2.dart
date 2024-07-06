@@ -1,27 +1,108 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mopay_ewallet/bloc/user/user_bloc.dart';
 import 'package:mopay_ewallet/data/data_user_mopay.dart';
+import 'package:mopay_ewallet/format/convert_picture.dart';
 import 'package:mopay_ewallet/pages/change_profile/change_email.dart';
 import 'package:mopay_ewallet/pages/change_profile/change_name.dart';
 import 'package:mopay_ewallet/pages/change_profile/change_phone_number.dart';
+import 'package:mopay_ewallet/models/user.dart';
+import 'package:mopay_ewallet/utils/picture_type_util.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ChangeProfile extends StatefulWidget {
-  const ChangeProfile({super.key});
+class ChangeProfile2 extends StatefulWidget {
+  const ChangeProfile2({super.key});
 
   @override
-  State<ChangeProfile> createState() => _ChangeProfileState();
+  State<ChangeProfile2> createState() => _ChangeProfile2State();
 }
 
-class _ChangeProfileState extends State<ChangeProfile> {
-  Uint8List _selectedImage = Uint8List(0);
+class _ChangeProfile2State extends State<ChangeProfile2> {
+  String? _selectedImage;
+  late UserBloc bloc;
+
+  @override
+  void initState() {
+    bloc = Provider.of<UserBloc>(context, listen: false);
+    super.initState();
+  }
+
+  Future getImageFromGallery() async {
+    XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      Uint8List imageBytes = await image.readAsBytes();
+
+      int fileSizeInBytes = imageBytes.length;
+      double fileSizeInMB = fileSizeInBytes / (1024 * 1024);
+
+      if (fileSizeInMB > 3) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Gambar tidak boleh melebihi 3 MB'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
+      try {
+        String base64Image = base64Encode(imageBytes);
+        setState(() {
+          _selectedImage = base64Image;
+        });
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to convert image to base64: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  Future getImageFromCamera() async {
+    XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
+
+    if (image != null) {
+      Uint8List imageBytes = await image.readAsBytes();
+
+      int fileSizeInBytes = imageBytes.length;
+      double fileSizeInMB = fileSizeInBytes / (1024 * 1024);
+
+      if (fileSizeInMB > 3) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Gambar tidak boleh melebihi 3 MB'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
+
+      try {
+        String base64Image = base64Encode(imageBytes);
+        setState(() {
+          _selectedImage = base64Image;
+        });
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to convert image to base64: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    MopayUserData? currentUser =
-        Provider.of<MopayUserDataProvider>(context).currentUser;
+    User currentUser = Provider.of<CurrentUserProvider>(context).currentUser;
 
     return Scaffold(
       appBar: AppBar(
@@ -44,12 +125,12 @@ class _ChangeProfileState extends State<ChangeProfile> {
             child: CircleAvatar(
               radius: 45,
               backgroundColor: Colors.grey[200],
-              backgroundImage: _selectedImage.isNotEmpty
-                  ? MemoryImage(_selectedImage)
-                  : currentUser!.profilePic.isNotEmpty
-                      ? NetworkImage(currentUser.profilePic) as ImageProvider
+              backgroundImage: _selectedImage == ""
+                  ? MemoryImage(base64Decode(_selectedImage!))
+                  : currentUser.pictureLink.isNotEmpty
+                      ? NetworkImage(currentUser.pictureLink) as ImageProvider
                       : null,
-              child: _selectedImage.isEmpty && currentUser!.profilePic.isEmpty
+              child: _selectedImage == null && currentUser.pictureLink.isEmpty
                   ? const Icon(
                       Icons.person,
                       size: 45,
@@ -60,7 +141,7 @@ class _ChangeProfileState extends State<ChangeProfile> {
           ),
           GestureDetector(
             onTap: () {
-              currentUser!.profilePic.isEmpty
+              currentUser.pictureLink.isEmpty
                   ? _showModelBottomWithoutDeleteButton(context)
                   : _showModalBottomWithDeleteButton(context);
             },
@@ -85,11 +166,12 @@ class _ChangeProfileState extends State<ChangeProfile> {
               style: TextStyle(fontSize: 14, color: Colors.black54),
             ),
             subtitle: Text(
-              currentUser!.nama,
+              currentUser.name,
               style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
             ),
             trailing: GestureDetector(
               onTap: () {
@@ -120,11 +202,12 @@ class _ChangeProfileState extends State<ChangeProfile> {
               style: TextStyle(fontSize: 14, color: Colors.black54),
             ),
             subtitle: Text(
-              currentUser.noTelp,
+              currentUser.phoneNumber,
               style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
             ),
             trailing: GestureDetector(
               onTap: () {
@@ -188,28 +271,6 @@ class _ChangeProfileState extends State<ChangeProfile> {
     );
   }
 
-  Future getImageFromGallery() async {
-    XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      Uint8List imageBytes = await image.readAsBytes();
-      setState(() {
-        _selectedImage = imageBytes;
-      });
-    }
-  }
-
-  Future getImageFromCamera() async {
-    XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
-
-    if (image != null) {
-      Uint8List imageBytes = await image.readAsBytes();
-      setState(() {
-        _selectedImage = imageBytes;
-      });
-    }
-  }
-
   Future<dynamic> _showModelBottomWithoutDeleteButton(BuildContext context) {
     return showModalBottomSheet(
       context: context,
@@ -228,7 +289,14 @@ class _ChangeProfileState extends State<ChangeProfile> {
             children: [
               GestureDetector(
                 onTap: () {
+                  Navigator.of(context).pop();
                   getImageFromCamera();
+
+                  if (_selectedImage != null) {
+                    bloc.updateProfilePicture(
+                        _selectedImage!, PictureType.base64);
+                  }
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: const Text('Foto profil berhasil diubah'),
@@ -237,11 +305,6 @@ class _ChangeProfileState extends State<ChangeProfile> {
                       elevation: 10, // Elevation to make i
                     ),
                   );
-                  Navigator.of(context).pop();
-                  setState(() {
-                    Provider.of<MopayUserDataProvider>(context, listen: false)
-                        .changeProfilePicture(_selectedImage);
-                  });
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -271,10 +334,10 @@ class _ChangeProfileState extends State<ChangeProfile> {
                     ),
                   );
                   Navigator.of(context).pop();
-                  setState(() {
-                    Provider.of<MopayUserDataProvider>(context, listen: false)
-                        .changeProfilePicture(_selectedImage);
-                  });
+                  // setState(() {
+                  //   Provider.of<MopayUserDataProvider>(context, listen: false)
+                  //       .ChangeProfilePicture(_selectedImage);
+                  // });
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -343,10 +406,10 @@ class _ChangeProfileState extends State<ChangeProfile> {
                     ),
                   );
                   Navigator.of(context).pop();
-                  setState(() {
-                    Provider.of<MopayUserDataProvider>(context, listen: false)
-                        .changeProfilePicture(_selectedImage);
-                  });
+                  // setState(() {
+                  //   Provider.of<MopayUserDataProvider>(context, listen: false)
+                  //       .ChangeProfilePicture(_selectedImage);
+                  // });
                 },
                 child: Container(
                   alignment: Alignment.center,
@@ -376,10 +439,10 @@ class _ChangeProfileState extends State<ChangeProfile> {
                     ),
                   );
                   Navigator.of(context).pop();
-                  setState(() {
-                    Provider.of<MopayUserDataProvider>(context, listen: false)
-                        .changeProfilePicture(_selectedImage);
-                  });
+                  // setState(() {
+                  //   Provider.of<MopayUserDataProvider>(context, listen: false)
+                  //       .ChangeProfilePicture(_selectedImage);
+                  // });
                 },
                 child: Container(
                   alignment: Alignment.center,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mopay_ewallet/data/data_user_mopay.dart';
 import 'package:mopay_ewallet/format/validation.dart';
+import 'package:mopay_ewallet/models/user.dart';
 import 'package:provider/provider.dart';
 
 class ChangeProfileEmail extends StatefulWidget {
@@ -41,8 +42,7 @@ class _ChangeProfileEmailState extends State<ChangeProfileEmail> {
 
   @override
   Widget build(BuildContext context) {
-    MopayUserData currentUser =
-        Provider.of<MopayUserDataProvider>(context).currentUser!;
+    User currentUser = Provider.of<CurrentUserProvider>(context).currentUser;
 
     return Scaffold(
         appBar: AppBar(
