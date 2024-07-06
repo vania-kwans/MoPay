@@ -162,7 +162,7 @@ class _HomeUpperState extends State<HomeUpper> {
                   ),
                   createFitureButton(
                     context: context,
-                    namaFitur: 'Cash',
+                    namaFitur: 'Tarik Tunai',
                     icon: const Icon(Icons.arrow_circle_down_rounded),
                   ),
                   createFitureButton(
