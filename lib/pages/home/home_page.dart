@@ -42,6 +42,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    CurrentUserProvider currentUserProvider =
+        Provider.of<CurrentUserProvider>(context);
+
     return Scaffold(
       body: StreamBuilder<UserState>(
           stream: bloc.state,
@@ -63,7 +66,9 @@ class _HomePageState extends State<HomePage> {
               });
             }
 
-            User currentUser = state.user!;
+            // dipindah ke provider agar bisa diakses di page lain
+            currentUserProvider.setCurrentUser(state.user!);
+            User currentUser = currentUserProvider.currentUser;
 
             return RefreshIndicator(
               onRefresh: () async {
@@ -93,24 +98,24 @@ class _HomePageState extends State<HomePage> {
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(width: 10),
-                              Container(
-                                padding: const EdgeInsets.all(5),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(slideInFromRight(
-                                      const Profile(
-                                        isRerouted: true,
-                                      ),
-                                    ));
-                                  },
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.grey[350],
-                                    radius: 20,
-                                    backgroundImage:
-                                        ImageChoice.getPicture(currentUser),
-                                  ),
-                                ),
-                              ),
+                              // Container(
+                              //   padding: const EdgeInsets.all(5),
+                              //   child: GestureDetector(
+                              //     onTap: () {
+                              //       Navigator.of(context).push(slideInFromRight(
+                              //         const Profile(
+                              //           isRerouted: true,
+                              //         ),
+                              //       ));
+                              //     },
+                              //     child: CircleAvatar(
+                              //       backgroundColor: Colors.grey[350],
+                              //       radius: 20,
+                              //       backgroundImage:
+                              //           ImageChoice.getPicture(currentUser),
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ],
