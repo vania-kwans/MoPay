@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:mopay_ewallet/bloc/user/user_bloc.dart';
 import 'package:mopay_ewallet/utils/picture_type_util.dart';
 
 class User {
@@ -50,4 +52,24 @@ class User {
       pictureType: pictureType ?? this.pictureType,
     );
   }
+}
+
+class CurrentUserProvider extends ChangeNotifier {
+  late User _currentUser;
+
+  User get currentUser => _currentUser;
+
+  void setCurrentUser(User user) {
+    _currentUser = user;
+    notifyListeners();
+  }
+
+  // void updatePicture(String newPictureLink, PictureType newPictureType) {
+  //   _currentUser = _currentUser.copyWith(
+  //     pictureLink: newPictureLink,
+  //     pictureType: newPictureType,
+  //   );
+
+  //   notifyListeners();
+  // }
 }
