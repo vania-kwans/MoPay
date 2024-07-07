@@ -219,20 +219,6 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ],
                         ),
-
-                        // Align(
-                        //   alignment: Alignment.centerRight,
-                        //   child: TextButton(
-                        //     onPressed: () {
-                        //       Navigator.pushReplacementNamed(
-                        //           context, '/forgotpass');
-                        //     },
-                        //     child: const Text(
-                        //       "Forget Password?",
-                        //       style: TextStyle(color: Colors.black),
-                        //     ),
-                        //   ),
-                        // ),
                         const SizedBox(height: 25.0),
                         StreamBuilder<AuthState>(
                             stream: bloc.controller,
@@ -251,7 +237,6 @@ class _LoginPageState extends State<LoginPage> {
 
                                           AppError? error = await bloc.login(
                                               phoneNumber, password);
-
                                           // JANGAN SIMPAN 0 DIDEPAN AGAR TIDAK BENTROK DENGAN PREFIX
                                           await Store.saveLoginPreferences(
                                               rememberPassword,
@@ -283,10 +268,11 @@ class _LoginPageState extends State<LoginPage> {
                                                 isPinValid) {
                                               if (!context.mounted) return;
                                               Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          const HomeBucket()));
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const HomeBucket()),
+                                              );
                                             }
                                           }
                                         }
