@@ -14,6 +14,7 @@ import 'package:mopay_ewallet/pages/history/history.dart';
 import 'package:mopay_ewallet/pages/pin_code/update_pin/insert_old_pin.dart';
 import 'package:mopay_ewallet/utama/setconnect.dart';
 import 'package:mopay_ewallet/utama/smartpay.dart';
+import 'package:mopay_ewallet/utama/tentang.dart';
 import 'package:provider/provider.dart';
 
 class Profile extends StatefulWidget {
@@ -645,7 +646,11 @@ class _ProfileState extends State<Profile> {
                             leading: const Icon(Icons.question_mark_rounded,
                                 color: Colors.blueAccent, size: 30),
                             trailing: GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const PusatBantuan(),
+                                ));
+                              },
                               child: const Icon(
                                 Icons.arrow_forward_ios,
                                 color: Colors.grey,
