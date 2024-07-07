@@ -36,109 +36,117 @@ class _MetodeTopUpPageState extends State<MetodeTopUpPage> {
         title:
             const Text('Top Up', style: TextStyle(fontWeight: FontWeight.w600)),
       ),
-      body: Container(
-        color: Colors.grey.withOpacity(0.1),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Expanded(
-            //   flex: 1,
-            //   child: jumlahSaldo(context),
-            // ),
-            Expanded(
-              flex: 9,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Flexible(
-                      fit: FlexFit.tight,
-                      child: ListView.builder(
-                        itemCount: topUpBank.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            contentPadding: const EdgeInsets.all(10),
-                            leading: CircleAvatar(
-                              radius: 25,
-                              backgroundImage: AssetImage(
-                                widget.metode == "tunai"
-                                    ? topUpTunai[index].linkGambar
-                                    : topUpBank[index].linkGambar,
-                              ),
-                            ),
-                            title: Text(
-                              widget.metode == "tunai"
-                                  ? topUpTunai[index].nama
-                                  : topUpBank[index].namaBank,
-                              style: const TextStyle(fontSize: 17),
-                            ),
-                            onTap: () {
-                              widget.metode == "tunai"
-                                  ? Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            InstruksiTopUpTunaiPage(idx: index),
-                                      ),
-                                    )
-                                  : Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            LayananTopUpBank(idxBank: index),
-                                      ),
-                                    );
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                    if (kDebugMode)
-                      StreamBuilder<TransactionState>(
-                          stream: bloc.state,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              return const Text("Error");
-                            }
-
-                            bool isLoading = snapshot.data?.isLoading ?? false;
+      body: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Expanded(
+              //   flex: 1,
+              //   child: jumlahSaldo(context),
+              // ),
+              Expanded(
+                flex: 9,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        fit: FlexFit.tight,
+                        child: ListView.builder(
+                          itemCount: topUpBank.length,
+                          itemBuilder: (context, index) {
                             return ListTile(
                               contentPadding: const EdgeInsets.all(10),
-                              leading: const CircleAvatar(
+                              leading: CircleAvatar(
                                 radius: 25,
-                                child: Icon(Icons.monetization_on_outlined),
+                                backgroundImage: AssetImage(
+                                  widget.metode == "tunai"
+                                      ? topUpTunai[index].linkGambar
+                                      : topUpBank[index].linkGambar,
+                                ),
                               ),
                               title: Text(
-                                isLoading
-                                    ? "Mohon tunggu..."
-                                    : "Debug Topup \nTambah Saldo sebanyak Rp${formatToIndonesianCurrency(2000000)}",
+                                widget.metode == "tunai"
+                                    ? topUpTunai[index].nama
+                                    : topUpBank[index].namaBank,
                                 style: const TextStyle(fontSize: 17),
                               ),
-                              onTap: () async {
-                                AppError? error =
-                                    await bloc.topUp(nominal: 2000000);
-                                if (error != null) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(error.message),
-                                    ),
-                                  );
-                                  return;
-                                }
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text("Topup berhasil"),
-                                  ),
-                                );
+                              onTap: () {
+                                widget.metode == "tunai"
+                                    ? Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              InstruksiTopUpTunaiPage(
+                                                  idx: index),
+                                        ),
+                                      )
+                                    : Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              LayananTopUpBank(idxBank: index),
+                                        ),
+                                      );
                               },
                             );
-                          })
-                  ],
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          if (kDebugMode)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: StreamBuilder<TransactionState>(
+                  stream: bloc.state,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text("Error");
+                    }
+
+                    bool isLoading = snapshot.data?.isLoading ?? false;
+                    return ListTile(
+                      contentPadding: const EdgeInsets.all(10),
+                      leading: const CircleAvatar(
+                        radius: 25,
+                        child: Icon(Icons.monetization_on_outlined),
+                      ),
+                      title: Text(
+                        isLoading
+                            ? "Mohon tunggu..."
+                            : "Debug Topup \nTambah Saldo sebanyak Rp${formatToIndonesianCurrency(2000000)}",
+                        style: const TextStyle(fontSize: 17),
+                      ),
+                      onTap: () async {
+                        AppError? error = await bloc.topUp(nominal: 2000000);
+                        if (error != null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(error.message),
+                            ),
+                          );
+                          return;
+                        }
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Topup berhasil"),
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }
