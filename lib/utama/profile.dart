@@ -9,7 +9,7 @@ import 'package:mopay_ewallet/components/my_error_component.dart';
 import 'package:mopay_ewallet/models/transaction.dart';
 import 'package:mopay_ewallet/models/user.dart';
 import 'package:mopay_ewallet/pages/authentication/login.dart';
-import 'package:mopay_ewallet/pages/change_profile/change_profile.dart';
+import 'package:mopay_ewallet/pages/change_profile/change_profile2.dart';
 import 'package:mopay_ewallet/pages/history/history.dart';
 import 'package:mopay_ewallet/pages/pin_code/update_pin/insert_old_pin.dart';
 import 'package:mopay_ewallet/utama/setconnect.dart';
@@ -471,7 +471,7 @@ class _ProfileState extends State<Profile> {
                             trailing: GestureDetector(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const ChangeProfile(),
+                                  builder: (context) => const ChangeProfile2(),
                                 ));
                               },
                               child: const Icon(
