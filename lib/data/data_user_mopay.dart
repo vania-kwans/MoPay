@@ -27,7 +27,7 @@ class MopayUserData {
 }
 
 class MopayUserDataProvider extends ChangeNotifier {
-  MopayUserData? currentUser;
+  late MopayUserData currentUser;
 
   List<MopayUserData> data = [
     MopayUserData(
@@ -57,7 +57,8 @@ class MopayUserDataProvider extends ChangeNotifier {
       nama: "Vania",
       noTelp: '085100000000',
       email: 'vania@gmail.com',
-      profilePic: "assets/images/profile-pic/profile1.jpg",
+      profilePic:
+          "https://tse4.mm.bing.net/th?id=OIP.xdrpi_ndIOseoDvJJ097qAHaE8&pid=Api&P=0&h=180",
       password: '789',
       nomorPin: "123456",
       createdAt: DateTime(2023, 6, 27, 10, 0, 0),
@@ -68,7 +69,8 @@ class MopayUserDataProvider extends ChangeNotifier {
       nama: "Aldo",
       noTelp: '081200000000',
       email: 'aldo@gmail.com',
-      profilePic: "assets/images/profile-pic/profile2.jpg",
+      profilePic:
+          "https://tse4.mm.bing.net/th?id=OIP.xdrpi_ndIOseoDvJJ097qAHaE8&pid=Api&P=0&h=180",
       password: 'abc',
       nomorPin: "654321",
       createdAt: DateTime(2023, 7, 1, 10, 0, 0),
@@ -90,7 +92,8 @@ class MopayUserDataProvider extends ChangeNotifier {
       nama: "Carlos",
       noTelp: '086700000000',
       email: 'carlos@gmail.com',
-      profilePic: "assets/images/profile-pic/profile3.jpg",
+      profilePic:
+          "https://tse4.mm.bing.net/th?id=OIP.xdrpi_ndIOseoDvJJ097qAHaE8&pid=Api&P=0&h=180",
       password: 'ghi',
       nomorPin: "333444",
       createdAt: DateTime(2023, 7, 5, 10, 0, 0),
@@ -112,7 +115,8 @@ class MopayUserDataProvider extends ChangeNotifier {
       nama: "Ethan",
       noTelp: '088900000000',
       email: 'ethan@gmail.com',
-      profilePic: "assets/images/profile-pic/profile4.jpg",
+      profilePic:
+          "https://tse4.mm.bing.net/th?id=OIP.xdrpi_ndIOseoDvJJ097qAHaE8&pid=Api&P=0&h=180",
       password: 'mno',
       nomorPin: "777888",
       createdAt: DateTime(2023, 7, 9, 10, 0, 0),
@@ -134,7 +138,8 @@ class MopayUserDataProvider extends ChangeNotifier {
       nama: "George",
       noTelp: '080000000000',
       email: 'george@gmail.com',
-      profilePic: "assets/images/profile-pic/profile5.jpg",
+      profilePic:
+          "https://tse4.mm.bing.net/th?id=OIP.xdrpi_ndIOseoDvJJ097qAHaE8&pid=Api&P=0&h=180",
       password: 'stu',
       nomorPin: "222333",
       createdAt: DateTime(2023, 7, 13, 10, 0, 0),
@@ -156,7 +161,8 @@ class MopayUserDataProvider extends ChangeNotifier {
       nama: "Ian",
       noTelp: '082200000000',
       email: 'ian@gmail.com',
-      profilePic: "assets/images/profile-pic/profile6.jpg",
+      profilePic:
+          "https://tse4.mm.bing.net/th?id=OIP.xdrpi_ndIOseoDvJJ097qAHaE8&pid=Api&P=0&h=180",
       password: 'yz0',
       nomorPin: "666777",
       createdAt: DateTime(2023, 7, 17, 10, 0, 0),
@@ -178,7 +184,8 @@ class MopayUserDataProvider extends ChangeNotifier {
       nama: "Kevin",
       noTelp: '084400000000',
       email: 'kevin@gmail.com',
-      profilePic: "assets/images/profile-pic/profile7.jpg",
+      profilePic:
+          "https://tse4.mm.bing.net/th?id=OIP.xdrpi_ndIOseoDvJJ097qAHaE8&pid=Api&P=0&h=180",
       password: 'def2',
       nomorPin: "000111",
       createdAt: DateTime(2023, 7, 21, 10, 0, 0),
