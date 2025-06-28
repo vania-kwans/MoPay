@@ -1,5 +1,5 @@
 <p>
-  <img src="https://github.com/Vania-221110551/project_ewallet/blob/main/assets/mopay.jpg"/>
+  <img src=""/>
 </p>
 
 # 🏦 MoPay E-Wallet
