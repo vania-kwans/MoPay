@@ -78,7 +78,7 @@ You can download the latest built APK here:
 [Download MoPay APK here](https://mikroskilacid-my.sharepoint.com/:u:/g/personal/221110551_students_mikroskil_ac_id/EVbAlYGtxa1Bkuo5sD5awF0BPKxjUR--cO61LRBRciF5BA?e=wm5XzW)
 
 Need help using the app? Watch the explanation here:
-[Watch Our MoPay Feature Explanation](https://mikroskilacid-my.sharepoint.com/:v:/g/personal/221110551_students_mikroskil_ac_id/EUGrheSPJB9GlAv223hU_6MB7Tqx0x_OkGjiA1iJF8GxyA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=oANlNM)
+[Watch Our MoPay Feature Explanation](https://mikroskilacid-my.sharepoint.com/:v:/g/personal/221110551_students_mikroskil_ac_id/EfvQS99bWvtOvBoLmWPU4rMBVsHEyFE7fgjQucNqFsWO-g?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=p5Ly22)
 
 ## 🤝 Our partner
 ### ✈️ Travellingo 
