@@ -1,5 +1,5 @@
 <p>
-  <img src="https://mikroskilacid-my.sharepoint.com/:i:/g/personal/221110551_students_mikroskil_ac_id/EdjF1wgl22dJhVRyon1561wBOhbKRts9MQFT2_dJZGt6Lw?e=dkl6IM"/>
+  <img src="https://mikroskilacid-my.sharepoint.com/:i:/g/personal/221110551_students_mikroskil_ac_id/EdjF1wgl22dJhVRyon1561wBOhbKRts9MQFT2_dJZGt6Lw?e=OzQMSj/logo.png"/>
 </p>
 
 # 💸 MoPay E-Wallet
@@ -74,7 +74,7 @@ Make sure you have Android Studio installed along with an emulator or a connecte
     ```
    
 ## 📱 Download APK
-You can download the latest built APK from the link below:
+You can download the latest built APK here:
 [Download MoPay APK here](https://mikroskilacid-my.sharepoint.com/:u:/g/personal/221110551_students_mikroskil_ac_id/EVbAlYGtxa1Bkuo5sD5awF0BPKxjUR--cO61LRBRciF5BA?e=wm5XzW)
 
 Need help using the app? Watch the explanation here:
