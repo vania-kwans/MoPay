@@ -1,5 +1,5 @@
 <p>
-  <img src=""/>
+  <img src="https://mikroskilacid-my.sharepoint.com/:i:/g/personal/221110551_students_mikroskil_ac_id/EdjF1wgl22dJhVRyon1561wBOhbKRts9MQFT2_dJZGt6Lw?e=dkl6IM"/>
 </p>
 
 # 💸 MoPay E-Wallet
@@ -15,6 +15,10 @@ MoPay is an e-wallet application that allows users to store their money, transfe
 - Frontend: Dart, Flutter
 - Backend: Node.js, Express
 - Deployment: Google Cloud, Netlify
+
+## ☁️ Cloud Architecture
+- Firestore: Store user account information
+- Cloud Storage: Store images used by the application
 
 ## 🔭 How It Works
 - User Registration/Login:
@@ -71,7 +75,10 @@ Make sure you have Android Studio installed along with an emulator or a connecte
    
 ## 📱 Download APK
 You can download the latest built APK from the link below:
-[Download MoPay APK here] (https://mikroskilacid-my.sharepoint.com/:u:/g/personal/221110551_students_mikroskil_ac_id/EVbAlYGtxa1Bkuo5sD5awF0BPKxjUR--cO61LRBRciF5BA?e=wm5XzW)
+[Download MoPay APK here](https://mikroskilacid-my.sharepoint.com/:u:/g/personal/221110551_students_mikroskil_ac_id/EVbAlYGtxa1Bkuo5sD5awF0BPKxjUR--cO61LRBRciF5BA?e=wm5XzW)
+
+Need help using the app? Watch the explanation here:
+[Watch Our MoPay Feature Explanation](https://mikroskilacid-my.sharepoint.com/:v:/g/personal/221110551_students_mikroskil_ac_id/EUGrheSPJB9GlAv223hU_6MB7Tqx0x_OkGjiA1iJF8GxyA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=oANlNM)
 
 ## 🤝 Our partner
 ### ✈️ Travellingo 
