@@ -52,7 +52,7 @@ Make sure you have Android Studio installed along with an emulator or a connecte
 1. Clone the repository 
 
     ```bash 
-    https://github.com/vania-kwans/MoPay.git
+    git clone https://github.com/vania-kwans/MoPay.git
     ```
 
 2. Navigate to the desired project directory
