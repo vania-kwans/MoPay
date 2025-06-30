@@ -51,7 +51,8 @@ class TopUpTunai {
 class TopUpBankProvider extends ChangeNotifier {
   List<TopUpBank> data = [
     TopUpBank(
-      linkGambar: 'assets/images/logo/logo-bca.JPG',
+      linkGambar:
+          'https://storage.googleapis.com/mopay-assets/logo-mitra-top-up/logo-bca.JPG',
       namaBank: "BCA",
       kodePerusahaan: '70001',
       tipeLayanan: [
@@ -127,7 +128,8 @@ class TopUpBankProvider extends ChangeNotifier {
       ],
     ),
     TopUpBank(
-      linkGambar: 'assets/images/logo/logo-bri.jpg',
+      linkGambar:
+          'https://storage.googleapis.com/mopay-assets/logo-mitra-top-up/logo-bri.jpg',
       namaBank: "BRI",
       kodePerusahaan: '301341',
       tipeLayanan: [
@@ -161,7 +163,8 @@ class TopUpBankProvider extends ChangeNotifier {
       ],
     ),
     TopUpBank(
-      linkGambar: 'assets/images/logo/logo-mandiri.jpg',
+      linkGambar:
+          'https://storage.googleapis.com/mopay-assets/logo-mitra-top-up/logo-mandiri.jpg',
       namaBank: "Mandiri",
       kodePerusahaan: '60737',
       tipeLayanan: [
@@ -209,7 +212,8 @@ class TopUpBankProvider extends ChangeNotifier {
       ],
     ),
     TopUpBank(
-      linkGambar: 'assets/images/logo/logo-maybank.jpeg',
+      linkGambar:
+          'https://storage.googleapis.com/mopay-assets/logo-mitra-top-up/logo-maybank.jpeg',
       namaBank: "Maybank",
       kodePerusahaan: '2002',
       tipeLayanan: [
@@ -260,7 +264,8 @@ class TopUpBankProvider extends ChangeNotifier {
       ],
     ),
     TopUpBank(
-      linkGambar: 'assets/images/logo/logo-bni.jpg',
+      linkGambar:
+          'https://storage.googleapis.com/mopay-assets/logo-mitra-top-up/logo-bni.jpg',
       namaBank: "BNI",
       kodePerusahaan: '70001',
       tipeLayanan: [
@@ -336,7 +341,8 @@ class TopUpBankProvider extends ChangeNotifier {
       ],
     ),
     TopUpBank(
-      linkGambar: 'assets/images/logo/logo-cimb-niaga.png',
+      linkGambar:
+          'https://storage.googleapis.com/mopay-assets/logo-mitra-top-up/logo-cimb-niaga.png',
       namaBank: "CIMB Niaga",
       kodePerusahaan: '70001',
       tipeLayanan: [
@@ -411,14 +417,14 @@ class TopUpBankProvider extends ChangeNotifier {
         ),
       ],
     ),
-    
   ];
 }
 
 class TopUpTunaiProvider extends ChangeNotifier {
   List<TopUpTunai> data = [
     TopUpTunai(
-      linkGambar: 'assets/images/logo/logo-indomaret.jpg',
+      linkGambar:
+          'https://storage.googleapis.com/mopay-assets/logo-mitra-top-up/logo-indomaret.jpg',
       nama: 'Indomaret',
       biayaAdmin: 'Rp1.500',
       minimumTopUp: 'Rp10.000',
@@ -436,7 +442,8 @@ class TopUpTunaiProvider extends ChangeNotifier {
       ],
     ),
     TopUpTunai(
-      linkGambar: 'assets/images/logo/logo-alfamart.jpg',
+      linkGambar:
+          'https://storage.googleapis.com/mopay-assets/logo-mitra-top-up/logo-alfamart.jpg',
       nama: 'Alfamart',
       biayaAdmin: 'Rp2.000',
       minimumTopUp: 'Rp10.000',
@@ -452,7 +459,8 @@ class TopUpTunaiProvider extends ChangeNotifier {
       ],
     ),
     TopUpTunai(
-      linkGambar: 'assets/images/logo/logo-lawson.jpg',
+      linkGambar:
+          'https://storage.googleapis.com/mopay-assets/logo-mitra-top-up/logo-lawson.jpg',
       nama: 'Lawson',
       biayaAdmin: 'Rp2.000',
       minimumTopUp: 'Rp10.000',
@@ -468,7 +476,8 @@ class TopUpTunaiProvider extends ChangeNotifier {
       ],
     ),
     TopUpTunai(
-      linkGambar: 'assets/images/logo/logo-atm-bersama.png',
+      linkGambar:
+          'https://storage.googleapis.com/mopay-assets/logo-mitra-top-up/logo-atm-bersama.png',
       nama: 'ATM Bersama',
       biayaAdmin: 'Rp5.000 - Rp7.500',
       minimumTopUp: 'Rp20.000',
@@ -482,7 +491,8 @@ class TopUpTunaiProvider extends ChangeNotifier {
       ],
     ),
     TopUpTunai(
-      linkGambar: 'assets/images/logo/logo-alfamidi.png',
+      linkGambar:
+          'https://storage.googleapis.com/mopay-assets/logo-mitra-top-up/logo-alfamidi.png',
       nama: 'Alfamidi',
       biayaAdmin: 'Rp2.000',
       minimumTopUp: 'Rp10.000',
@@ -498,7 +508,8 @@ class TopUpTunaiProvider extends ChangeNotifier {
       ],
     ),
     TopUpTunai(
-      linkGambar: 'assets/images/logo/logo-pos-indonesia.jpg',
+      linkGambar:
+          'https://storage.googleapis.com/mopay-assets/logo-mitra-top-up/logo-pos-indonesia.jpg',
       nama: 'Pos Indonesia',
       biayaAdmin: 'Rp2.000',
       minimumTopUp: 'Rp10.000',
