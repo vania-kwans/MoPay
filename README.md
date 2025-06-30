@@ -52,13 +52,13 @@ Make sure you have Android Studio installed along with an emulator or a connecte
 1. Clone the repository 
 
     ```bash 
-    git clone https://github.com/Vania-221110551/project_ewallet
+    git clone https://github.com/vania-kwans/MoPay.git
     ```
 
 2. Navigate to the desired project directory
 
     ```bash 
-    cd project-ewallet 
+    cd proyek_fe_be
     ```
 
 3. Install the required dependencies
